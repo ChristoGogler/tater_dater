@@ -38,17 +38,21 @@ export default class Registration extends Component {
         return (
             <div className="registration">
                 <form onSubmit={this.onRegistrationSubmit}>
-                    <label htmlFor="first_name">
+                    <label htmlFor="first_name" value="First Name">
                         <input
+                            id="first_name"
                             type="text"
                             name="first_name"
                             placeholder="first name"
                             required
                             onChange={this.onInputChange}
                         />
+                        First Name
                     </label>
                     <label htmlFor="last_name">
+                        Last Name
                         <input
+                            id="last_name"
                             type="text"
                             name="last_name"
                             placeholder="last name"
@@ -57,7 +61,9 @@ export default class Registration extends Component {
                         />
                     </label>
                     <label htmlFor="email">
+                        Email
                         <input
+                            id="email"
                             type="text"
                             name="email"
                             placeholder="email"
@@ -66,7 +72,9 @@ export default class Registration extends Component {
                         />
                     </label>
                     <label htmlFor="password">
+                        Password
                         <input
+                            id="password"
                             type="password"
                             name="password"
                             placeholder="******"
