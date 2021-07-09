@@ -1,3 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 body {
-    background-color: ghostwhite;
+    background-color: lightgoldenrodyellow;
+}
+
+.logo {
+    width: 100vw;
+}
+
+.registraion {
+}
+.registration label {
+    width: 150px;
+}
+.registration form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
