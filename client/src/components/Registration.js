@@ -1,4 +1,6 @@
 import { Component } from "react";
+import ReactDOM from "react-dom";
+import axios from "axios";
 
 export default class Registration extends Component {
     constructor(props) {
@@ -14,17 +16,35 @@ export default class Registration extends Component {
         };
 
         //bind methods here!
+        this.onRegistrationSubmit = this.onRegistrationSubmit.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
+    }
+    onRegistrationSubmit(event) {
+        console.log("...(onRegistrationSubmit) event", this.state);
+        event.preventDefault();
+        //axios here!
+        axios.post("/api/register", this.state).then((response) => {
+            console.log("...(axios post) response: ", response);
+            ReactDOM.redirect("/");
+        });
+    }
+    onInputChange(event) {
+        console.log("...(onInputChange) event.target: ", event.target);
+        this.setState({
+            [event.target.name]: event.target.value,
+        });
     }
     render() {
         return (
             <div className="registration">
-                <form onSubmit="onSubmit">
+                <form onSubmit={this.onRegistrationSubmit}>
                     <label htmlFor="first_name">
                         <input
                             type="text"
                             name="first_name"
                             placeholder="first name"
                             required
+                            onChange={this.onInputChange}
                         />
                     </label>
                     <label htmlFor="last_name">
@@ -33,6 +53,7 @@ export default class Registration extends Component {
                             name="last_name"
                             placeholder="last name"
                             required
+                            onChange={this.onInputChange}
                         />
                     </label>
                     <label htmlFor="email">
@@ -41,6 +62,7 @@ export default class Registration extends Component {
                             name="email"
                             placeholder="email"
                             required
+                            onChange={this.onInputChange}
                         />
                     </label>
                     <label htmlFor="password">
@@ -49,9 +71,10 @@ export default class Registration extends Component {
                             name="password"
                             placeholder="******"
                             required
+                            onChange={this.onInputChange}
                         />
                     </label>
-                    <button type="submit"></button>
+                    <button type="submit">Register</button>
                 </form>
             </div>
         );
