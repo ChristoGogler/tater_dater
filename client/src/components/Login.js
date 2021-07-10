@@ -3,29 +3,31 @@ import ReactDOM from "react-dom";
 import axios from "../axios";
 import { Link } from "react-router-dom";
 
-export default class Registration extends Component {
+export default class Login extends Component {
     constructor(props) {
         // call superconstrutor from Component
         super(props);
 
         //first state of
         this.state = {
-            first_name: null,
-            last_name: null,
             email: null,
             password: null,
         };
 
         //bind methods here!
-        this.onRegistrationSubmit = this.onRegistrationSubmit.bind(this);
+        this.onLoginSubmit = this.onLoginSubmit.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
     }
-    onRegistrationSubmit(event) {
-        console.log("...(onRegistrationSubmit) event", this.state);
+    onLoginSubmit(event) {
+        console.log("...(onLoginSubmit) event", this.state);
         event.preventDefault();
         //axios here!
-        axios.post("/api/register", this.state).then((response) => {
+        axios.post("/api/login", this.state).then((response) => {
             console.log("...(axios post) response: ", response);
+            if (response == null) {
+                //no user found --> wrong credentials --> warning/error message
+                return;
+            }
             ReactDOM.redirect("/");
         });
     }
@@ -38,30 +40,8 @@ export default class Registration extends Component {
     render() {
         return (
             <div className="authentificationform">
-                <p>REGISTRATION</p>
-                <form onSubmit={this.onRegistrationSubmit}>
-                    <label htmlFor="first_name" value="First Name">
-                        <input
-                            id="first_name"
-                            type="text"
-                            name="first_name"
-                            placeholder="first name"
-                            required
-                            onChange={this.onInputChange}
-                        />
-                        First Name
-                    </label>
-                    <label htmlFor="last_name">
-                        Last Name
-                        <input
-                            id="last_name"
-                            type="text"
-                            name="last_name"
-                            placeholder="last name"
-                            required
-                            onChange={this.onInputChange}
-                        />
-                    </label>
+                <p>LOGIN</p>
+                <form onSubmit={this.onLoginSubmit}>
                     <label htmlFor="email">
                         Email
                         <input
@@ -84,10 +64,10 @@ export default class Registration extends Component {
                             onChange={this.onInputChange}
                         />
                     </label>
-                    <button type="submit">Register</button>
+                    <button type="submit">Login</button>
                 </form>
                 <p>
-                    Already signed up? <Link to="/login">Log in now!</Link>
+                    Not yet registered? <Link to="/">Sign up now!</Link>
                 </p>
             </div>
         );
