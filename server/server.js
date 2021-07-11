@@ -7,6 +7,7 @@ const { sessionSecret } = require("./secrets.json");
 const path = require("path");
 const { saveUser } = require("./db_queries");
 const { loginUser } = require("./functions");
+const { sendEmail } = require("./SES");
 
 app.use(compression());
 
@@ -26,29 +27,35 @@ app.use(function (request, response, next) {
     response.cookie("myCsrfToken", request.csrfToken());
     next();
 });
-
+//CHECK IF LOGGED IN
 app.get("/user/id.json", (request, response) => {
     console.log("...(GET /user/id.json) request.session: ", request.session);
-
     response.json({
         userId: request.session.userId,
     });
 });
-
+//REGISTER
 app.post("/api/register", (request, response) => {
     console.log("...(POST /api/register) request.body: ", request.body);
     saveUser({ ...request.body })
         .then((user) => {
             request.session.userId = user.rows[0].id;
             response.statusCode = 200;
+            const subject = `Hej ${user.rows[0].first_name}, Welcome at (...Social Network...)!`;
+            const body = `Dear ${user.rows[0].first_name},
+            Thanks for registering at (...Social Network...) :)`;
+            sendEmail(user.rows[0].email, body, subject);
             response.json(user);
         })
         .catch((error) => {
             console.log("Error...blabla: ", error);
             response.statusCode = 400;
-            response.json({ error: "Registration failed." });
+            response.json({
+                error: "There already exists an account with this email.",
+            });
         });
 });
+//LOGIN
 app.post("/api/login", (request, response) => {
     console.log("...(POST /api/login) request.body: ", request.body);
     loginUser({ ...request.body })
@@ -63,6 +70,13 @@ app.post("/api/login", (request, response) => {
             response.statusCode = 400;
             response.json({ error: "Login failed - wrong credentials!" });
         });
+});
+//LOGOUT
+app.get("/api/logout", (request, response) => {
+    console.log("...(POST /api/logout) userId: ", request.session.userId);
+    request.session.userId = null;
+    console.log("...(POST /api/logout) userId after: ", request.session.userId);
+    response.json({ message: "You've been logged out successfully!" });
 });
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
