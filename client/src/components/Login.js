@@ -12,6 +12,9 @@ export default class Login extends Component {
         this.state = {
             email: null,
             password: null,
+            loggedin: false,
+            message: null,
+            title: "Login Page",
         };
 
         //bind methods here!
@@ -19,17 +22,24 @@ export default class Login extends Component {
         this.onInputChange = this.onInputChange.bind(this);
     }
     onLoginSubmit(event) {
-        console.log("...(onLoginSubmit) event", this.state);
+        console.log("...(onLoginSubmit) this.state: ", this.state);
         event.preventDefault();
         //axios here!
-        axios.post("/api/login", this.state).then((response) => {
-            console.log("...(axios post) response: ", response);
-            if (response == null) {
-                //no user found --> wrong credentials --> warning/error message
-                return;
-            }
-            ReactDOM.redirect("/");
-        });
+        axios
+            .post("/api/login", this.state)
+            .then((response) => {
+                console.log("...(axios post) response: ", response);
+                window.location = "/";
+            })
+            .catch((error) => {
+                console.log(
+                    "...(onLoginSubmit) Error: ",
+                    error.response.data.error
+                );
+                this.setState({
+                    message: error.response.data.error,
+                });
+            });
     }
     onInputChange(event) {
         console.log("...(onInputChange) event.target: ", event.target);
@@ -40,7 +50,7 @@ export default class Login extends Component {
     render() {
         return (
             <div className="authentificationform">
-                <p>LOGIN</p>
+                <p>{this.title}</p>
                 <form onSubmit={this.onLoginSubmit}>
                     <label htmlFor="email">
                         Email
@@ -66,6 +76,8 @@ export default class Login extends Component {
                     </label>
                     <button type="submit">Login</button>
                 </form>
+
+                <p className="message">{this.state.message}</p>
                 <p>
                     Not yet registered? <Link to="/">Sign up now!</Link>
                 </p>

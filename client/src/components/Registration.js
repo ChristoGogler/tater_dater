@@ -2,6 +2,7 @@ import { Component } from "react";
 import ReactDOM from "react-dom";
 import axios from "../axios";
 import { Link } from "react-router-dom";
+import Welcome from "./Welcome";
 
 export default class Registration extends Component {
     constructor(props) {
@@ -14,6 +15,8 @@ export default class Registration extends Component {
             last_name: null,
             email: null,
             password: null,
+            loggedin: false,
+            message: "",
         };
 
         //bind methods here!
@@ -24,10 +27,22 @@ export default class Registration extends Component {
         console.log("...(onRegistrationSubmit) event", this.state);
         event.preventDefault();
         //axios here!
-        axios.post("/api/register", this.state).then((response) => {
-            console.log("...(axios post) response: ", response);
-            ReactDOM.redirect("/");
-        });
+        axios
+            .post("/api/register", this.state)
+            .then((response) => {
+                console.log("...(axios post) response: ", response);
+                //redirect to homepage --> logged in!
+                window.location = "/";
+            })
+            .catch((error) => {
+                console.log(
+                    "...(onRegistrationSubmit) Error: ",
+                    error.response.data.error
+                );
+                this.setState({
+                    message: error.response.data.error,
+                });
+            });
     }
     onInputChange(event) {
         console.log("...(onInputChange) event.target: ", event.target);
@@ -86,6 +101,7 @@ export default class Registration extends Component {
                     </label>
                     <button type="submit">Register</button>
                 </form>
+                <p className="message">{this.state.message}</p>
                 <p>
                     Already signed up? <Link to="/login">Log in now!</Link>
                 </p>

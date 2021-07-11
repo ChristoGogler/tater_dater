@@ -39,16 +39,13 @@ app.post("/api/register", (request, response) => {
     console.log("...(POST /api/register) request.body: ", request.body);
     saveUser({ ...request.body })
         .then((user) => {
-            console.log("(.then) user.rows ID: ", user.rows[0].id);
             request.session.userId = user.rows[0].id;
-            console.log(
-                "(.then) request.session.userId: ",
-                request.session.userId
-            );
+            response.statusCode = 200;
             response.json(user);
         })
         .catch((error) => {
             console.log("Error...blabla: ", error);
+            response.statusCode = 400;
             response.json({ error: "Registration failed." });
         });
 });
@@ -56,7 +53,9 @@ app.post("/api/login", (request, response) => {
     console.log("...(POST /api/login) request.body: ", request.body);
     loginUser({ ...request.body })
         .then((user) => {
-            request.session.userId = user.rows[0].id;
+            //TODO
+            console.log("...(POST / api / login) user: ", user);
+            request.session.userId = user.id;
             response.json(user);
         })
         .catch((error) => {
