@@ -1,4 +1,6 @@
 import { Component } from "react";
+import Logout from "./Logout";
+import axios from "../axios";
 
 export default class App extends Component {
     constructor(props) {
@@ -11,6 +13,15 @@ export default class App extends Component {
                 email: null,
             },
         };
+        this.onLogoutClick = this.onLogoutClick.bind(this);
+    }
+    onLogoutClick() {
+        console.log("...(onLogoutClick");
+        event.preventDefault();
+        axios.post("/logout", this.props.user).then((result) => {
+            console.log(result);
+            window.location = "/";
+        });
     }
     render() {
         return (
@@ -19,7 +30,7 @@ export default class App extends Component {
                     <div>
                         <img className="logo" src="img/logo.png" alt="logo" />
                         <p>Hello World! Logged in!</p>
-                        <a href="/logout">Logout</a>
+                        <Logout onClick={this.onLogoutClick}></Logout>
                     </div>
                 </header>
             </section>

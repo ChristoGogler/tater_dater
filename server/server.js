@@ -68,8 +68,8 @@ app.post("/api/login", (request, response) => {
         });
 });
 //LOGOUT
-app.get("/api/logout", (request, response) => {
-    console.log("...(POST /api/logout) userId: ", request.session.userId);
+app.post("/logout", (request, response) => {
+    console.log("...(POST /api/logout) request: ", request.body);
     request.session.userId = null;
     console.log("...(POST /api/logout) userId after: ", request.session.userId);
     response.json({ message: "You've been logged out successfully!" });
