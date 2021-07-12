@@ -49,6 +49,10 @@ function saveUser({ first_name, last_name, email, password }) {
 
 function saveSecretCode(email, secret_code) {
     // console.log("...(saveSecretCode)", email, secret_code);
+    //delete codes older than 10min
+    postgresDb.query(
+        `DELETE FROM pwdreset WHERE CURRENT_TIMESTAMP - created_at > INTERVAL '10 minutes'`
+    );
     return postgresDb.query(
         "INSERT INTO pwdreset(email, secret_code) VALUES ( $1, $2) RETURNING *",
         [email, secret_code]
