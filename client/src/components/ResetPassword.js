@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "../axios";
+import { Link } from "react-router-dom";
 
 export default class ResetPassword extends React.Component {
     constructor(props) {
@@ -25,11 +26,11 @@ export default class ResetPassword extends React.Component {
             .post("/password/reset/step2", this.state)
             .then((response) => {
                 console.log("...(axios post) response: ", response);
-                this.setState({ step: 2 });
+                this.setState({ step: 3 });
             })
             .catch((error) => {
                 console.log(
-                    "...(onEmailSubmit) Error: ",
+                    "...(onCodeSubmit) Error: ",
                     error.response.data.error
                 );
                 this.setState({
@@ -104,6 +105,17 @@ export default class ResetPassword extends React.Component {
                     </label>
 
                     <button onClick={this.onCodeSubmit}>Submit</button>
+                    <p>{this.state.message}</p>
+                </div>
+            );
+        }
+        if (this.state.step == 3) {
+            return (
+                <div>
+                    <p>Your password has been changed.</p>
+                    <p>
+                        You can now <Link to="/">login</Link>
+                    </p>
                     <p>{this.state.message}</p>
                 </div>
             );
