@@ -14,7 +14,6 @@ export default class ResetPassword extends React.Component {
         //bind methods here!
         this.onEmailSubmit = this.onEmailSubmit.bind(this);
         this.onCodeSubmit = this.onCodeSubmit.bind(this);
-
         this.onInputChange = this.onInputChange.bind(this);
     }
 
@@ -114,7 +113,7 @@ export default class ResetPassword extends React.Component {
                 <div>
                     <p>Your password has been changed.</p>
                     <p>
-                        You can now <Link to="/">login</Link>
+                        You can now <Link to="/login">login</Link>
                     </p>
                     <p>{this.state.message}</p>
                 </div>
