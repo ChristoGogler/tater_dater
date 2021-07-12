@@ -2,6 +2,7 @@ import { Component } from "react";
 import Logo from "./Logo";
 import Logout from "./Logout";
 import ProfilePic from "./ProfilePic";
+import Uploader from "./Uploader";
 import axios from "../axios";
 
 export default class App extends Component {
@@ -15,20 +16,31 @@ export default class App extends Component {
                 profile_url: null,
                 email: null,
             },
+            logo: "./img/logo.png",
+            isUploaderVisible: false,
         };
         this.onLogoutClick = this.onLogoutClick.bind(this);
-    }
-    onLogoutClick() {
-        // console.log("...(onLogoutClick");
-        event.preventDefault();
-        axios.post("/logout", this.props.user).then((result) => {
-            // console.log(result);
-            window.location = "/";
-        });
+        this.hideUploader = this.hideUploader.bind(this);
+        this.showUploader = this.showUploader.bind(this);
     }
 
-    onProfilePicClick() {
-        console.log("...(onProfilePicClick)");
+    showUploader() {
+        console.log("show Uploader");
+        this.setState({
+            isUploaderVisible: true,
+        });
+    }
+    hideUploader() {
+        console.log("hide Uploader");
+        this.setState({
+            isUploaderVisible: false,
+        });
+    }
+    onLogoutClick() {
+        event.preventDefault();
+        axios.post("/logout", this.props.user).then((result) => {
+            window.location = "/";
+        });
     }
     componentDidMount() {
         axios.get("/api/user").then((user) => {
@@ -44,17 +56,20 @@ export default class App extends Component {
             <section>
                 <header>
                     <div>
-                        <Logo></Logo>
+                        <Logo logo={this.state.logo}></Logo>
 
                         <Logout onClick={this.onLogoutClick}></Logout>
                         <ProfilePic
                             user={this.state.user}
-                            onClick={this.onProfilePicClick}
+                            showUploader={this.showUploader}
                         ></ProfilePic>
                     </div>
                 </header>
                 <section>
                     <p>Hello {this.state.user.first_name}! Logged in!</p>
+                    {this.state.isUploaderVisible && (
+                        <Uploader hideUploader={this.hideUploader} />
+                    )}
                 </section>
             </section>
         );
