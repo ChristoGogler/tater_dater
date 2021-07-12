@@ -7,13 +7,36 @@ export default class ResetPassword extends React.Component {
         this.state = {
             step: 1,
             email: null,
+            code: null,
             message: null,
         };
         //bind methods here!
         this.onEmailSubmit = this.onEmailSubmit.bind(this);
+        this.onCodeSubmit = this.onCodeSubmit.bind(this);
+
         this.onInputChange = this.onInputChange.bind(this);
     }
 
+    onCodeSubmit(event) {
+        console.log("...(onCodeSubmit) this.state: ", this.state);
+        event.preventDefault();
+        //axios here!
+        axios
+            .post("/password/reset/step2", this.state)
+            .then((response) => {
+                console.log("...(axios post) response: ", response);
+                this.setState({ step: 2 });
+            })
+            .catch((error) => {
+                console.log(
+                    "...(onEmailSubmit) Error: ",
+                    error.response.data.error
+                );
+                this.setState({
+                    message: error.response.data.error,
+                });
+            });
+    }
     onEmailSubmit(event) {
         console.log("...(onEmailSubmit) this.state: ", this.state);
         event.preventDefault();
@@ -32,6 +55,7 @@ export default class ResetPassword extends React.Component {
                 this.setState({
                     message: error.response.data.error,
                 });
+                console.log("Message ", this.state.message);
             });
     }
     onInputChange(event) {
@@ -52,6 +76,7 @@ export default class ResetPassword extends React.Component {
                     </p>
                     <input name="email" onChange={this.onInputChange}></input>
                     <button onClick={this.onEmailSubmit}>Submit</button>
+                    <p>{this.state.message}</p>
                 </div>
             );
         }
@@ -61,15 +86,6 @@ export default class ResetPassword extends React.Component {
                     <p>
                         Please enter the Code you have received in your email!
                     </p>
-                    <label htmlFor="email">
-                        Email
-                        <input
-                            id="email"
-                            name="email"
-                            onChange={this.onInputChange}
-                            value={this.state.email}
-                        ></input>
-                    </label>
                     <label htmlFor="code">
                         Code
                         <input
@@ -78,8 +94,17 @@ export default class ResetPassword extends React.Component {
                             onChange={this.onInputChange}
                         ></input>
                     </label>
+                    <label htmlFor="password">
+                        New Password
+                        <input
+                            id="password"
+                            name="password"
+                            onChange={this.onInputChange}
+                        ></input>
+                    </label>
 
-                    <button onClick={this.onEmailSubmit}>Submit</button>
+                    <button onClick={this.onCodeSubmit}>Submit</button>
+                    <p>{this.state.message}</p>
                 </div>
             );
         }
