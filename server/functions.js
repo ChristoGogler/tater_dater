@@ -49,7 +49,8 @@ function verifyEmail({ email }) {
                 console.log("No User Found!");
                 return Promise.resolve(false);
             }
-            sendVerificationMail(user.rows[0]);
+            console.log("user: ", user);
+            sendVerificationMail(user);
             return true;
         })
         .catch((error) => {

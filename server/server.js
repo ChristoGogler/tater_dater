@@ -6,8 +6,7 @@ const compression = require("compression");
 const { sessionSecret } = require("./secrets.json");
 const path = require("path");
 const { saveUser } = require("./db_queries");
-const { loginUser } = require("./functions");
-const { sendEmail } = require("./SES");
+const { loginUser, verifyEmail, sendRegistrationMail } = require("./functions");
 
 app.use(compression());
 
@@ -41,10 +40,7 @@ app.post("/api/register", (request, response) => {
         .then((user) => {
             request.session.userId = user.rows[0].id;
             response.statusCode = 200;
-            const subject = `Hej ${user.rows[0].first_name}, Welcome at (...Social Network...)!`;
-            const body = `Dear ${user.rows[0].first_name},
-            Thanks for registering at (...Social Network...) :)`;
-            sendEmail(user.rows[0].email, body, subject);
+            sendRegistrationMail(user.rows[0]);
             response.json(user);
         })
         .catch((error) => {
@@ -78,6 +74,19 @@ app.get("/api/logout", (request, response) => {
     console.log("...(POST /api/logout) userId after: ", request.session.userId);
     response.json({ message: "You've been logged out successfully!" });
 });
+//PASSWORD  RESET
+app.post("/password/reset/step1", (request, response) => {
+    console.log("...(POST /password/reset/step1)");
+    verifyEmail({ ...request.body }).then((isVerified) => {
+        if (isVerified) {
+            response.json({ isVerified: true });
+            return;
+        }
+        response.statusCode = 400;
+        response.json({ error: "Verification failed - email not registered!" });
+    });
+});
+app.post("/password/reset/step2", (request, response) => {});
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
