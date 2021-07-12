@@ -50,7 +50,7 @@ export default class Login extends Component {
     render() {
         return (
             <div className="authentificationform">
-                <p>{this.title}</p>
+                <h1>{this.state.title}</h1>
                 <form onSubmit={this.onLoginSubmit}>
                     <label htmlFor="email">
                         Email
@@ -80,6 +80,10 @@ export default class Login extends Component {
                 <p className="message">{this.state.message}</p>
                 <p>
                     Not yet registered? <Link to="/">Sign up now!</Link>
+                </p>
+                <p>
+                    Cant remember your password?
+                    <Link to="password/reset">Reset your password!</Link>
                 </p>
             </div>
         );

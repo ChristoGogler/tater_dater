@@ -17,6 +17,7 @@ export default class Registration extends Component {
             password: null,
             loggedin: false,
             message: "",
+            title: "Registration Page",
         };
 
         //bind methods here!
@@ -53,9 +54,10 @@ export default class Registration extends Component {
     render() {
         return (
             <div className="authentificationform">
-                <p>REGISTRATION</p>
+                <h1>{this.state.title}</h1>
                 <form onSubmit={this.onRegistrationSubmit}>
                     <label htmlFor="first_name" value="First Name">
+                        First Name
                         <input
                             id="first_name"
                             type="text"
@@ -64,7 +66,6 @@ export default class Registration extends Component {
                             required
                             onChange={this.onInputChange}
                         />
-                        First Name
                     </label>
                     <label htmlFor="last_name">
                         Last Name
