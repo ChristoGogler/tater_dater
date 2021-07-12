@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS pwdreset;
 DROP TABLE IF EXISTS users;
 
 
@@ -7,5 +8,12 @@ CREATE TABLE users (
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE pwdreset (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    secret_code VARCHAR NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
