@@ -48,30 +48,29 @@ function saveUser({ first_name, last_name, email, password }) {
 }
 
 function saveSecretCode(email, secret_code) {
-    console.log("...(saveSecretCode)", email, secret_code);
+    // console.log("...(saveSecretCode)", email, secret_code);
     return postgresDb.query(
         "INSERT INTO pwdreset(email, secret_code) VALUES ( $1, $2) RETURNING *",
         [email, secret_code]
     );
 }
 
-function getCodeByEmail(email) {
+function getCodeByEmail({ email }) {
     console.log("...(getCodeByEmail)", email);
     return postgresDb
         .query(
-            `SELECT * FROM pwdreset
-WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'`
+            `SELECT * FROM pwdreset WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' ORDER BY created_at DESC LIMIT 1`
         )
         .then((result) => {
             return result.rows[0];
         });
 }
 
-function saveNewPassword(email, password) {
+function saveNewPassword({ email, password }) {
     console.log("...(saveNewPassword)", email, password);
     return hashPassword(password).then((password_hash) => {
         return postgresDb.query(
-            "UPDATE pwdreset SET password_hash = $1 WHERE email = $2",
+            "UPDATE users SET password_hash = $1 WHERE email = $2 RETURNING *",
             [password_hash, email]
         );
     });

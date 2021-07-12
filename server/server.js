@@ -5,7 +5,7 @@ const csurf = require("csurf");
 const compression = require("compression");
 const { sessionSecret } = require("./secrets.json");
 const path = require("path");
-const { saveUser } = require("./db_queries");
+const { saveUser, getCodeByEmail, saveNewPassword } = require("./db_queries");
 const { loginUser, verifyEmail, sendRegistrationMail } = require("./functions");
 
 app.use(compression());
@@ -86,7 +86,22 @@ app.post("/password/reset/step1", (request, response) => {
         response.json({ error: "Verification failed - email not registered!" });
     });
 });
-app.post("/password/reset/step2", (request, response) => {});
+app.post("/password/reset/step2", (request, response) => {
+    console.log("...(POST /password/reset/step2)");
+    getCodeByEmail({ ...request.body }).then((result) => {
+        console.log(
+            "Code, request.body",
+            result.secret_code,
+            request.body.code
+        );
+        if (result.secret_code == request.body.code) {
+            saveNewPassword({ ...request.body }).then((user) => {
+                response.json({ user: user });
+            });
+        }
+    });
+});
+
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
