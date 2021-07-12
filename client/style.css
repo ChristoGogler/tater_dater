@@ -11,12 +11,12 @@ body {
     width: 100vw;
 }
 
-.registraion {
+.authentificationform {
 }
-.registration label {
+.authentificationform label {
     width: 150px;
 }
-.registration form {
+.authentificationform form {
     display: flex;
     flex-direction: column;
     justify-content: center;
