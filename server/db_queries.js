@@ -32,7 +32,7 @@ function getUserById(id) {
 
 function getUserByEmail(email) {
     return postgresDb
-        .query("SELECT * FROM users WHERE email = $1", [email])
+        .query("SELECT * FROM users WHERE email ILIKE $1", [email])
         .then((result) => {
             return result.rows[0];
         });
@@ -64,7 +64,8 @@ function getCodeByEmail({ email }) {
     console.log("...(getCodeByEmail)", email);
     return postgresDb
         .query(
-            `SELECT * FROM pwdreset WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' ORDER BY created_at DESC LIMIT 1`
+            `SELECT * FROM pwdreset WHERE email ILIKE $1 AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' ORDER BY created_at DESC LIMIT 1 `,
+            [email]
         )
         .then((result) => {
             return result.rows[0];
@@ -72,7 +73,7 @@ function getCodeByEmail({ email }) {
 }
 
 function saveNewPassword({ email, password }) {
-    console.log("...(saveNewPassword)", email, password);
+    // console.log("...(saveNewPassword)", email, password);
     return hashPassword(password).then((password_hash) => {
         return postgresDb.query(
             "UPDATE users SET password_hash = $1 WHERE email = $2 RETURNING *",
@@ -82,7 +83,7 @@ function saveNewPassword({ email, password }) {
 }
 
 function saveProfileUrl({ profile_url, userId }) {
-    console.log("...(saveProfileUrl)", profile_url, userId);
+    // console.log("...(saveProfileUrl)", profile_url, userId);
     return postgresDb
         .query("UPDATE users SET profile_url = $1 WHERE id = $2 RETURNING *", [
             profile_url,
