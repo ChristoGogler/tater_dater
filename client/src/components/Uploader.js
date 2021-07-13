@@ -17,6 +17,7 @@ export default class Uploader extends Component {
         console.log(formData);
         axios.post("/api/upload", formData).then((result) => {
             this.props.onUpload(result.data.user);
+            this.props.hideUploader();
         });
     }
     onFileinputChange() {
@@ -27,40 +28,38 @@ export default class Uploader extends Component {
     render() {
         return (
             <section className="backdrop">
-                <div className="uploader">
-                    <button
-                        className="closeButton"
-                        onClick={this.props.hideUploader}
+                <button
+                    className="closeButton"
+                    onClick={this.props.hideUploader}
+                >
+                    ×
+                </button>
+
+                <section className="uploadSection">
+                    <form
+                        id="uploadForm"
+                        encType="multipart/form-data"
+                        action="/api/upload"
+                        method="POST"
                     >
-                        x
-                    </button>
-                    <section id="uploadSection">
-                        <form
-                            id="uploadForm"
-                            encType="multipart/form-data"
-                            action="/api/upload"
-                            method="POST"
+                        <input
+                            id="file"
+                            className="textfield"
+                            type="file"
+                            accept="image/*"
+                            name="file"
+                            onChange={this.onFileinputChange}
+                            required
+                        />
+                        <button
+                            className="button submitButton"
+                            type="submit"
+                            onClick={this.onPictureUpload}
                         >
-                            <input
-                                id="file"
-                                className="textfield"
-                                type="file"
-                                accept="image/*"
-                                name="file"
-                                onChange={this.onFileinputChange}
-                                required
-                            />
-                            <button
-                                className="button submitButton"
-                                type="submit"
-                                onClick={this.onPictureUpload}
-                            >
-                                Upload
-                            </button>
-                        </form>
-                    </section>
-                </div>
-                <p>Modal</p>
+                            Upload
+                        </button>
+                    </form>
+                </section>
             </section>
         );
     }

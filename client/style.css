@@ -7,10 +7,36 @@ body {
     background-color: lightgoldenrodyellow;
 }
 
-.logo {
+/* HEADER LOGO */
+header {
     width: 100vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
+.logo {
+    width: 70%;
+}
+
+.profilePicComponent {
+    width: 70px;
+    aspect-ratio: 1/1;
+    /* background-color: lightgreen; */
+}
+.profilePic {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid white;
+}
+
+/* NAV */
+nav {
+}
+
+/* AUTHENTIFICATION */
 .authentificationform {
 }
 .authentificationform label {
@@ -22,10 +48,30 @@ body {
     justify-content: center;
     align-items: center;
 }
+/* UPLOADER */
 
-.profilePic {
-    width: 100px;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    border: 3px solid white;
+.backdrop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(200, 200, 255, 0.5);
+}
+.closeButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    margin: 10px;
+    color: white;
+    background: none;
+    border: none;
+    font-size: 26pt;
+}
+.uploadSection {
+    display: flex;
+    justify-content: space-around;
+    background-color: white;
+    padding: 30px 0;
 }

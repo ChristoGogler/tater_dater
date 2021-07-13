@@ -60,22 +60,20 @@ export default class App extends Component {
         });
     }
     render() {
-        // console.log("render: ", this.state.user);
         return (
             <section>
                 <header>
-                    <div>
-                        <Logo logo={this.state.logo}></Logo>
-
-                        <Logout onClick={this.onLogoutClick}></Logout>
-                        <ProfilePic
-                            user={this.state.user}
-                            showUploader={this.showUploader}
-                        ></ProfilePic>
-                    </div>
+                    <Logo logo={this.state.logo}></Logo>
+                    <ProfilePic
+                        className="smallProfile"
+                        user={this.state.user}
+                        showUploader={this.showUploader}
+                    ></ProfilePic>
                 </header>
-                <section>
-                    <p>Hello {this.state.user.first_name}! Logged in!</p>
+                <nav>
+                    <Logout onClick={this.onLogoutClick}></Logout>
+                </nav>
+                <section className="modal">
                     {this.state.isUploaderVisible && (
                         <Uploader
                             hideUploader={this.hideUploader}
