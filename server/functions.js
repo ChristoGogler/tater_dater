@@ -4,12 +4,17 @@ const exporting = {
     verifyEmail,
     sendRegistrationMail,
     sendVerificationMail,
+    saveToDb,
 };
 
 module.exports = exporting;
 
 const { genSalt, hash, compare } = require("bcryptjs");
-const { getUserByEmail, saveSecretCode } = require("./db_queries");
+const {
+    getUserByEmail,
+    saveSecretCode,
+    saveProfileUrl,
+} = require("./db_queries");
 const { sendEmail } = require("./SES");
 const cryptoRandomString = require("crypto-random-string");
 
@@ -94,4 +99,16 @@ function sendRegistrationMail({ email, first_name }) {
     const body = `Dear ${first_name},
             Thanks for registering at (...Social Network...) :)`;
     sendEmail(email, body, subject);
+}
+
+//saveToDb
+//middleware
+function saveToDb(request, response, next) {
+    console.log("...(server saveToDb)");
+    // console.log("...(saveToDb) request body: ", request.body);
+    saveProfileUrl(request.body).then((result) => {
+        console.log("...(saveProfileUrl) result: ", result);
+        request.latestImage = result;
+        next();
+    });
 }

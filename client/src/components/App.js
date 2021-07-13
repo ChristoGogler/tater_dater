@@ -22,6 +22,7 @@ export default class App extends Component {
         this.onLogoutClick = this.onLogoutClick.bind(this);
         this.hideUploader = this.hideUploader.bind(this);
         this.showUploader = this.showUploader.bind(this);
+        this.onUpload = this.onUpload.bind(this);
     }
 
     showUploader() {
@@ -36,6 +37,13 @@ export default class App extends Component {
             isUploaderVisible: false,
         });
     }
+    onUpload(user) {
+        // set the state accordingly
+        console.log("onUpload user: ", user);
+        this.setState({
+            user: user,
+        });
+    }
     onLogoutClick() {
         event.preventDefault();
         axios.post("/logout", this.props.user).then((result) => {
@@ -48,6 +56,7 @@ export default class App extends Component {
             this.setState({
                 user: user.data,
             });
+            console.log("this.state: ", this.state);
         });
     }
     render() {
@@ -68,7 +77,10 @@ export default class App extends Component {
                 <section>
                     <p>Hello {this.state.user.first_name}! Logged in!</p>
                     {this.state.isUploaderVisible && (
-                        <Uploader hideUploader={this.hideUploader} />
+                        <Uploader
+                            hideUploader={this.hideUploader}
+                            onUpload={this.onUpload}
+                        />
                     )}
                 </section>
             </section>

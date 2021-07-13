@@ -5,6 +5,7 @@ const exporting = {
     saveNewPassword,
     saveSecretCode,
     getCodeByEmail,
+    saveProfileUrl,
 };
 module.exports = exporting;
 
@@ -78,4 +79,17 @@ function saveNewPassword({ email, password }) {
             [password_hash, email]
         );
     });
+}
+
+function saveProfileUrl({ profile_url, userId }) {
+    console.log("...(saveProfileUrl)", profile_url, userId);
+    return postgresDb
+        .query("UPDATE users SET profile_url = $1 WHERE id = $2 RETURNING *", [
+            profile_url,
+            userId,
+        ])
+        .then((result) => {
+            console.log("...(saveProfileUrl) query result: ", result.rows);
+            return result.rows[0];
+        });
 }

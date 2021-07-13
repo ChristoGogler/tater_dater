@@ -5,7 +5,15 @@ const csurf = require("csurf");
 const compression = require("compression");
 const { sessionSecret } = require("./secrets.json");
 const path = require("path");
-const { saveUser, getCodeByEmail, saveNewPassword } = require("./db_queries");
+const {
+    saveUser,
+    getCodeByEmail,
+    getUserById,
+    saveNewPassword,
+    saveProfileUrl,
+} = require("./db_queries");
+const { uploader } = require("./file_upload");
+const { uploadFiles3 } = require("./s3");
 const { loginUser, verifyEmail, sendRegistrationMail } = require("./functions");
 
 app.use(compression());
@@ -26,6 +34,20 @@ app.use(function (request, response, next) {
     response.cookie("myCsrfToken", request.csrfToken());
     next();
 });
+
+app.get("/api/user", (request, response) => {
+    const { userId } = request.session;
+    getUserById(userId).then((user) => {
+        console.log("...(GET /api/user) USER: ", user);
+        response.json({
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            profile_url: user.profile_url,
+        });
+    });
+});
+
 //CHECK IF LOGGED IN
 app.get("/user/id.json", (request, response) => {
     console.log("...(GET /user/id.json) request.session: ", request.session);
@@ -101,7 +123,25 @@ app.post("/password/reset/step2", (request, response) => {
         }
     });
 });
-
+app.post(
+    "/api/upload",
+    uploader.single("file"),
+    uploadFiles3,
+    (request, response) => {
+        console.log("...(POST /api/upload) request.file: )", request.file);
+        // console.log("...(POST /api/upload)) response: ", response);
+        saveProfileUrl({ ...request.body, ...request.session }).then(
+            (result) => {
+                console.log(
+                    "...(POST api/upload saveProfileUrl) result: ",
+                    result
+                );
+                response.json({ user: result });
+                return;
+            }
+        );
+    }
+);
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
