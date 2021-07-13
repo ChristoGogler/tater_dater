@@ -1,3 +1,4 @@
+import axios from "../axios";
 import { Component } from "react";
 
 export default class Logout extends Component {
@@ -16,6 +17,7 @@ export default class Logout extends Component {
         });
         this.props.onClick();
     }
+
     render() {
         if (this.state.loggedIn) {
             return (
