@@ -161,6 +161,15 @@ app.put("/api/user/update/bio", (request, response) => {
         });
 });
 
+//GET OTHER USER
+app.get("/api/user/:id", async (request, response) => {
+    console.log("...(GET /api/user/:id)", request.params.id);
+    const id = request.params.id;
+    const user = await getUserById(id);
+    console.log("...(GET /api/user/:id) otherUser: ", user);
+    response.json(user);
+});
+
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
