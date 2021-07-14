@@ -52,7 +52,7 @@ app.get("/api/user", (request, response) => {
 });
 
 //CHECK IF LOGGED IN
-app.get("/user/id.json", (request, response) => {
+app.get("/api/user/id.json", (request, response) => {
     console.log("...(GET /user/id.json) request.session: ", request.session);
     response.json({
         userId: request.session.userId,
@@ -93,14 +93,14 @@ app.post("/api/login", (request, response) => {
         });
 });
 //LOGOUT
-app.post("/logout", (request, response) => {
+app.post("/api/logout", (request, response) => {
     console.log("...(POST /api/logout) request: ", request.body);
     request.session.userId = null;
     console.log("...(POST /api/logout) userId after: ", request.session.userId);
     response.json({ message: "You've been logged out successfully!" });
 });
 //PASSWORD  RESET
-app.post("/password/reset/step1", (request, response) => {
+app.post("/api/password/reset/step1", (request, response) => {
     console.log("...(POST /password/reset/step1)");
     verifyEmail({ ...request.body }).then((isVerified) => {
         if (isVerified) {
@@ -111,7 +111,7 @@ app.post("/password/reset/step1", (request, response) => {
         response.json({ error: "Verification failed - email not registered!" });
     });
 });
-app.post("/password/reset/step2", (request, response) => {
+app.post("/api/password/reset/step2", (request, response) => {
     console.log("...(POST /password/reset/step2)");
     getCodeByEmail({ ...request.body }).then((result) => {
         console.log(

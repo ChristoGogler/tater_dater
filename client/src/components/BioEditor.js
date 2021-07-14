@@ -3,7 +3,6 @@ import { Component } from "react";
 export default class BioEditor extends Component {
     constructor(props) {
         super(props);
-        // console.log("BioEditor PROPS: ", props);
         this.state = {
             isBeingEdited: false,
             bioText: "",
@@ -13,12 +12,25 @@ export default class BioEditor extends Component {
         this.onEditClick = this.onEditClick.bind(this);
         this.onSaveClick = this.onSaveClick.bind(this);
         this.onInput = this.onInput.bind(this);
+        this.onCancelClick = this.onCancelClick.bind(this);
     }
-
+    componentDidMount() {
+        console.log("...(BioEditor: componentDidMount): ", this.state);
+    }
     onEditClick() {
         console.log("...(Edit Button Click)");
+
         this.setState({
             isBeingEdited: true,
+            bioText: this.props.bio,
+        });
+    }
+
+    onCancelClick() {
+        console.log("...(Cancel Button Click)");
+        event.preventDefault();
+        this.setState({
+            isBeingEdited: false,
         });
     }
 
@@ -65,17 +77,26 @@ export default class BioEditor extends Component {
     }
     renderEditingMode() {
         return (
-            <form onSubmit={this.onSaveClick}>
-                <textarea
-                    className="bioTextarea"
-                    name="bioTextarea"
-                    id="bioTextarea"
-                    cols="30"
-                    rows="10"
-                    onInput={this.onInput}
-                ></textarea>
-                <button type="submit">Save</button>
-            </form>
+            <div className="bioContent">
+                <h1>Bio</h1>
+                <form>
+                    <textarea
+                        className="bioTextarea"
+                        name="bioTextarea"
+                        id="bioTextarea"
+                        cols="30"
+                        rows="10"
+                        value={this.state.bioText}
+                        onInput={this.onInput}
+                    ></textarea>
+                    <button type="submit" onClick={this.onSaveClick}>
+                        Save
+                    </button>
+                    <button type="button" onClick={this.onCancelClick}>
+                        Cancel
+                    </button>
+                </form>
+            </div>
         );
     }
 
