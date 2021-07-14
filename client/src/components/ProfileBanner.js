@@ -1,21 +1,19 @@
 const DEFAULT_PROFILEPIC = "../img/default_profileImg.png";
 
-export default function ProfilePic({
+export default function ProfileBanner({
     first_name,
     last_name,
     profile_url,
-    showUploader,
+    showLightbox,
     className,
 }) {
-    const fullName = first_name + " " + last_name;
-    console.log("ProfilePic url: ", profile_url);
     return (
-        <div className="profilePicWrapper">
+        <div className="profileBannerWrapper">
             <img
                 className={className}
                 src={profile_url || DEFAULT_PROFILEPIC}
-                alt={fullName}
-                onClick={showUploader}
+                alt={first_name + " " + last_name}
+                onClick={showLightbox}
             />
         </div>
     );

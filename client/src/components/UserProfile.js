@@ -1,5 +1,6 @@
 import { Component } from "react";
-import ProfilePic from "./ProfilePic";
+// import ProfilePic from "./ProfilePic";
+import ProfileBanner from "./ProfileBanner";
 import axios from "../axios";
 
 export default class UserProfile extends Component {
@@ -12,9 +13,25 @@ export default class UserProfile extends Component {
             bio: "",
             id: "",
             profile_url: "",
+            noUserFound: false,
+            isLightboxVisible: false,
         };
 
         // bind methods here!
+        this.showLightbox = this.showLightbox.bind(this);
+        this.closeLightbox = this.closeLightbox.bind(this);
+    }
+    showLightbox() {
+        console.log("...(UserProfile: showLightbox) CLICK");
+        this.setState({
+            isLightboxVisible: true,
+        });
+    }
+    closeLightbox() {
+        console.log("...(UserProfile: closeLightbox) CLICK");
+        this.setState({
+            isLightboxVisible: false,
+        });
     }
     async componentDidMount() {
         console.log("...(UserProfile: componentDidMount)");
@@ -25,6 +42,14 @@ export default class UserProfile extends Component {
             "...(UserProfile: componentDidMount) otherUser: ",
             otherUser.data
         );
+        if (otherUser.data == null) {
+            this.setState({
+                noUserFound: true,
+                first_name: "Patty",
+                last_name: "Potato",
+                bio: "Hej, Im Patty Potato! You were looking for me? 404",
+            });
+        }
         this.setState(otherUser.data);
         console.log("STATE: ", this.state);
     }
@@ -34,17 +59,30 @@ export default class UserProfile extends Component {
 
         return (
             <div className="profileWrapper">
-                <ProfilePic
+                <ProfileBanner
                     first_name={first_name}
                     last_name={last_name}
                     profile_url={profile_url}
-                    bio={bio}
+                    showLightbox={this.showLightbox}
                     className="bigProfilePic"
-                ></ProfilePic>
+                />
+
                 <div className="bioContent">
-                    <h1>Bio</h1>
-                    <p>{bio}</p>
+                    <h1 className="username">{first_name + " " + last_name}</h1>
+                    <p className="userbio"> {bio}</p>
                 </div>
+
+                {this.state.isLightboxVisible && (
+                    <section className="backdrop">
+                        <div className="lightbox">
+                            <img
+                                src={profile_url}
+                                alt={first_name + " " + last_name}
+                                onClick={this.closeLightbox}
+                            ></img>
+                        </div>
+                    </section>
+                )}
             </div>
         );
     }
