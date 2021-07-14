@@ -14,12 +14,8 @@ export default class BioEditor extends Component {
         this.onInput = this.onInput.bind(this);
         this.onCancelClick = this.onCancelClick.bind(this);
     }
-    componentDidMount() {
-        console.log("...(BioEditor: componentDidMount): ", this.state);
-    }
     onEditClick() {
-        console.log("...(Edit Button Click)");
-
+        // console.log("...(Edit Button Click)");
         this.setState({
             isBeingEdited: true,
             bioText: this.props.bio,
@@ -27,7 +23,7 @@ export default class BioEditor extends Component {
     }
 
     onCancelClick() {
-        console.log("...(Cancel Button Click)");
+        // console.log("...(Cancel Button Click)");
         event.preventDefault();
         this.setState({
             isBeingEdited: false,
@@ -35,7 +31,7 @@ export default class BioEditor extends Component {
     }
 
     onSaveClick() {
-        console.log("...(Save Button Click)");
+        // console.log("...(Save Button Click)");
         event.preventDefault();
 
         this.props.onBioChange(this.state.bioText);
@@ -45,11 +41,9 @@ export default class BioEditor extends Component {
     }
 
     onInput() {
-        console.log("...(onInput) event.target: ", event.target);
         this.setState({
             bioText: event.target.value,
         });
-        console.log("State: ", this.state);
     }
 
     renderShowMode() {

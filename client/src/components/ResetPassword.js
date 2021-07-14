@@ -22,7 +22,7 @@ export default class ResetPassword extends React.Component {
         event.preventDefault();
         //axios here!
         axios
-            .post("/password/reset/step2", this.state)
+            .post("/api/password/reset/step2", this.state)
             .then((response) => {
                 console.log("...(axios post) response: ", response);
                 this.setState({ step: 3 });
@@ -42,7 +42,7 @@ export default class ResetPassword extends React.Component {
         event.preventDefault();
         //axios here!
         axios
-            .post("/password/reset/step1", this.state)
+            .post("/api/password/reset/step1", this.state)
             .then((response) => {
                 console.log("...(axios post) response: ", response);
                 this.setState({ step: 2 });
