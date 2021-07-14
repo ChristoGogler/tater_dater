@@ -55,13 +55,14 @@ export default class BioEditor extends Component {
                     <div>
                         <p>{this.props.bio}</p>
                         <button type="button" onClick={this.onEditClick}>
-                            Edit Bio
+                            <i className="material-icons">edit</i>Login Edit Bio
                         </button>
                     </div>
                 ) : (
                     <div>
                         <p>Tell us a little bit about you!</p>
                         <button type="button" onClick={this.onEditClick}>
+                            <i className="material-icons">post_add</i>
                             add Bio
                         </button>
                     </div>
@@ -84,9 +85,11 @@ export default class BioEditor extends Component {
                         onInput={this.onInput}
                     ></textarea>
                     <button type="submit" onClick={this.onSaveClick}>
+                        <i className="material-icons">task_alt</i>
                         Save
                     </button>
                     <button type="button" onClick={this.onCancelClick}>
+                        <i className="material-icons">highlight_off</i>
                         Cancel
                     </button>
                 </form>

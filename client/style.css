@@ -3,9 +3,41 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    overflow: hidden;
 }
 body {
     background-color: lightgoldenrodyellow;
+}
+
+/* WELCOME */
+.welcome {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* LINKS & ICONS */
+a,
+:hover,
+:active,
+:visited {
+    color: green;
+    text-decoration: none;
+}
+material-icons {
+}
+
+/* BUTTONS */
+
+button {
+    color: green;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
 /* HEADER LOGO */
@@ -58,6 +90,7 @@ nav {
     bottom: 0;
     display: flex;
     justify-content: space-around;
+    background-color: white;
 }
 
 /* AUTHENTIFICATION */

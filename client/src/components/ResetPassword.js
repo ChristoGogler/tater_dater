@@ -69,13 +69,15 @@ export default class ResetPassword extends React.Component {
         console.log("Email: ", this.state.email);
         if (this.state.step == 1) {
             return (
-                <div>
+                <div className="card">
                     <p>
                         We will send a verification code to your address to
                         verify its you!
                     </p>
                     <input name="email" onChange={this.onInputChange}></input>
-                    <button onClick={this.onEmailSubmit}>Submit</button>
+                    <button onClick={this.onEmailSubmit}>
+                        <i className="material-icons">send</i>Submit
+                    </button>
                     <p>{this.state.message}</p>
                 </div>
             );
@@ -103,7 +105,9 @@ export default class ResetPassword extends React.Component {
                         ></input>
                     </label>
 
-                    <button onClick={this.onCodeSubmit}>Submit</button>
+                    <button onClick={this.onCodeSubmit}>
+                        <i className="material-icons">send</i>Submit
+                    </button>
                     <p>{this.state.message}</p>
                 </div>
             );
@@ -113,7 +117,10 @@ export default class ResetPassword extends React.Component {
                 <div>
                     <p>Your password has been changed.</p>
                     <p>
-                        You can now <Link to="/login">login</Link>
+                        You can now{" "}
+                        <Link to="/login">
+                            <i className="material-icons">login</i>login
+                        </Link>
                     </p>
                     <p>{this.state.message}</p>
                 </div>

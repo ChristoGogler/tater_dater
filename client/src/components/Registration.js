@@ -53,7 +53,7 @@ export default class Registration extends Component {
     }
     render() {
         return (
-            <div className="authentificationform">
+            <div className="card authentificationform">
                 <h1>{this.state.title}</h1>
                 <form onSubmit={this.onRegistrationSubmit}>
                     <label htmlFor="first_name" value="First Name">
@@ -100,12 +100,11 @@ export default class Registration extends Component {
                             onChange={this.onInputChange}
                         />
                     </label>
-                    <button type="submit">Register</button>
+                    <button type="submit">
+                        <i className="material-icons">send</i>Register
+                    </button>
                 </form>
                 <p className="message">{this.state.message}</p>
-                <p>
-                    Already signed up? <Link to="/login">Log in now!</Link>
-                </p>
             </div>
         );
     }

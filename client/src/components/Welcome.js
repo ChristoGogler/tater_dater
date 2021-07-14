@@ -1,4 +1,5 @@
 import { HashRouter, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Component } from "react";
 import Registration from "./Registration";
 import Login from "./Login";
@@ -8,28 +9,62 @@ import Logo from "./Logo";
 export default class Welcome extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            logo: "./img/logo.png",
-        };
     }
     render() {
         return (
-            <div className="welcome">
-                <Logo logo={this.state.logo}></Logo>
-                <HashRouter>
+            <HashRouter>
+                <div className="welcome">
+                    <Link to="/">
+                        <Logo />
+                    </Link>
                     <div>
                         <Route path="/" exact>
                             <Registration />
+                            <nav>
+                                <p>
+                                    <Link to="/login">
+                                        <button>
+                                            <i className="material-icons">
+                                                login
+                                            </i>
+                                            Login
+                                        </button>
+                                    </Link>
+                                </p>
+                            </nav>
                         </Route>
                         <Route path="/login">
                             <Login />
+                            <nav>
+                                <p>
+                                    <Link to="/">
+                                        <button>
+                                            <i className="material-icons">
+                                                how_to_reg
+                                            </i>
+                                            Sign up now!
+                                        </button>
+                                    </Link>
+                                </p>
+                                <p>
+                                    <Link to="password/reset">
+                                        <button>
+                                            <i className="material-icons">
+                                                password
+                                            </i>
+                                            Reset Password
+                                        </button>
+                                    </Link>
+                                </p>
+                            </nav>
                         </Route>
                         <Route path="/password/reset">
                             <ResetPassword />
+                            <nav></nav>
                         </Route>
                     </div>
-                </HashRouter>
-            </div>
+                </div>
+            </HashRouter>
         );
     }
 }

@@ -49,7 +49,7 @@ export default class Login extends Component {
     }
     render() {
         return (
-            <div className="authentificationform">
+            <div className="card authentificationform">
                 <h1>{this.state.title}</h1>
                 <form onSubmit={this.onLoginSubmit}>
                     <label htmlFor="email">
@@ -74,17 +74,12 @@ export default class Login extends Component {
                             onChange={this.onInputChange}
                         />
                     </label>
-                    <button type="submit">Login</button>
+                    <button type="submit">
+                        <i className="material-icons">send</i>Login
+                    </button>
                 </form>
 
                 <p className="message">{this.state.message}</p>
-                <p>
-                    Not yet registered? <Link to="/">Sign up now!</Link>
-                </p>
-                <p>
-                    Cant remember your password?
-                    <Link to="password/reset">Reset your password!</Link>
-                </p>
             </div>
         );
     }
