@@ -1,10 +1,12 @@
 import { Component } from "react";
 import Logo from "./Logo";
 import Logout from "./Logout";
-import Profile from "./Profile";
+import MyProfile from "./MyProfile";
 import ProfilePic from "./ProfilePic";
 import Uploader from "./Uploader";
+import UserProfile from "./UserProfile";
 import axios from "../axios";
+import { BrowserRouter, Link, Route } from "react-router-dom";
 
 export default class App extends Component {
     constructor(props) {
@@ -85,40 +87,50 @@ export default class App extends Component {
     }
     render() {
         return (
-            <section>
-                <header>
-                    <Logo logo={this.state.logo}></Logo>
-                    <ProfilePic
-                        profile_url={this.state.profile_url}
-                        first_name={this.state.first_name}
-                        last_name={this.state.last_name}
-                        showUploader={this.showUploader}
-                        className="smallProfilePic"
-                    ></ProfilePic>
-                </header>
-                <section>
-                    <Profile
-                        first_name={this.state.first_name}
-                        last_name={this.state.last_name}
-                        id={this.state.id}
-                        bio={this.state.bio}
-                        profile_url={this.state.profile_url}
-                        email={this.state.email}
-                        onBioChange={this.onBioChange}
-                    ></Profile>
-                </section>
-                <nav>
-                    <Logout onClick={this.onLogoutClick}></Logout>
-                </nav>
-                <section className="modal">
-                    {this.state.isUploaderVisible && (
-                        <Uploader
-                            hideUploader={this.hideUploader}
-                            onUpload={this.onUpload}
+            <BrowserRouter>
+                <>
+                    <header>
+                        <Link to="/">
+                            <Logo logo={this.state.logo} />
+                        </Link>
+                        <ProfilePic
+                            profile_url={this.state.profile_url}
+                            first_name={this.state.first_name}
+                            last_name={this.state.last_name}
+                            showUploader={this.showUploader}
+                            className="smallProfilePic"
                         />
-                    )}
-                </section>
-            </section>
+                    </header>
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <MyProfile
+                                first_name={this.state.first_name}
+                                last_name={this.state.last_name}
+                                id={this.state.id}
+                                bio={this.state.bio}
+                                profile_url={this.state.profile_url}
+                                email={this.state.email}
+                                onBioChange={this.onBioChange}
+                            />
+                        )}
+                    />
+                    <Route path="/user/:id" component={UserProfile} />
+
+                    <nav>
+                        <Logout onClick={this.onLogoutClick}></Logout>
+                    </nav>
+                    <section className="modal">
+                        {this.state.isUploaderVisible && (
+                            <Uploader
+                                hideUploader={this.hideUploader}
+                                onUpload={this.onUpload}
+                            />
+                        )}
+                    </section>
+                </>
+            </BrowserRouter>
         );
     }
 }
