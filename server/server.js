@@ -11,6 +11,7 @@ const {
     getUserById,
     saveNewPassword,
     saveProfileUrl,
+    saveUserBio,
 } = require("./db_queries");
 const { uploader } = require("./file_upload");
 const { uploadFiles3 } = require("./s3");
@@ -34,16 +35,18 @@ app.use(function (request, response, next) {
     response.cookie("myCsrfToken", request.csrfToken());
     next();
 });
-
+//GET USER
 app.get("/api/user", (request, response) => {
     const { userId } = request.session;
     getUserById(userId).then((user) => {
         console.log("...(GET /api/user) USER: ", user);
         response.json({
+            id: user.id,
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
             profile_url: user.profile_url,
+            bio: user.bio,
         });
     });
 });
@@ -123,6 +126,7 @@ app.post("/password/reset/step2", (request, response) => {
         }
     });
 });
+//UPLOAD PROFILE PICTURE
 app.post(
     "/api/upload",
     uploader.single("file"),
@@ -142,6 +146,21 @@ app.post(
         );
     }
 );
+// SAVE NEW BIO
+app.put("/api/user/update/bio", (request, response) => {
+    console.log("...(PUT /api/user/update/bio)", request.body);
+    const { userId } = request.session;
+    const { bio } = request.body;
+    saveUserBio({ bio, userId })
+        .then((result) => {
+            console.log("...(PUT /api/user/update/bio) result: ", result);
+            response.json(result);
+        })
+        .catch((error) => {
+            console.log("Error saving user bio: ", error);
+        });
+});
+
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
