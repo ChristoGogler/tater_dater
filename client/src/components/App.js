@@ -91,7 +91,7 @@ export default class App extends Component {
                 <>
                     <header>
                         <Link to="/">
-                            <Logo logo={this.state.logo} />
+                            <Logo />
                         </Link>
                         <ProfilePic
                             profile_url={this.state.profile_url}
