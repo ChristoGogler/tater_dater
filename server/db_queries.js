@@ -6,6 +6,7 @@ const exporting = {
     saveSecretCode,
     getCodeByEmail,
     saveProfileUrl,
+    saveUserBio,
 };
 module.exports = exporting;
 
@@ -91,6 +92,19 @@ function saveProfileUrl({ profile_url, userId }) {
         ])
         .then((result) => {
             console.log("...(saveProfileUrl) query result: ", result.rows);
+            return result.rows[0];
+        });
+}
+
+async function saveUserBio({ bio, userId }) {
+    console.log("...(saveUserBio)", bio, userId);
+    return postgresDb
+        .query("UPDATE users SET bio = $1 WHERE id = $2 RETURNING *", [
+            bio,
+            userId,
+        ])
+        .then((result) => {
+            console.log("...(saveUserBio) query result: ", result.rows);
             return result.rows[0];
         });
 }
