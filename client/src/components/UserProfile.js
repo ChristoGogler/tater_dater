@@ -29,6 +29,7 @@ export default class UserProfile extends Component {
     }
     closeLightbox() {
         console.log("...(UserProfile: closeLightbox) CLICK");
+
         this.setState({
             isLightboxVisible: false,
         });
@@ -73,12 +74,12 @@ export default class UserProfile extends Component {
                 </div>
 
                 {this.state.isLightboxVisible && (
-                    <section className="backdrop">
+                    <section className="backdrop" onClick={this.closeLightbox}>
                         <div className="lightbox">
                             <img
                                 src={profile_url}
                                 alt={first_name + " " + last_name}
-                                onClick={this.closeLightbox}
+                                onClick={(event) => event.stopPropagation()}
                             ></img>
                         </div>
                     </section>
