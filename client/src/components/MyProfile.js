@@ -1,7 +1,7 @@
 import ProfilePic from "./ProfilePic";
 import BioEditor from "./BioEditor";
 
-export default function Profile({
+export default function MyProfile({
     first_name,
     last_name,
     email,
