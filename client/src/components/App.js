@@ -40,10 +40,9 @@ export default class App extends Component {
         });
     }
     onUpload(user) {
-        // set the state accordingly
         console.log("onUpload user: ", user);
         this.setState({
-            user: user,
+            profile_url: user.profile_url,
         });
     }
 
@@ -58,7 +57,7 @@ export default class App extends Component {
         console.log("App onBioChange", newBio);
         // console.log("this.state: ", this.state);
         axios.put("/api/user/update/bio", { bio: newBio }).then((user) => {
-            console.log("...(App onBioChange) result: ", user);
+            // console.log("...(App onBioChange) result: ", user);
 
             this.setState({
                 first_name: user.data.first_name,
@@ -90,7 +89,9 @@ export default class App extends Component {
                 <header>
                     <Logo logo={this.state.logo}></Logo>
                     <ProfilePic
-                        user={this.state.user}
+                        profile_url={this.state.profile_url}
+                        first_name={this.state.first_name}
+                        last_name={this.state.last_name}
                         showUploader={this.showUploader}
                         className="smallProfilePic"
                     ></ProfilePic>

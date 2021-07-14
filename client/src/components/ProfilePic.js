@@ -1,13 +1,19 @@
 const DEFAULT_PROFILEPIC = "./img/default_profileImg.png";
 
-export default function ProfilePic({ user, showUploader }) {
-    const fullName = user.first_name + " " + user.last_name;
-    console.log("ProfilePic user: ", user);
+export default function ProfilePic({
+    first_name,
+    last_name,
+    profile_url,
+    showUploader,
+    className,
+}) {
+    const fullName = first_name + " " + last_name;
+    console.log("ProfilePic url: ", profile_url);
     return (
-        <div className="profilePicComponent">
+        <div className="profilePicWrapper">
             <img
-                className="profilePic"
-                src={user.profile_url || DEFAULT_PROFILEPIC}
+                className={className}
+                src={profile_url || DEFAULT_PROFILEPIC}
                 alt={fullName}
                 onClick={showUploader}
             />
