@@ -1,4 +1,5 @@
 import { Component } from "react";
+import axios from "../axios";
 
 export default class BioEditor extends Component {
     constructor(props) {
@@ -30,11 +31,16 @@ export default class BioEditor extends Component {
         });
     }
 
-    onSaveClick() {
+    async onSaveClick() {
         // console.log("...(Save Button Click)");
         event.preventDefault();
+        // console.log("this.state: ", this.state);
+        const user = await axios.put("/api/user/update/bio", {
+            bio: this.state.bioText,
+        });
+        console.log("...(BioEditor onSaveClick) result: ", user.data);
 
-        this.props.onBioChange(this.state.bioText);
+        this.props.onBioChange(user.data);
         this.setState({
             isBeingEdited: false,
         });
@@ -49,13 +55,11 @@ export default class BioEditor extends Component {
     renderShowMode() {
         return (
             <div className="bioContent">
-                <h1>Bio</h1>
-
                 {this.props.bio ? (
                     <div>
                         <p>{this.props.bio}</p>
                         <button type="button" onClick={this.onEditClick}>
-                            <i className="material-icons">edit</i>Login Edit Bio
+                            <i className="material-icons">edit</i>Edit Bio
                         </button>
                     </div>
                 ) : (
@@ -63,7 +67,7 @@ export default class BioEditor extends Component {
                         <p>Tell us a little bit about you!</p>
                         <button type="button" onClick={this.onEditClick}>
                             <i className="material-icons">post_add</i>
-                            add Bio
+                            Add Bio
                         </button>
                     </div>
                 )}
@@ -73,7 +77,6 @@ export default class BioEditor extends Component {
     renderEditingMode() {
         return (
             <div className="bioContent">
-                <h1>Bio</h1>
                 <form>
                     <textarea
                         className="bioTextarea"
@@ -84,11 +87,19 @@ export default class BioEditor extends Component {
                         value={this.state.bioText}
                         onInput={this.onInput}
                     ></textarea>
-                    <button type="submit" onClick={this.onSaveClick}>
+                    <button
+                        id="saveButton"
+                        type="submit"
+                        onClick={this.onSaveClick}
+                    >
                         <i className="material-icons">task_alt</i>
                         Save
                     </button>
-                    <button type="button" onClick={this.onCancelClick}>
+                    <button
+                        id="cancelButton"
+                        type="button"
+                        onClick={this.onCancelClick}
+                    >
                         <i className="material-icons">highlight_off</i>
                         Cancel
                     </button>

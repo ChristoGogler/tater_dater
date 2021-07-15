@@ -55,21 +55,10 @@ export default class App extends Component {
             window.location = "/";
         });
     }
-    onBioChange(newBio) {
-        console.log("App onBioChange", newBio);
-        // console.log("this.state: ", this.state);
-        axios.put("/api/user/update/bio", { bio: newBio }).then((user) => {
-            // console.log("...(App onBioChange) result: ", user);
+    onBioChange(user) {
+        console.log("App onBioChange");
 
-            this.setState({
-                first_name: user.data.first_name,
-                last_name: user.data.last_name,
-                id: user.data.id,
-                bio: user.data.bio,
-                profile_url: user.data.profile_url,
-                email: user.data.email,
-            });
-        });
+        this.setState(user);
     }
     componentDidMount() {
         axios.get("/api/user").then((user) => {
@@ -93,13 +82,6 @@ export default class App extends Component {
                         <Link to="/">
                             <Logo />
                         </Link>
-                        <ProfilePic
-                            profile_url={this.state.profile_url}
-                            first_name={this.state.first_name}
-                            last_name={this.state.last_name}
-                            showUploader={this.showUploader}
-                            className="smallProfilePic"
-                        />
                     </header>
                     <Route
                         exact
@@ -120,6 +102,13 @@ export default class App extends Component {
 
                     <nav>
                         <Logout onClick={this.onLogoutClick}></Logout>
+                        <ProfilePic
+                            profile_url={this.state.profile_url}
+                            first_name={this.state.first_name}
+                            last_name={this.state.last_name}
+                            showUploader={this.showUploader}
+                            className="avatar smallProfilePic"
+                        />
                     </nav>
                     <section className="modal">
                         {this.state.isUploaderVisible && (
