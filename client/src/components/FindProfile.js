@@ -1,26 +1,96 @@
 import axios from "../axios";
 import { useState, useEffect } from "react";
 import ProfilePic from "./ProfilePic";
+import { Link } from "react-router-dom";
 
 export default function FindProfile() {
     const [isSearching, setIsSearching] = useState(false);
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState([1, 2, 3]);
     const [latestUsers, setLatestUsers] = useState([]);
     const [searchquery, setSearchquery] = useState("");
 
+    //onSearchfieldInputChange
     useEffect(async () => {
-        console.log("...(FindProfile) searchquery: ", searchquery);
-        if (!searchquery) {
+        console.log("...(useEffect [searchquery]): ", searchquery);
+        if (searchquery.length < 3) {
             setIsSearching(false);
             return;
         }
         setIsSearching(true);
-        const users = await axios.get("/api/users/find?q=" + { searchquery });
-        console.log("...(FindProfile: search) result: ", users);
-    });
+        try {
+            const { data } = await axios.get(
+                `/api/users/find?q=${searchquery}`
+            );
+            setResults([...data]);
+        } catch (error) {
+            console.log(error);
+            setResults([]);
+        }
+    }, [searchquery]);
+
+    //when user results change
+    useEffect(() => {
+        // console.log("...(useEffect [results]): ", results);
+    }, [results]);
+
+    //on mount
+    useEffect(async () => {
+        console.log("...(useEffect []) : ");
+        try {
+            const { data } = await axios.get("/api/users/latest");
+            setLatestUsers([...data]);
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
 
     //Maybe not needed!
     const onSearchButtonClick = () => {};
+    const renderLatestUsers = () => {
+        return latestUsers.map((user) => {
+            return (
+                <li key={user.id}>
+                    <ProfilePic
+                        className="avatar"
+                        profile_url={user.profile_url}
+                    />
+                    <div className="searchResultDetails">
+                        <Link to={"/user/" + user.id}>
+                            <h1>{user.first_name + " " + user.last_name}</h1>
+                        </Link>
+                        <p>{user.bio}</p>
+                    </div>
+                    <button type="submit" onClick={onSearchButtonClick}>
+                        <i className="material-icons">person_add</i>
+                        Befriend
+                    </button>
+                </li>
+            );
+        });
+    };
+
+    const renderResults = () => {
+        return results.map((user) => {
+            return (
+                <li key={user.id}>
+                    <ProfilePic
+                        className="avatar"
+                        profile_url={user.profile_url}
+                    />
+                    <div className="searchResultDetails">
+                        <Link to={"/user/" + user.id}>
+                            <h1>{user.first_name + " " + user.last_name}</h1>
+                        </Link>
+                        <p>{user.bio}</p>
+                    </div>
+                    <button type="submit" onClick={onSearchButtonClick}>
+                        <i className="material-icons">person_add</i>
+                        Befriend
+                    </button>
+                </li>
+            );
+        });
+    };
 
     return (
         <>
@@ -38,38 +108,17 @@ export default function FindProfile() {
                     </button>
                 </label>
             </section>
-            <section className="searchResults">
-                <p>23 results for "search query"</p>
-                <ul>
-                    <li>
-                        <ProfilePic className="avatar" />
-                        <div className="searchResultDetails">
-                            <h1>Name Name</h1>
-                            <p>Bio of that person!</p>
-                        </div>
-                        <button type="submit" onClick={onSearchButtonClick}>
-                            <i className="material-icons">person_add</i>
-                            Befriend
-                        </button>
-                    </li>
-                </ul>
-            </section>
-            <section className="searchResults latestUsers">
-                <p>3 latest Potatoes</p>
-                <ul>
-                    <li>
-                        <ProfilePic className="avatar " />
-                        <div className="searchResultDetails">
-                            <h1>Name Name</h1>
-                            <p>Bio of that person!</p>
-                        </div>
-                        <button type="submit" onClick={onSearchButtonClick}>
-                            <i className="material-icons">person_add</i>
-                            Befriend
-                        </button>
-                    </li>
-                </ul>
-            </section>
+            {isSearching && (
+                <section className="searchResults">
+                    <ul>{renderResults()}</ul>
+                </section>
+            )}
+            {!isSearching && (
+                <section className="searchResults latestUsers">
+                    <p>3 latest Potatoes</p>
+                    <ul>{renderLatestUsers()}</ul>
+                </section>
+            )}
         </>
     );
 }

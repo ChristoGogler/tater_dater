@@ -2,6 +2,8 @@ const {
     saveUser,
     getCodeByEmail,
     getUserById,
+    getLatestUserProfiles,
+    getUserProfiles,
     saveNewPassword,
     saveProfileUrl,
     saveUserBio,
@@ -11,6 +13,33 @@ const { loginUser, verifyEmail, sendRegistrationMail } = require("./functions");
 const csrfToken = (request, response, next) => {
     response.cookie("myCsrfToken", request.csrfToken());
     next();
+};
+
+//FIND PROFILES
+const findProfiles = async (request, response) => {
+    const { q } = request.query;
+    console.log("...(findProfiles) q.length: ", q.length);
+    if (q.length < 3) {
+        return;
+    }
+    const profiles = await getUserProfiles(q);
+    console.log("...(findProfiles) result", profiles);
+    if (profiles.length == 0) {
+        console.log("...(findProfiles) No user Found!");
+        response.status(404).json({ message: "No users found!" });
+    }
+    response.json(profiles);
+};
+
+//FIND LATEST PROFILES
+const findLatestProfiles = async (request, response) => {
+    const profiles = await getLatestUserProfiles();
+    console.log("...(findLatestProfiles) result: ", profiles);
+    if (profiles.length == 0) {
+        console.log("...(findProfiles) No user Found!");
+        response.status(404).json({ message: "No users found!" });
+    }
+    response.json(profiles);
 };
 
 //GET MY PROFILE
@@ -156,6 +185,8 @@ const saveProfilePictureUrl = (request, response) => {
 const exporting = {
     checkLogin,
     csrfToken,
+    findProfiles,
+    findLatestProfiles,
     getMyProfile,
     getUserProfile,
     login,

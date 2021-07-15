@@ -1,6 +1,8 @@
 const exporting = {
     getUserByEmail,
     getUserById,
+    getLatestUserProfiles,
+    getUserProfiles,
     saveUser,
     saveNewPassword,
     saveSecretCode,
@@ -36,6 +38,24 @@ function getUserByEmail(email) {
         .query("SELECT * FROM users WHERE email ILIKE $1", [email])
         .then((result) => {
             return result.rows[0];
+        });
+}
+async function getLatestUserProfiles() {
+    const result = await postgresDb.query(
+        "SELECT id, first_name, last_name, bio, profile_url FROM users ORDER BY created_at DESC LIMIT 3 "
+    );
+    console.log("...(DB: getLatestUserProfiles) result: ", result);
+    return result.rows;
+}
+function getUserProfiles(query) {
+    return postgresDb
+        .query(
+            "SELECT id, first_name, last_name, bio, profile_url FROM users WHERE first_name ILIKE $1 OR last_name ILIKE $1",
+            [query + "%"]
+        )
+        .then((result) => {
+            console.log("...(DB: getUserProfiles) result: ", result);
+            return result.rows;
         });
 }
 

@@ -12,6 +12,7 @@ const {
     checkLogin,
     csrfToken,
     findProfiles,
+    findLatestProfiles,
     getMyProfile,
     getUserProfile,
     login,
@@ -71,6 +72,9 @@ app.get("/api/user/:id", getUserProfile);
 
 //FIND PROFILES
 app.get("/api/users/find", findProfiles);
+
+//FIND LATEST PROFILES
+app.get("/api/users/latest", findLatestProfiles);
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
