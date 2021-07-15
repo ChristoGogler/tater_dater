@@ -7,6 +7,7 @@ import Uploader from "./Uploader";
 import UserProfile from "./UserProfile";
 import axios from "../axios";
 import { BrowserRouter, Link, Route } from "react-router-dom";
+import FindProfile from "./FindProfile";
 
 export default class App extends Component {
     constructor(props) {
@@ -99,9 +100,17 @@ export default class App extends Component {
                         )}
                     />
                     <Route path="/user/:id" component={UserProfile} />
-
+                    <Route path="/users/find" component={FindProfile} />
                     <nav>
                         <Logout onClick={this.onLogoutClick}></Logout>
+                        <div>
+                            <Link to="/users/find">
+                                <button>
+                                    <i className="material-icons">group_add</i>
+                                    Find Potatoes
+                                </button>
+                            </Link>
+                        </div>
                         <ProfilePic
                             profile_url={this.state.profile_url}
                             first_name={this.state.first_name}
