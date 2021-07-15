@@ -14,9 +14,11 @@ export default class Welcome extends Component {
         return (
             <HashRouter>
                 <div className="welcome">
-                    <Link to="/">
-                        <Logo />
-                    </Link>
+                    <header>
+                        <Link to="/">
+                            <Logo />
+                        </Link>
+                    </header>
                     <div>
                         <Route path="/" exact>
                             <Registration />

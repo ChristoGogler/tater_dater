@@ -1,7 +1,5 @@
 import { Component } from "react";
-import ReactDOM from "react-dom";
 import axios from "../axios";
-import { Link } from "react-router-dom";
 
 export default class Login extends Component {
     constructor(props) {

@@ -43,12 +43,15 @@ export default class UserProfile extends Component {
             "...(UserProfile: componentDidMount) otherUser: ",
             otherUser.data
         );
+        if (otherUser.data.self) {
+            this.props.history.push("/");
+            return;
+        }
         if (otherUser.data == null) {
             this.setState({
-                noUserFound: true,
                 first_name: "Patty",
                 last_name: "Potato",
-                bio: "Hej, Im Patty Potato! You were looking for me? 404",
+                bio: "Hej, Im Patty Potato! Were you looking for me? 404",
             });
         }
         this.setState(otherUser.data);

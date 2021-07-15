@@ -117,9 +117,9 @@ export default class ResetPassword extends React.Component {
                 <div>
                     <p>Your password has been changed.</p>
                     <p>
-                        You can now{" "}
+                        You can now
                         <Link to="/login">
-                            <i className="material-icons">login</i>login
+                            <i className="material-icons">login</i>Login
                         </Link>
                     </p>
                     <p>{this.state.message}</p>

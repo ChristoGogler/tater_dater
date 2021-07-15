@@ -8,7 +8,7 @@ export default function ProfilePic({
     className,
 }) {
     const fullName = first_name + " " + last_name;
-    console.log("ProfilePic url: ", profile_url);
+    // console.log("ProfilePic url: ", profile_url);
     return (
         <div className="profilePicWrapper">
             <img

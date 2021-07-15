@@ -35,19 +35,36 @@ test("Clicking either the add or edit button causes a textarea and a save button
         '<i class="material-icons">task_alt</i>Save'
     );
 });
-import axios from "axios";
+
+import axios from "../axios";
 jest.mock("axios");
 
+const onBioChange = jest.fn(
+    axios.post.mockResolvedValue({
+        bio: "This is my bio",
+    })
+);
+
 test("Clicking the save button causes an ajax request. The request should not actually happen during your test. To prevent it from actually happening, you should mock axios.", async () => {
-    const { container } = render(<BioEditor bio={"this is a bio"} />);
+    let { container } = render(
+        <BioEditor bio={"hey, this is my bio."} onBioChange={onBioChange} />
+    );
     fireEvent.click(container.querySelector("button"));
 
     expect(container.querySelector("textarea")).toBeTruthy();
     expect(container.querySelector("#saveButton")).toBeTruthy();
     fireEvent.click(container.querySelector("#saveButton"));
-    // axios.get.mockResolvedValue({
-    //     bio: "This is my bio",
-    // });
+    axios.put.mockResolvedValue({
+        id: 2,
+        first_name: "Sam",
+        last_name: "Soup",
+        email: "Schrisse@gmail.com",
+        profile_url:
+            "https://profilepixbucket.s3.eu-central-1.amazonaws.com/5Og68CDPvsKnnhTzNwk9UPer0kdAAsL4.jpeg",
+        bio: "MY New Bio!",
+        password_hash:
+            "$2a$10$l3mY0/WiqKXj55YUYs4Lte9wdsa6CFdU7PXUbBMs6x5OoUIfuDOv.",
+    });
     await waitFor(() => expect(container.querySelector("p")).toBeTruthy());
-    expect(container.querySelector("p").innerHTML).toBe("This is my bio");
+    expect(container.querySelector("p").innerHTML).toBe("hey, this is my bio.");
 });
