@@ -5,13 +5,15 @@ import { Link } from "react-router-dom";
 
 export default function FindProfile() {
     const [isSearching, setIsSearching] = useState(false);
+    const [noResults, setNoResults] = useState(false);
     const [results, setResults] = useState([1, 2, 3]);
     const [latestUsers, setLatestUsers] = useState([]);
     const [searchquery, setSearchquery] = useState("");
 
     //onSearchfieldInputChange
     useEffect(async () => {
-        console.log("...(useEffect [searchquery]): ", searchquery);
+        setNoResults(false);
+
         if (searchquery.length < 3) {
             setIsSearching(false);
             return;
@@ -25,17 +27,12 @@ export default function FindProfile() {
         } catch (error) {
             console.log(error);
             setResults([]);
+            setNoResults(true);
         }
     }, [searchquery]);
 
-    //when user results change
-    useEffect(() => {
-        // console.log("...(useEffect [results]): ", results);
-    }, [results]);
-
     //on mount
     useEffect(async () => {
-        console.log("...(useEffect []) : ");
         try {
             const { data } = await axios.get("/api/users/latest");
             setLatestUsers([...data]);
@@ -113,6 +110,7 @@ export default function FindProfile() {
                     <ul>{renderResults()}</ul>
                 </section>
             )}
+            {isSearching && noResults && <p>no results</p>}
             {!isSearching && (
                 <section className="searchResults latestUsers">
                     <p>3 latest Potatoes</p>
