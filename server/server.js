@@ -11,6 +11,7 @@ const { uploadFiles3 } = require("./s3");
 const {
     checkLogin,
     csrfToken,
+    findProfiles,
     getMyProfile,
     getUserProfile,
     login,
@@ -67,6 +68,9 @@ app.put("/api/user/update/bio", saveNewBio);
 
 //GET USER PROFILE
 app.get("/api/user/:id", getUserProfile);
+
+//FIND PROFILES
+app.get("/api/users/find", findProfiles);
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
