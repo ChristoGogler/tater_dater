@@ -23,6 +23,7 @@ export default class Logout extends Component {
                 <div className="logoutComponent">
                     <button type="submit" onClick={this.onLogoutClick}>
                         <i className="material-icons">logout</i>
+                        <span className="hideLabel">Logout</span>
                     </button>
                 </div>
             );

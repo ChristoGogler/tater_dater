@@ -69,59 +69,71 @@ export default class ResetPassword extends React.Component {
         console.log("Email: ", this.state.email);
         if (this.state.step == 1) {
             return (
-                <div className="card">
-                    <p>
+                <div className="card authentificationform">
+                    <h1>
                         We will send a verification code to your address to
                         verify its you!
-                    </p>
-                    <input name="email" onChange={this.onInputChange}></input>
-                    <button onClick={this.onEmailSubmit}>
-                        <i className="material-icons">send</i>Submit
-                    </button>
+                    </h1>
+                    <form>
+                        <label htmlFor="email">
+                            email
+                            <input
+                                id="id"
+                                type="email"
+                                name="email"
+                                onChange={this.onInputChange}
+                            ></input>
+                        </label>
+                        <button onClick={this.onEmailSubmit}>
+                            <i className="material-icons">send</i>
+                        </button>
+                    </form>
                     <p>{this.state.message}</p>
                 </div>
             );
         }
         if (this.state.step == 2) {
             return (
-                <div>
-                    <p>
+                <div className="card authentificationform">
+                    <h1>
                         Please enter the Code you have received in your email!
-                    </p>
-                    <label htmlFor="code">
-                        Code
-                        <input
-                            id="code"
-                            name="code"
-                            onChange={this.onInputChange}
-                        ></input>
-                    </label>
-                    <label htmlFor="password">
-                        New Password
-                        <input
-                            id="password"
-                            name="password"
-                            onChange={this.onInputChange}
-                        ></input>
-                    </label>
+                    </h1>
+                    <form>
+                        <label htmlFor="code">
+                            code
+                            <input
+                                type="text"
+                                id="code"
+                                name="code"
+                                onChange={this.onInputChange}
+                            ></input>
+                        </label>
+                        <label htmlFor="password">
+                            new password
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                onChange={this.onInputChange}
+                            ></input>
+                        </label>
 
-                    <button onClick={this.onCodeSubmit}>
-                        <i className="material-icons">send</i>Submit
-                    </button>
+                        <button onClick={this.onCodeSubmit}>
+                            <i className="material-icons">send</i>
+                        </button>
+                    </form>
                     <p>{this.state.message}</p>
                 </div>
             );
         }
         if (this.state.step == 3) {
             return (
-                <div>
-                    <p>Your password has been changed.</p>
-                    <p>
-                        You can now
-                        <Link to="/login">
-                            <i className="material-icons">login</i>Login
-                        </Link>
-                    </p>
+                <div className="card authentificationform">
+                    <h1>Your password has been changed.</h1>
+
+                    <Link to="/login">
+                        <i className="material-icons">login</i>
+                    </Link>
                     <p>{this.state.message}</p>
                 </div>
             );

@@ -85,32 +85,18 @@ export default class App extends Component {
                             <Logo />
                         </Link>
                     </header>
-                    <Route
-                        exact
-                        path="/"
-                        render={() => (
-                            <MyProfile
-                                first_name={this.state.first_name}
-                                last_name={this.state.last_name}
-                                id={this.state.id}
-                                bio={this.state.bio}
-                                profile_url={this.state.profile_url}
-                                email={this.state.email}
-                                onBioChange={this.onBioChange}
-                            />
-                        )}
-                    />
-                    <Route path="/user/:id" component={UserProfile} />
-                    <Route path="/users/find" component={FindProfile} />
                     <nav>
-                        <Logout onClick={this.onLogoutClick}></Logout>
                         <div>
                             <Link to="/users/find">
                                 <button>
                                     <i className="material-icons">group_add</i>
+                                    <span className="hideLabel">
+                                        Find Friends
+                                    </span>
                                 </button>
                             </Link>
                         </div>
+                        <Logout onClick={this.onLogoutClick}></Logout>
                         <ProfilePic
                             profile_url={this.state.profile_url}
                             first_name={this.state.first_name}
@@ -119,13 +105,32 @@ export default class App extends Component {
                             className="avatar smallProfilePic"
                         />
                     </nav>
-                    <section className="modal">
-                        {this.state.isUploaderVisible && (
-                            <Uploader
-                                hideUploader={this.hideUploader}
-                                onUpload={this.onUpload}
-                            />
-                        )}
+                    <section className="mainContent">
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <MyProfile
+                                    first_name={this.state.first_name}
+                                    last_name={this.state.last_name}
+                                    id={this.state.id}
+                                    bio={this.state.bio}
+                                    profile_url={this.state.profile_url}
+                                    email={this.state.email}
+                                    onBioChange={this.onBioChange}
+                                />
+                            )}
+                        />
+                        <Route path="/users/find" component={FindProfile} />
+                        <Route path="/user/:id" component={UserProfile} />
+                        <section className="modal">
+                            {this.state.isUploaderVisible && (
+                                <Uploader
+                                    hideUploader={this.hideUploader}
+                                    onUpload={this.onUpload}
+                                />
+                            )}
+                        </section>
                     </section>
                     <Footer />
                 </>
