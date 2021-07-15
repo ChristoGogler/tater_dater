@@ -1,5 +1,6 @@
 import ProfilePic from "./ProfilePic";
 import BioEditor from "./BioEditor";
+import ProfileBanner from "./ProfileBanner";
 
 export default function MyProfile({
     first_name,
@@ -12,12 +13,12 @@ export default function MyProfile({
 }) {
     return (
         <div className="profileWrapper">
-            <ProfilePic
+            <ProfileBanner
                 first_name={first_name}
                 last_name={last_name}
                 profile_url={profile_url}
                 className="bigProfilePic"
-            ></ProfilePic>
+            ></ProfileBanner>
             <h1>{first_name + " " + last_name}</h1>
 
             <BioEditor bio={bio} onBioChange={onBioChange}></BioEditor>

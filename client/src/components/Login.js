@@ -73,7 +73,7 @@ export default class Login extends Component {
                         />
                     </label>
                     <button type="submit">
-                        <i className="material-icons">send</i>Login
+                        <i className="material-icons">send</i>
                     </button>
                 </form>
 

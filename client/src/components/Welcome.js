@@ -5,6 +5,7 @@ import Registration from "./Registration";
 import Login from "./Login";
 import ResetPassword from "./ResetPassword";
 import Logo from "./Logo";
+import Footer from "./Footer";
 // console.log("login: ", Login);
 export default class Welcome extends Component {
     constructor(props) {
@@ -13,7 +14,7 @@ export default class Welcome extends Component {
     render() {
         return (
             <HashRouter>
-                <div className="welcome">
+                <main className="welcome">
                     <header>
                         <Link to="/">
                             <Logo />
@@ -65,7 +66,8 @@ export default class Welcome extends Component {
                             <nav></nav>
                         </Route>
                     </div>
-                </div>
+                    <Footer />
+                </main>
             </HashRouter>
         );
     }

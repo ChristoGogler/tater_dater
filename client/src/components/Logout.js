@@ -22,7 +22,7 @@ export default class Logout extends Component {
             return (
                 <div className="logoutComponent">
                     <button type="submit" onClick={this.onLogoutClick}>
-                        <i className="material-icons">logout</i> Logout
+                        <i className="material-icons">logout</i>
                     </button>
                 </div>
             );

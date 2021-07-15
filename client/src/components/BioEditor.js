@@ -54,24 +54,25 @@ export default class BioEditor extends Component {
 
     renderShowMode() {
         return (
-            <div className="bioContent">
+            <>
                 {this.props.bio ? (
-                    <div>
+                    <div className="bioContent">
                         <p>{this.props.bio}</p>
                         <button type="button" onClick={this.onEditClick}>
-                            <i className="material-icons">edit</i>Edit Bio
+                            <i className="material-icons editButton">edit</i>
                         </button>
                     </div>
                 ) : (
-                    <div>
+                    <div className="bioContent">
                         <p>Tell us a little bit about you!</p>
                         <button type="button" onClick={this.onEditClick}>
-                            <i className="material-icons">post_add</i>
-                            Add Bio
+                            <i className="material-icons editButton">
+                                post_add
+                            </i>
                         </button>
                     </div>
                 )}
-            </div>
+            </>
         );
     }
     renderEditingMode() {
@@ -87,22 +88,22 @@ export default class BioEditor extends Component {
                         value={this.state.bioText}
                         onInput={this.onInput}
                     ></textarea>
-                    <button
-                        id="saveButton"
-                        type="submit"
-                        onClick={this.onSaveClick}
-                    >
-                        <i className="material-icons">task_alt</i>
-                        Save
-                    </button>
-                    <button
-                        id="cancelButton"
-                        type="button"
-                        onClick={this.onCancelClick}
-                    >
-                        <i className="material-icons">highlight_off</i>
-                        Cancel
-                    </button>
+                    <div className="bioeditorButtons">
+                        <button
+                            id="saveButton"
+                            type="submit"
+                            onClick={this.onSaveClick}
+                        >
+                            <i className="material-icons">task_alt</i>
+                        </button>
+                        <button
+                            id="cancelButton"
+                            type="button"
+                            onClick={this.onCancelClick}
+                        >
+                            <i className="material-icons">highlight_off</i>
+                        </button>
+                    </div>
                 </form>
             </div>
         );

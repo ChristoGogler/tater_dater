@@ -59,7 +59,6 @@ export default function FindProfile() {
                     </div>
                     <button type="submit" onClick={onSearchButtonClick}>
                         <i className="material-icons">person_add</i>
-                        Befriend
                     </button>
                 </li>
             );
@@ -82,7 +81,6 @@ export default function FindProfile() {
                     </div>
                     <button type="submit" onClick={onSearchButtonClick}>
                         <i className="material-icons">person_add</i>
-                        Befriend
                     </button>
                 </li>
             );
@@ -101,7 +99,7 @@ export default function FindProfile() {
                         defaultValue={searchquery}
                     />
                     <button type="submit" onClick={onSearchButtonClick}>
-                        <i className="material-icons">person_search</i>Search
+                        <i className="material-icons">person_search</i>
                     </button>
                 </label>
             </section>

@@ -4,11 +4,22 @@
     box-sizing: border-box;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 12pt;
-    overflow: hidden;
     color: black;
 }
 body {
     background-color: white;
+}
+main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+footer {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    background-color: #c4e7ea;
 }
 p {
     font-size: 0.8rem;
@@ -22,8 +33,6 @@ h1 {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    /* align-content: center; */
 }
 
 /* LINKS & ICONS */
@@ -35,7 +44,8 @@ a:visited {
     text-decoration: none;
     font-size: 0.5rem;
 }
-material-icons {
+.material-icons {
+    width: 50px;
 }
 
 /* BUTTONS */
@@ -67,7 +77,10 @@ header {
 /* AVATAR */
 
 .profilePicWrapper img {
-    max-width: 100px;
+    width: 50px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    margin-left: 10px;
 }
 .avatar {
     width: 50px;
@@ -81,7 +94,6 @@ header {
 }
 /* PROFILE */
 .profileWrapper {
-    background-color: lightpink;
     width: 100vw;
     display: flex;
     justify-content: center;
@@ -90,10 +102,23 @@ header {
 }
 .bigProfilePic {
     width: 100vw;
-    height: 30vh;
-    margin: 10px;
-
+    height: 60vh;
     object-fit: cover;
+}
+.bioContent {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+.editButton {
+    padding: 10px;
+}
+.bioeditorButtons {
+    display: flex;
+    justify-content: space-around;
 }
 
 /* NAV */
@@ -104,18 +129,20 @@ nav {
     bottom: 0;
     display: flex;
     justify-content: space-around;
+    align-items: center;
     background-color: white;
 }
 
 /* AUTHENTIFICATION */
 .authentificationform {
     text-align: center;
-    background-color: grey;
 }
-
 .authentificationform label {
-    width: 150px;
+    width: 60%;
     padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 .authentificationform form {
     display: flex;
@@ -123,6 +150,14 @@ nav {
     justify-content: center;
     align-items: center;
 }
+
+label {
+}
+input[type="text"],
+input[type="password"] {
+    padding: 10px;
+}
+
 /* UPLOADER */
 
 .backdrop {
@@ -145,10 +180,35 @@ nav {
     font-size: 26pt;
 }
 .uploadSection {
+    width: 100vw;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
+    align-items: center;
+    text-align: center;
     background-color: white;
     padding: 30px 0;
+}
+input[type="file"] {
+    display: none;
+}
+.file-upload {
+    border: 1px solid black;
+    background: black;
+    color: white;
+    margin: 10px 0;
+    display: flex;
+    width: 300px;
+    height: 50px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.file-upload span {
+    margin: auto;
+    color: white;
+}
+
+.picUploadIcon {
 }
 
 /* LIGHTBOX */

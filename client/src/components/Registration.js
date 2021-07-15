@@ -101,7 +101,7 @@ export default class Registration extends Component {
                         />
                     </label>
                     <button type="submit">
-                        <i className="material-icons">send</i>Register
+                        <i className="material-icons">send</i>
                     </button>
                 </form>
                 <p className="message">{this.state.message}</p>

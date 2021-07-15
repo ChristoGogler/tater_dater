@@ -36,28 +36,36 @@ export default class Uploader extends Component {
                 </button>
 
                 <section className="uploadSection">
+                    <h1>Choose a new profile picture!</h1>
                     <form
                         id="uploadForm"
                         encType="multipart/form-data"
                         action="/api/upload"
                         method="POST"
                     >
-                        <input
-                            id="file"
-                            className="textfield"
-                            type="file"
-                            accept="image/*"
-                            name="file"
-                            onChange={this.onFileinputChange}
-                            required
-                        />
-                        <button
-                            className="button submitButton"
-                            type="submit"
-                            onClick={this.onPictureUpload}
-                        >
-                            Upload
-                        </button>
+                        <label className="file-upload" forhtml="file">
+                            <input
+                                id="file"
+                                className="textfield"
+                                type="file"
+                                accept="image/*"
+                                name="file"
+                                onChange={this.onFileinputChange}
+                                required
+                            />
+                            <span>choose a picture</span>
+                        </label>
+                        <div className="bioeditorButtons">
+                            <button
+                                className="button submitButton"
+                                type="submit"
+                                onClick={this.onPictureUpload}
+                            >
+                                <i className="material-icons picUploadIcon">
+                                    add_a_photo
+                                </i>
+                            </button>
+                        </div>
                     </form>
                 </section>
             </section>

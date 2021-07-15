@@ -5,6 +5,7 @@ import MyProfile from "./MyProfile";
 import ProfilePic from "./ProfilePic";
 import Uploader from "./Uploader";
 import UserProfile from "./UserProfile";
+import Footer from "./Footer";
 import axios from "../axios";
 import { BrowserRouter, Link, Route } from "react-router-dom";
 import FindProfile from "./FindProfile";
@@ -107,7 +108,6 @@ export default class App extends Component {
                             <Link to="/users/find">
                                 <button>
                                     <i className="material-icons">group_add</i>
-                                    Find Potatoes
                                 </button>
                             </Link>
                         </div>
@@ -127,6 +127,7 @@ export default class App extends Component {
                             />
                         )}
                     </section>
+                    <Footer />
                 </>
             </BrowserRouter>
         );
