@@ -1,6 +1,7 @@
 const {
     saveUser,
     getCodeByEmail,
+    getFriendshipStatus,
     getUserById,
     getLatestUserProfiles,
     getUserProfiles,
@@ -40,6 +41,23 @@ const findLatestProfiles = async (request, response) => {
         response.status(404).json({ message: "No users found!" });
     }
     response.json(profiles);
+};
+
+//GET FRIENDSHIP STATUS
+const getFriendStatus = async (request, response) => {
+    const { userId: user1_id } = request.session;
+    const { user_id: user2_id } = request.params;
+    try {
+        const result = await getFriendshipStatus({ user1_id, user2_id });
+        console.log("...(RH: getFriendStatus) result: ", result.friend_status);
+        response.json({
+            status: result.friend_status,
+            sender: result.sender_id,
+            recipient: result.recipient_id,
+        });
+    } catch (error) {
+        response.json({ status: null });
+    }
 };
 
 //GET MY PROFILE
@@ -187,6 +205,7 @@ const exporting = {
     csrfToken,
     findProfiles,
     findLatestProfiles,
+    getFriendStatus,
     getMyProfile,
     getUserProfile,
     login,

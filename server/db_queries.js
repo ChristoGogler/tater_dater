@@ -138,8 +138,8 @@ async function getFriendshipStatus({ user1_id, user2_id }) {
         "SELECT * FROM friendships WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1)",
         [user1_id, user2_id]
     );
-    console.log("...(DB: getFriendshipStatus) result: ", result);
-    return result.rows;
+    console.log("...(DB: getFriendshipStatus) result: ", result.rows[0]);
+    return result.rows[0];
 }
 
 async function saveFriendrequest({ sender_id, recipient_id }) {
