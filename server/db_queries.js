@@ -1,4 +1,5 @@
 const exporting = {
+    deleteFriend,
     getFriendshipStatus,
     getUserByEmail,
     getUserById,
@@ -75,7 +76,7 @@ function saveSecretCode(email, secret_code) {
     // console.log("...(saveSecretCode)", email, secret_code);
     //delete codes older than 10min
     postgresDb.query(
-        `DELETE FROM pwdreset WHERE CURRENT_TIMESTAMP - created_at > INTERVAL '10 minutes'`
+        `DELETE FROM pwdreset WHERE CURRENT_TIMESTAMP - created_at > INTERVAL '10 minutes' RETURNING *`
     );
     return postgresDb.query(
         "INSERT INTO pwdreset(email, secret_code) VALUES ( $1, $2) RETURNING *",
@@ -142,7 +143,16 @@ async function getFriendshipStatus({ user1_id, user2_id }) {
 
 async function saveFriendrequest({ sender_id, recipient_id }) {
     const result = await postgresDb.query(
-        "Insert into friendships (sender_id, recipient_id) values ($1,$2 )",
+        "INSERT INTO friendships (sender_id, recipient_id) VALUES ($1,$2 ) RETURNING *",
+        [sender_id, recipient_id]
+    );
+    console.log("...(DB: getFriendshipStatus) result: ", result);
+    return result.rows;
+}
+
+async function deleteFriend({ sender_id, recipient_id }) {
+    const result = await postgresDb.query(
+        "DELETE FROM friendships WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1) RETURNING *",
         [sender_id, recipient_id]
     );
     console.log("...(DB: getFriendshipStatus) result: ", result);
