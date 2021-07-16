@@ -1,8 +1,10 @@
 const exporting = {
+    getFriendshipStatus,
     getUserByEmail,
     getUserById,
     getLatestUserProfiles,
     getUserProfiles,
+    saveFriendrequest,
     saveUser,
     saveNewPassword,
     saveSecretCode,
@@ -129,11 +131,20 @@ async function saveUserBio({ bio, userId }) {
         });
 }
 
-async function getFriendshipStatusById({ sender_id, recipient_id }) {
+async function getFriendshipStatus({ user1_id, user2_id }) {
     const result = await postgresDb.query(
         "SELECT * FROM friendships WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1)",
+        [user1_id, user2_id]
+    );
+    console.log("...(DB: getFriendshipStatus) result: ", result);
+    return result.rows;
+}
+
+async function saveFriendrequest({ sender_id, recipient_id }) {
+    const result = await postgresDb.query(
+        "Insert into friendships (sender_id, recipient_id) values ($1,$2 )",
         [sender_id, recipient_id]
     );
-    console.log("...(DB: getFriendshipStatusById) result: ", result);
+    console.log("...(DB: getFriendshipStatus) result: ", result);
     return result.rows;
 }
