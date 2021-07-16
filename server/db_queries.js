@@ -128,3 +128,12 @@ async function saveUserBio({ bio, userId }) {
             return result.rows[0];
         });
 }
+
+async function getFriendshipStatusById({ sender_id, recipient_id }) {
+    const result = await postgresDb.query(
+        "SELECT * FROM friendships WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1)",
+        [sender_id, recipient_id]
+    );
+    console.log("...(DB: getFriendshipStatusById) result: ", result);
+    return result.rows;
+}
