@@ -13,6 +13,7 @@ const {
     csrfToken,
     findProfiles,
     findLatestProfiles,
+    getFriendStatus,
     getMyProfile,
     getUserProfile,
     login,
@@ -75,6 +76,9 @@ app.get("/api/users/find", findProfiles);
 
 //FIND LATEST PROFILES
 app.get("/api/users/latest", findLatestProfiles);
+
+//GET FRIENDSHIP STATUS
+app.get("/api/friendstatus/:user_id", getFriendStatus);
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
