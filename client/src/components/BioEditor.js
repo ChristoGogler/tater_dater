@@ -56,28 +56,28 @@ export default class BioEditor extends Component {
         return (
             <>
                 {this.props.bio ? (
-                    <div className="bioContent">
+                    <>
                         <p>{this.props.bio}</p>
                         <button type="button" onClick={this.onEditClick}>
                             <i className="material-icons editButton">edit</i>
                         </button>
-                    </div>
+                    </>
                 ) : (
-                    <div className="bioContent">
+                    <>
                         <p>Tell us a little bit about you!</p>
                         <button type="button" onClick={this.onEditClick}>
                             <i className="material-icons editButton">
                                 post_add
                             </i>
                         </button>
-                    </div>
+                    </>
                 )}
             </>
         );
     }
     renderEditingMode() {
         return (
-            <div className="bioContent">
+            <>
                 <form>
                     <textarea
                         className="bioTextarea"
@@ -105,17 +105,17 @@ export default class BioEditor extends Component {
                         </button>
                     </div>
                 </form>
-            </div>
+            </>
         );
     }
 
     render() {
         return (
-            <section className="bioEditor">
+            <>
                 {this.state.isBeingEdited
                     ? this.renderEditingMode()
                     : this.renderShowMode()}
-            </section>
+            </>
         );
     }
 }
