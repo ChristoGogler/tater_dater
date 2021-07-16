@@ -12,6 +12,7 @@ const exporting = {
     getCodeByEmail,
     saveProfileUrl,
     saveUserBio,
+    updateFriendstatus,
 };
 module.exports = exporting;
 
@@ -154,6 +155,15 @@ async function deleteFriend({ sender_id, recipient_id }) {
     const result = await postgresDb.query(
         "DELETE FROM friendships WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1) RETURNING *",
         [sender_id, recipient_id]
+    );
+    console.log("...(DB: getFriendshipStatus) result: ", result);
+    return result.rows;
+}
+
+async function updateFriendstatus({ sender_id, recipient_id, friend_status }) {
+    const result = await postgresDb.query(
+        "UPDATE friendships SET friend_status = $3 WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1) RETURNING *",
+        [sender_id, recipient_id, friend_status]
     );
     console.log("...(DB: getFriendshipStatus) result: ", result);
     return result.rows;
