@@ -1,13 +1,16 @@
 const {
-    saveUser,
-    getCodeByEmail,
+    deleteFriend,
     getFriendshipStatus,
     getUserById,
     getLatestUserProfiles,
     getUserProfiles,
+    saveFriendrequest,
+    saveUser,
     saveNewPassword,
+    getCodeByEmail,
     saveProfileUrl,
     saveUserBio,
+    updateFriendstatus,
 } = require("./db_queries");
 const { loginUser, verifyEmail, sendRegistrationMail } = require("./functions");
 
@@ -57,6 +60,34 @@ const getFriendStatus = async (request, response) => {
         });
     } catch (error) {
         response.json({ status: null });
+    }
+};
+
+//CHANGE FRIEND STATUS
+const changeFriendStatus = async (request, response) => {
+    console.log("...(RH: changeFriendStatus)");
+    const { userId: user1_id } = request.session;
+    const { action, user2_id } = request.query;
+    console.log(action, user1_id, user2_id);
+    switch (action) {
+        case "request":
+            saveFriendrequest({ user1_id, user2_id });
+            break;
+        case "accept":
+            updateFriendstatus({
+                user1_id,
+                user2_id,
+                friend_status: "friends",
+            });
+            break;
+        case "cancel":
+            deleteFriend({ user1_id, user2_id });
+            break;
+        case "unfriend":
+            deleteFriend({ user1_id, user2_id });
+            break;
+        default:
+            break;
     }
 };
 
@@ -201,6 +232,7 @@ const saveProfilePictureUrl = (request, response) => {
 };
 
 const exporting = {
+    changeFriendStatus,
     checkLogin,
     csrfToken,
     findProfiles,
