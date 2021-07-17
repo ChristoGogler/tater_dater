@@ -142,29 +142,29 @@ async function getFriendshipStatus({ user1_id, user2_id }) {
     return result.rows[0];
 }
 
-async function saveFriendrequest({ sender_id, recipient_id }) {
+async function saveFriendrequest({ user1_id, user2_id }) {
     const result = await postgresDb.query(
         "INSERT INTO friendships (sender_id, recipient_id) VALUES ($1,$2 ) RETURNING *",
-        [sender_id, recipient_id]
+        [user1_id, user2_id]
     );
-    console.log("...(DB: getFriendshipStatus) result: ", result);
-    return result.rows;
+    console.log("...(DB: saveFriendrequest) result: ", result.rows[0]);
+    return result.rows[0];
 }
 
-async function deleteFriend({ sender_id, recipient_id }) {
+async function deleteFriend({ user1_id, user2_id }) {
     const result = await postgresDb.query(
         "DELETE FROM friendships WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1) RETURNING *",
-        [sender_id, recipient_id]
+        [user1_id, user2_id]
     );
-    console.log("...(DB: getFriendshipStatus) result: ", result);
-    return result.rows;
+    console.log("...(DB: deleteFriend) result: ", result.rows[0]);
+    return result.rows[0];
 }
 
-async function updateFriendstatus({ sender_id, recipient_id, friend_status }) {
+async function updateFriendstatus({ user1_id, user2_id, friend_status }) {
     const result = await postgresDb.query(
         "UPDATE friendships SET friend_status = $3 WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1) RETURNING *",
-        [sender_id, recipient_id, friend_status]
+        [user1_id, user2_id, friend_status]
     );
-    console.log("...(DB: getFriendshipStatus) result: ", result);
-    return result.rows;
+    console.log("...(DB: updateFriendstatus) result: ", result.rows[0]);
+    return result.rows[0];
 }
