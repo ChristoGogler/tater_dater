@@ -9,6 +9,7 @@ const { uploader } = require("./file_upload");
 const { uploadFiles3 } = require("./s3");
 
 const {
+    changeFriendStatus,
     checkLogin,
     csrfToken,
     findProfiles,
@@ -79,6 +80,9 @@ app.get("/api/users/latest", findLatestProfiles);
 
 //GET FRIENDSHIP STATUS
 app.get("/api/friendstatus/:user_id", getFriendStatus);
+
+//CHANGE FRIEND STATUS
+app.post("/api/friendrequest", changeFriendStatus);
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
