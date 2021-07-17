@@ -1,8 +1,7 @@
-import { request } from "express";
 import { useState, useEffect } from "react";
 import axios from "../axios";
 
-export default function FriendButton({ user1_id: otherUser_id }) {
+export default function FriendButton({ otherUser_id }) {
     //4 states of the button: request, accept, cancel, unfriend
     //3 states of friendship: null, pending, friends
     const [friend_status, setFriendStatus] = useState("");
@@ -10,12 +9,16 @@ export default function FriendButton({ user1_id: otherUser_id }) {
 
     //on mount (empty dependencies [])
     useEffect(async () => {
-        console.log("...(FriendButton: on mount) user1_id: ", otherUser_id);
-
         const { data } = await axios.get(`/api/friendstatus/${otherUser_id}`);
-        console.log("...(FriendButton: on mount) friendstatus: ", data);
         setFriendStatus(data);
     }, [otherUser_id]);
+
+    useEffect(async () => {
+        console.log(
+            "...(FriendButton: on buttonState change) buttonState: ",
+            buttonState
+        );
+    }, [buttonState]);
 
     useEffect(() => {
         console.log(
@@ -30,9 +33,15 @@ export default function FriendButton({ user1_id: otherUser_id }) {
             setButtonState("unfriend");
             return;
         }
+        console.log(
+            "sender_id, status: ",
+            friend_status.status,
+            friend_status.sender,
+            otherUser_id
+        );
         if (
             friend_status.status == "pending" &&
-            friend_status.sender_id == otherUser_id
+            friend_status.sender == otherUser_id
         ) {
             setButtonState("accept");
             return;
@@ -42,5 +51,13 @@ export default function FriendButton({ user1_id: otherUser_id }) {
         }
     }, [friend_status]);
 
-    return <button>Button</button>;
+    const onButtonClick = async () => {
+        console.log("CLICK buttonState: ", buttonState);
+        const { data } = await axios.post(
+            `/api/friendrequest?action=${buttonState}&user2_id=${otherUser_id}`
+        );
+        console.log("...(FriendButton: onButtonClick) result: ", data);
+    };
+
+    return <button onClick={onButtonClick}>{buttonState}</button>;
 }
