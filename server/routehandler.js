@@ -69,26 +69,32 @@ const changeFriendStatus = async (request, response) => {
     const { userId: user1_id } = request.session;
     const { action, user2_id } = request.query;
     console.log(action, user1_id, user2_id);
+    let result;
     switch (action) {
         case "request":
-            saveFriendrequest({ user1_id, user2_id });
+            result = await saveFriendrequest({ user1_id, user2_id });
             break;
         case "accept":
-            updateFriendstatus({
+            result = await updateFriendstatus({
                 user1_id,
                 user2_id,
                 friend_status: "friends",
             });
             break;
         case "cancel":
-            deleteFriend({ user1_id, user2_id });
+            result = await deleteFriend({ user1_id, user2_id });
             break;
         case "unfriend":
-            deleteFriend({ user1_id, user2_id });
+            result = await deleteFriend({ user1_id, user2_id });
             break;
         default:
             break;
     }
+    response.json({
+        status: result.friend_status,
+        sender: result.sender_id,
+        recipient: result.recipient_id,
+    });
 };
 
 //GET MY PROFILE

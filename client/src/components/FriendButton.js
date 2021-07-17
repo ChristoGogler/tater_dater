@@ -57,6 +57,8 @@ export default function FriendButton({ otherUser_id }) {
             `/api/friendrequest?action=${buttonState}&user2_id=${otherUser_id}`
         );
         console.log("...(FriendButton: onButtonClick) result: ", data);
+
+        setFriendStatus(data);
     };
 
     return <button onClick={onButtonClick}>{buttonState}</button>;

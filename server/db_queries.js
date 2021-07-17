@@ -153,7 +153,7 @@ async function saveFriendrequest({ user1_id, user2_id }) {
 
 async function deleteFriend({ user1_id, user2_id }) {
     const result = await postgresDb.query(
-        "DELETE FROM friendships WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1) RETURNING *",
+        "DELETE FROM friendships WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1) RETURNING sender_id, recipient_id",
         [user1_id, user2_id]
     );
     console.log("...(DB: deleteFriend) result: ", result.rows[0]);
