@@ -6,7 +6,6 @@ import Login from "./Login";
 import ResetPassword from "./ResetPassword";
 import Logo from "./Logo";
 import Footer from "./Footer";
-// console.log("login: ", Login);
 export default class Welcome extends Component {
     constructor(props) {
         super(props);
@@ -20,52 +19,48 @@ export default class Welcome extends Component {
                             <Logo />
                         </Link>
                     </header>
-                    <div>
-                        <Route path="/" exact>
+
+                    <Route path="/" exact>
+                        <nav>
+                            <p>
+                                <Link to="/login">
+                                    <button>
+                                        <i className="material-icons">login</i>
+                                        <span class="hideLabel">Login</span>
+                                    </button>
+                                </Link>
+                            </p>
+                        </nav>
+                        <div className="mainContent vcenter">
                             <Registration />
-                            <nav>
-                                <p>
-                                    <Link to="/login">
-                                        <button>
-                                            <i className="material-icons">
-                                                login
-                                            </i>
-                                            Login
-                                        </button>
-                                    </Link>
-                                </p>
-                            </nav>
-                        </Route>
-                        <Route path="/login">
+                        </div>
+                    </Route>
+                    <Route path="/login">
+                        <nav>
+                            <Link to="/">
+                                <button>
+                                    <i className="material-icons">how_to_reg</i>
+                                    <span class="hideLabel">Sign up!</span>
+                                </button>
+                            </Link>
+
+                            <Link to="password/reset">
+                                <button>
+                                    <i className="material-icons">password</i>
+                                    <span class="hideLabel">
+                                        Reset Password
+                                    </span>
+                                </button>
+                            </Link>
+                        </nav>
+                        <div className="mainContent vcenter">
                             <Login />
-                            <nav>
-                                <p>
-                                    <Link to="/">
-                                        <button>
-                                            <i className="material-icons">
-                                                how_to_reg
-                                            </i>
-                                            Sign up now!
-                                        </button>
-                                    </Link>
-                                </p>
-                                <p>
-                                    <Link to="password/reset">
-                                        <button>
-                                            <i className="material-icons">
-                                                password
-                                            </i>
-                                            Reset Password
-                                        </button>
-                                    </Link>
-                                </p>
-                            </nav>
-                        </Route>
-                        <Route path="/password/reset">
-                            <ResetPassword />
-                            <nav></nav>
-                        </Route>
-                    </div>
+                        </div>
+                    </Route>
+                    <Route path="/password/reset">
+                        <ResetPassword />
+                    </Route>
+
                     <Footer />
                 </main>
             </HashRouter>

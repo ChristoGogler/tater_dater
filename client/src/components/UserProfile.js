@@ -1,5 +1,4 @@
 import { Component } from "react";
-// import ProfilePic from "./ProfilePic";
 import ProfileBanner from "./ProfileBanner";
 import FriendButton from "./FriendButton";
 import axios from "../axios";
@@ -17,6 +16,7 @@ export default class UserProfile extends Component {
             noUserFound: false,
             isLightboxVisible: false,
             isFriend: "",
+            message: "",
         };
 
         // bind methods here!
@@ -26,36 +26,44 @@ export default class UserProfile extends Component {
         this.setFriendStatus = this.setFriendStatus.bind(this);
     }
     showLightbox() {
-        // console.log("...(UserProfile: showLightbox) CLICK");
         this.setState({
             isLightboxVisible: true,
         });
     }
     closeLightbox() {
-        // console.log("...(UserProfile: closeLightbox) CLICK");
-
         this.setState({
             isLightboxVisible: false,
         });
     }
     onFriendStatusChange(status) {
-        // console.log(" new friendstatus", status);
+        const userId = this.props.match.params.id;
         this.setState({
             isFriend: status,
         });
-        const userId = this.props.match.params.id;
         this.setFriendStatus(userId);
     }
 
     async setFriendStatus(userId) {
-        const { data } = await axios.get(`/api/friendstatus/${userId}`);
-        this.setState({ isFriend: data.status });
+        try {
+            const { data } = await axios.get(`/api/friendstatus/${userId}`);
+            this.setState({ isFriend: data.status });
+        } catch (error) {
+            this.setState({
+                message:
+                    "Problem getting your friendship status with this person.",
+            });
+            console.log("ERROR getting friendship status: ", error);
+        }
     }
     async componentDidMount() {
-        console.log("...(UserProfile: componentDidMount)");
-        // get id from url --> this.props.match.params.id
         const userId = this.props.match.params.id;
-        const otherUser = await axios.get(`/api/user/${userId}`);
+        let otherUser;
+        try {
+            otherUser = await axios.get(`/api/user/${userId}`);
+        } catch (error) {
+            console.log("ERROR getting user id:", error);
+            otherUser = { data: null };
+        }
         this.setFriendStatus(userId);
         if (otherUser.data.self) {
             this.props.history.push("/");
@@ -69,7 +77,6 @@ export default class UserProfile extends Component {
             });
         }
         this.setState(otherUser.data);
-        console.log("STATE: ", this.state.id);
     }
     render() {
         const { first_name, last_name, email, bio, id, profile_url } =

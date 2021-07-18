@@ -12,6 +12,7 @@ export default function FriendButton({
     const [buttonState, setButtonState] = useState("");
     const [iconState, setIconState] = useState("");
     const [rejectButtonState, setRejectButtonState] = useState(false);
+    const [message, setMessage] = useState("");
 
     //when otherUser_id changes
     useEffect(async () => {
@@ -49,22 +50,35 @@ export default function FriendButton({
     }, [friend_status]);
 
     const onButtonClick = async () => {
-        const { data } = await axios.post(
-            `/api/friendrequest?action=${buttonState}&user2_id=${otherUser_id}`
-        );
-        setFriendStatus(data);
-        console.log(data);
-        setRejectButtonState(false);
-        onFriendStatusChange(friend_status.status);
+        try {
+            const { data } = await axios.post(
+                `/api/friendrequest?action=${buttonState}&user2_id=${otherUser_id}`
+            );
+            setFriendStatus(data);
+            setRejectButtonState(false);
+            onFriendStatusChange(friend_status.status);
+        } catch (error) {
+            console.log("ERROR changing friendship status: ", error);
+            setMessage(
+                `Trouble to ${buttonState} friendship. Try again later!`
+            );
+        }
     };
 
     const onRejectButtonClick = async () => {
-        const { data } = await axios.post(
-            `/api/friendrequest?action=cancel&user2_id=${otherUser_id}`
-        );
-        setFriendStatus(data);
-        setRejectButtonState(false);
-        onFriendStatusChange(friend_status.status);
+        try {
+            const { data } = await axios.post(
+                `/api/friendrequest?action=cancel&user2_id=${otherUser_id}`
+            );
+            setFriendStatus(data);
+            setRejectButtonState(false);
+            onFriendStatusChange(friend_status.status);
+        } catch (error) {
+            console.log("ERROR rejecting friendship request: ", error);
+            setMessage(
+                `Trouble to reject friendship request. Try again later!`
+            );
+        }
     };
 
     return (
@@ -89,6 +103,7 @@ export default function FriendButton({
                     </span>
                 </button>
             )}
+            {message && <p>{message}</p>}
         </div>
     );
 }

@@ -7,6 +7,7 @@ export default class BioEditor extends Component {
         this.state = {
             isBeingEdited: false,
             bioText: "",
+            message: "",
         };
         this.renderShowMode = this.renderShowMode.bind(this);
         this.renderEditingMode = this.renderEditingMode.bind(this);
@@ -32,18 +33,20 @@ export default class BioEditor extends Component {
     }
 
     async onSaveClick() {
-        // console.log("...(Save Button Click)");
         event.preventDefault();
-        // console.log("this.state: ", this.state);
-        const user = await axios.put("/api/user/update/bio", {
-            bio: this.state.bioText,
-        });
-        console.log("...(BioEditor onSaveClick) result: ", user.data);
-
-        this.props.onBioChange(user.data);
-        this.setState({
-            isBeingEdited: false,
-        });
+        try {
+            const user = await axios.put("/api/user/update/bio", {
+                bio: this.state.bioText,
+            });
+            this.props.onBioChange(user.data);
+            this.setState({
+                isBeingEdited: false,
+            });
+        } catch (error) {
+            console.log("ERROR saving bio");
+            this.state.message =
+                "Error saving your bio. Please try again later.";
+        }
     }
 
     onInput() {
@@ -64,7 +67,11 @@ export default class BioEditor extends Component {
                     </>
                 ) : (
                     <>
-                        <p>Tell us a little bit about you!</p>
+                        <p>
+                            Tell us a little bit about you! What kind of potato
+                            are you? How many potatoes can you fit into your
+                            mouth? Who's your secret potato crush?
+                        </p>
                         <button type="button" onClick={this.onEditClick}>
                             <i className="material-icons editButton">
                                 post_add
@@ -115,6 +122,7 @@ export default class BioEditor extends Component {
                 {this.state.isBeingEdited
                     ? this.renderEditingMode()
                     : this.renderShowMode()}
+                {this.state.message && <p>this.state.message</p>}
             </>
         );
     }

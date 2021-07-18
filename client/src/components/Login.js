@@ -12,32 +12,31 @@ export default class Login extends Component {
             password: null,
             loggedin: false,
             message: null,
-            title: "Login Page",
+            title: "Login with your email!",
         };
 
         //bind methods here!
         this.onLoginSubmit = this.onLoginSubmit.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
     }
-    onLoginSubmit(event) {
+    async onLoginSubmit(event) {
         console.log("...(onLoginSubmit) this.state: ", this.state);
         event.preventDefault();
-        //axios here!
-        axios
-            .post("/api/login", this.state)
-            .then((response) => {
-                console.log("...(axios post) response: ", response);
-                window.location = "/";
-            })
-            .catch((error) => {
-                console.log(
-                    "...(onLoginSubmit) Error: ",
-                    error.response.data.error
-                );
-                this.setState({
-                    message: error.response.data.error,
-                });
+
+        try {
+            const response = await axios.post("/api/login", this.state);
+
+            console.log("...(axios post) response: ", response);
+            location.reload();
+        } catch (error) {
+            console.log(
+                "...(onLoginSubmit) Error: ",
+                error.response.data.error
+            );
+            this.setState({
+                message: error.response.data.error,
             });
+        }
     }
     onInputChange(event) {
         console.log("...(onInputChange) event.target: ", event.target);
@@ -72,9 +71,13 @@ export default class Login extends Component {
                             onChange={this.onInputChange}
                         />
                     </label>
-                    <button type="submit">
-                        <i className="material-icons">send</i>
-                    </button>
+                    <div className="buttonsWrapper">
+                        <button type="submit">
+                            <span className="flex">
+                                <i className="material-icons white">send</i>
+                            </span>
+                        </button>
+                    </div>
                 </form>
 
                 <p className="message">{this.state.message}</p>

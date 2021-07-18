@@ -57,16 +57,12 @@ export default function FindProfile() {
                         <Link to={"/user/" + user.id}>
                             <h1>{user.first_name + " " + user.last_name}</h1>
                         </Link>
-
                         <p>{user.bio}</p>
                     </div>
                     <FriendButton
                         smallButton="smallBtn"
                         otherUser_id={user.id}
                     ></FriendButton>
-                    {/* <button type="submit" onClick={onSearchButtonClick}>
-                        <i className="material-icons">person_add</i>
-                    </button> */}
                 </li>
             );
         });
@@ -93,9 +89,6 @@ export default function FindProfile() {
                         otherUser_id={user.id}
                         onFriendStatusChange=""
                     ></FriendButton>
-                    {/* <button type="submit" >
-                        <i className="material-icons">person_add</i>
-                    </button> */}
                 </li>
             );
         });
@@ -111,25 +104,28 @@ export default function FindProfile() {
                         placeholder="Find your Friends"
                         onChange={(event) => setSearchquery(event.target.value)}
                         defaultValue={searchquery}
+                        autoFocus
                     />
                     <button type="submit">
                         <i className="material-icons">person_search</i>
                     </button>
                 </label>
             </section>
-            {isSearching && (
-                <section className="searchResults">
-                    <p>search results for "{searchquery}"</p>
-                    <ul>{renderResults()}</ul>
-                </section>
-            )}
-            {isSearching && noResults && <p>no results</p>}
-            {!isSearching && (
-                <section className="searchResults latestUsers">
-                    <p>most recently joined users</p>
-                    <ul>{renderLatestUsers()}</ul>
-                </section>
-            )}
+            <section className="searchResults">
+                {isSearching && !noResults && (
+                    <>
+                        <p>search results for "{searchquery}"</p>
+                        <ul>{renderResults()}</ul>
+                    </>
+                )}
+                {isSearching && noResults && <p>no results</p>}
+                {!isSearching && (
+                    <>
+                        <p>most recently joined users</p>
+                        <ul>{renderLatestUsers()}</ul>
+                    </>
+                )}
+            </section>
         </>
     );
 }

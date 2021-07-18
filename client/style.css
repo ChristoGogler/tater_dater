@@ -49,6 +49,9 @@ h1 {
     display: flex;
     flex-direction: column;
 }
+.vcenter {
+    display: contents;
+}
 
 /* LINKS & ICONS */
 a,
@@ -92,20 +95,19 @@ header {
 /* AVATAR */
 
 .profilePicWrapper img {
-    aspect-ratio: 1/1;
     border-radius: 50%;
-    margin-left: 10px;
     object-fit: cover;
 }
 .avatar {
     width: 70px;
+    height: 70px;
 }
 
 .smallProfilePic {
-    aspect-ratio: 1/1;
     object-fit: cover;
     border-radius: 50%;
     width: 50px;
+    height: 50px;
 }
 /* PROFILE */
 .profileWrapper {
@@ -122,7 +124,7 @@ header {
 }
 .bioContent {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
@@ -136,6 +138,7 @@ header {
 .buttonsWrapper {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     border: 1px solid black;
     background: black;
     color: white;
@@ -149,6 +152,19 @@ header {
     margin: auto;
     color: white;
 }
+.smallBtn {
+    background-color: white;
+    margin: 10px;
+}
+.smallBtn span {
+    text-align: right;
+}
+.smallBtn span i,
+span span {
+    margin: auto;
+    color: black;
+    text-align: start;
+}
 
 .bioeditorButtons {
     display: flex;
@@ -159,6 +175,10 @@ textarea {
     border: 1px solid black;
     border-radius: 3px;
     padding: 5px;
+}
+.friendStatusLabel {
+    color: black;
+    font-weight: 400;
 }
 /* NAV */
 nav {
@@ -321,9 +341,7 @@ input[type="file"] {
 }
 @media only screen and (min-width: 480px) {
     body {
-        background-color: cadetblue;
-    }
-    .bioContent {
+        /* background-color: cadetblue; */
     }
     .searchResults {
         width: 80vw;
@@ -336,17 +354,20 @@ input[type="file"] {
 
 @media only screen and (min-width: 768px) {
     body {
-        background-color: pink;
+        /* background-color: pink; */
     }
     .smallProfilePic {
         position: absolute;
         top: 5px;
         right: 60px;
         width: 120px !important;
+        height: 120px !important;
         border: 5px solid white;
+        background-color: white;
     }
     .avatar {
         width: 100px;
+        height: 100px;
     }
     nav {
         position: relative;
@@ -384,10 +405,16 @@ input[type="file"] {
         align-items: flex-start;
         padding: 20px;
     }
+    .vcenter {
+        /* display: block; */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
 }
 
 @media only screen and (min-width: 1200px) {
     body {
-        background-color: wheat;
+        /* background-color: wheat; */
     }
 }

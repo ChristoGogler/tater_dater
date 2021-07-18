@@ -16,11 +16,10 @@ export default class App extends Component {
         this.state = {
             first_name: null,
             last_name: null,
-            id: null,
             bio: null,
             profile_url: null,
-            email: null,
 
+            message: "",
             logo: "./img/logo.png",
             isUploaderVisible: false,
         };
@@ -51,30 +50,30 @@ export default class App extends Component {
     }
 
     //TODO
-    onLogoutClick() {
+    async onLogoutClick() {
         event.preventDefault();
-        axios.post("/api/logout", this.props.user).then((result) => {
-            window.location = "/";
-        });
+        await axios.post("/api/logout", this.props.user);
+        location.reload();
     }
     onBioChange(user) {
         console.log("App onBioChange");
 
         this.setState(user);
     }
-    componentDidMount() {
-        axios.get("/api/user").then((user) => {
-            console.log("...(App: componentDidMount): ", user.data);
+    async componentDidMount() {
+        try {
+            const user = await axios.get("/api/user");
             this.setState({
                 first_name: user.data.first_name,
                 last_name: user.data.last_name,
-                id: user.data.id,
                 bio: user.data.bio,
                 profile_url: user.data.profile_url,
-                email: user.data.email,
             });
-            // console.log("this.state: ", this.state);
-        });
+        } catch (error) {
+            this.state.message = "Error logging in: " + error;
+            console.log("Error logging in: ", error);
+            this.onLogoutClick();
+        }
     }
     render() {
         return (
@@ -105,7 +104,7 @@ export default class App extends Component {
                             className="avatar smallProfilePic"
                         />
                     </nav>
-                    <section className="mainContent">
+                    <section className="mainContent vcenter">
                         <Route
                             exact
                             path="/"
@@ -113,10 +112,8 @@ export default class App extends Component {
                                 <MyProfile
                                     first_name={this.state.first_name}
                                     last_name={this.state.last_name}
-                                    id={this.state.id}
                                     bio={this.state.bio}
                                     profile_url={this.state.profile_url}
-                                    email={this.state.email}
                                     onBioChange={this.onBioChange}
                                 />
                             )}

@@ -5,9 +5,8 @@ import ProfileBanner from "./ProfileBanner";
 export default function MyProfile({
     first_name,
     last_name,
-    email,
     bio,
-    id,
+
     profile_url,
     onBioChange,
 }) {

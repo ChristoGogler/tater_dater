@@ -6,23 +6,30 @@ export default class Uploader extends Component {
         super(props);
         this.state = {
             file: null,
+            message: "",
         };
         this.onPictureUpload = this.onPictureUpload.bind(this);
         this.onFileinputChange = this.onFileinputChange.bind(this);
     }
-    onPictureUpload() {
+    async onPictureUpload() {
         event.preventDefault();
         const formData = new FormData();
         formData.append("file", this.state.file);
-        console.log(formData);
-        axios.post("/api/upload", formData).then((result) => {
+        try {
+            const result = await axios.post("/api/upload", formData);
             this.props.onUpload(result.data.user);
             this.props.hideUploader();
-        });
+        } catch (error) {
+            this.setState({
+                message: "Problem uploading your photo: " + error,
+            });
+            console.log("ERROR uploading photo: ", error);
+        }
     }
-    onFileinputChange() {
-        this.setState({ file: event.target.files[0] });
-        console.log("...(onFileinputChange) value: ", event.target.value);
+
+    async onFileinputChange() {
+        await this.setState({ file: event.target.files[0] });
+        this.onPictureUpload();
     }
 
     render() {
@@ -43,7 +50,7 @@ export default class Uploader extends Component {
                         action="/api/upload"
                         method="POST"
                     >
-                        <label className="file-upload" forhtml="file">
+                        <label className="buttonsWrapper" forhtml="file">
                             <input
                                 id="file"
                                 className="textfield"
@@ -53,20 +60,15 @@ export default class Uploader extends Component {
                                 onChange={this.onFileinputChange}
                                 required
                             />
-                            <span>choose a picture</span>
-                        </label>
-                        <div className="bioeditorButtons">
-                            <button
-                                className="button submitButton"
-                                type="submit"
-                                onClick={this.onPictureUpload}
-                            >
-                                <i className="material-icons picUploadIcon">
+                            <span className="flex">
+                                <i className="material-icons white">
                                     add_a_photo
                                 </i>
-                            </button>
-                        </div>
+                                choose a picture
+                            </span>
+                        </label>
                     </form>
+                    {this.state.message && <p>{this.state.message}</p>}
                 </section>
             </section>
         );

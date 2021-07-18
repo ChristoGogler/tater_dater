@@ -1,8 +1,5 @@
 import { Component } from "react";
-import ReactDOM from "react-dom";
 import axios from "../axios";
-import { Link } from "react-router-dom";
-import Welcome from "./Welcome";
 
 export default class Registration extends Component {
     constructor(props) {
@@ -17,33 +14,28 @@ export default class Registration extends Component {
             password: null,
             loggedin: false,
             message: "",
-            title: "Registration Page",
+            title: "Sign up and find your lucky potato!",
         };
 
         //bind methods here!
         this.onRegistrationSubmit = this.onRegistrationSubmit.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
     }
-    onRegistrationSubmit(event) {
-        console.log("...(onRegistrationSubmit) event", this.state);
+    async onRegistrationSubmit(event) {
         event.preventDefault();
-        //axios here!
-        axios
-            .post("/api/register", this.state)
-            .then((response) => {
-                console.log("...(axios post) response: ", response);
-                //redirect to homepage --> logged in!
-                window.location = "/";
-            })
-            .catch((error) => {
-                console.log(
-                    "...(onRegistrationSubmit) Error: ",
-                    error.response.data.error
-                );
-                this.setState({
-                    message: error.response.data.error,
-                });
+        try {
+            const response = await axios.post("/api/register", this.state);
+            console.log("...(axios post) response: ", response);
+            location.reload();
+        } catch (error) {
+            console.log(
+                "...(onRegistrationSubmit) Error: ",
+                error.response.data.error
+            );
+            this.setState({
+                message: error.response.data.error,
             });
+        }
     }
     onInputChange(event) {
         console.log("...(onInputChange) event.target: ", event.target);
@@ -100,9 +92,13 @@ export default class Registration extends Component {
                             onChange={this.onInputChange}
                         />
                     </label>
-                    <button type="submit">
-                        <i className="material-icons">send</i>
-                    </button>
+                    <div className="buttonsWrapper">
+                        <button type="submit">
+                            <span className="flex">
+                                <i className="material-icons white">send</i>
+                            </span>
+                        </button>
+                    </div>
                 </form>
                 <p className="message">{this.state.message}</p>
             </div>
