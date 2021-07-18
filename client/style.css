@@ -1,3 +1,4 @@
+/* GENERAL SETUP */
 * {
     margin: 0;
     padding: 0;
@@ -15,35 +16,40 @@ main {
     flex-direction: column;
     justify-content: space-between;
 }
-.mainContent {
-    flex: 1;
-}
-footer {
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    background-color: #c4e7ea;
-}
 p {
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 h1 {
     font-family: "Exo", sans-serif;
     font-size: 1.2rem;
 }
-.hideLabel {
-    display: none;
-}
+
 .flex {
     display: flex;
 }
+textarea {
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 5px;
+}
+label {
+    font-size: 0.8rem;
+}
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    padding: 10px;
+}
+.friendStatusLabel {
+    color: black;
+    font-weight: 400;
+}
 
 /* COLORS */
-
 .white {
     color: white;
 }
-/* WELCOME */
+/* WELCOME // AUTHENTIFICATION */
 .welcome {
     height: 100vh;
     display: flex;
@@ -77,6 +83,9 @@ button {
     background: none;
     cursor: pointer;
 }
+.hideLabel {
+    display: none;
+}
 
 /* HEADER LOGO */
 header {
@@ -87,29 +96,36 @@ header {
     background-color: #c4e7ea;
     /* #3592C5 */
 }
-
 .logo {
     width: 70vw;
     max-width: 300px !important;
 }
-/* AVATAR */
-
-.profilePicWrapper img {
-    border-radius: 50%;
-    object-fit: cover;
+/* MAINCONTENT SECTION*/
+.mainContent {
+    flex: 1;
 }
+/* FOOTER */
+footer {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    background-color: #c4e7ea;
+}
+/* AVATAR & PROFILE */
+
 .avatar {
     width: 70px;
     height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .smallProfilePic {
     object-fit: cover;
-    border-radius: 50%;
     width: 50px;
     height: 50px;
 }
-/* PROFILE */
+
 .profileWrapper {
     width: 100vw;
     display: flex;
@@ -131,10 +147,8 @@ header {
     margin: 10px;
     max-width: 500px;
 }
-.editButton {
-    padding: 10px;
-}
 
+/* BUTTONS */
 .buttonsWrapper {
     display: flex;
     justify-content: space-around;
@@ -152,6 +166,9 @@ header {
     margin: auto;
     color: white;
 }
+.editButton {
+    padding: 10px;
+}
 .smallBtn {
     background-color: white;
     margin: 10px;
@@ -165,21 +182,11 @@ span span {
     color: black;
     text-align: start;
 }
-
 .bioeditorButtons {
     display: flex;
     justify-content: space-around;
 }
 
-textarea {
-    border: 1px solid black;
-    border-radius: 3px;
-    padding: 5px;
-}
-.friendStatusLabel {
-    color: black;
-    font-weight: 400;
-}
 /* NAV */
 nav {
     width: 100vw;
@@ -197,30 +204,22 @@ span {
 }
 
 /* AUTHENTIFICATION */
-.authentificationform {
+.authentificationWrapper {
     text-align: center;
 }
-.authentificationform label {
+.authentificationWrapper label {
+    max-width: 400px;
     width: 60%;
     padding-bottom: 0;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
 }
-.authentificationform form {
+.authentificationWrapper form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-label {
-    max-width: 400px;
-}
-input[type="text"],
-input[type="password"],
-input[type="email"] {
-    padding: 10px;
 }
 
 /* UPLOADER */
@@ -278,9 +277,6 @@ input[type="file"] {
 
 /* LIGHTBOX */
 
-.lightbox {
-}
-
 .lightbox img {
     max-width: 90vw;
 }
@@ -289,7 +285,6 @@ input[type="file"] {
 .logoutComponent {
     display: flex;
     justify-content: space-between;
-    /* align-items: flex-end; */
 }
 
 /* Search */
@@ -327,8 +322,6 @@ input[type="file"] {
     text-align: center;
 }
 
-.searchResults ul {
-}
 .searchResults li {
     display: flex;
     justify-content: space-between;
@@ -376,6 +369,7 @@ input[type="file"] {
     .hideLabel {
         margin: 0 20px;
         display: block;
+        font-size: 0.8rem;
     }
     .searchResults {
         width: 60vw;
@@ -406,7 +400,6 @@ input[type="file"] {
         padding: 20px;
     }
     .vcenter {
-        /* display: block; */
         display: flex;
         flex-direction: column;
         justify-content: space-around;
