@@ -56,7 +56,7 @@ export default class ResetPassword extends React.Component {
         console.log("Email: ", this.state.email);
         if (this.state.step == 1) {
             return (
-                <div className="card authentificationform">
+                <div className="authentificationWrapper">
                     <h1>{this.state.title}</h1>
                     <form>
                         <label htmlFor="email">
@@ -82,7 +82,7 @@ export default class ResetPassword extends React.Component {
         }
         if (this.state.step == 2) {
             return (
-                <div className="card authentificationform">
+                <div className="authentificationWrapper">
                     <h1>
                         Please enter the Code you have received in your email!
                     </h1>
@@ -119,7 +119,7 @@ export default class ResetPassword extends React.Component {
         }
         if (this.state.step == 3) {
             return (
-                <div className="card authentificationform">
+                <div className="authentificationWrapper">
                     <h1>Your password has been changed.</h1>
                     <form>
                         <div className="buttonsWrapper">

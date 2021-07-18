@@ -46,7 +46,7 @@ export default class Login extends Component {
     }
     render() {
         return (
-            <div className="card authentificationform">
+            <div className="authentificationWrapper">
                 <h1>{this.state.title}</h1>
                 <form onSubmit={this.onLoginSubmit}>
                     <label htmlFor="email">
