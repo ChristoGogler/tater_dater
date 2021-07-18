@@ -1,6 +1,7 @@
 import { Component } from "react";
 // import ProfilePic from "./ProfilePic";
 import ProfileBanner from "./ProfileBanner";
+import FriendButton from "./FriendButton";
 import axios from "../axios";
 
 export default class UserProfile extends Component {
@@ -22,13 +23,13 @@ export default class UserProfile extends Component {
         this.closeLightbox = this.closeLightbox.bind(this);
     }
     showLightbox() {
-        console.log("...(UserProfile: showLightbox) CLICK");
+        // console.log("...(UserProfile: showLightbox) CLICK");
         this.setState({
             isLightboxVisible: true,
         });
     }
     closeLightbox() {
-        console.log("...(UserProfile: closeLightbox) CLICK");
+        // console.log("...(UserProfile: closeLightbox) CLICK");
 
         this.setState({
             isLightboxVisible: false,
@@ -39,10 +40,7 @@ export default class UserProfile extends Component {
         // get id from url --> this.props.match.params.id
         const userId = this.props.match.params.id;
         const otherUser = await axios.get(`/api/user/${userId}`);
-        console.log(
-            "...(UserProfile: componentDidMount) otherUser: ",
-            otherUser.data
-        );
+
         if (otherUser.data.self) {
             this.props.history.push("/");
             return;
@@ -55,7 +53,7 @@ export default class UserProfile extends Component {
             });
         }
         this.setState(otherUser.data);
-        console.log("STATE: ", this.state);
+        console.log("STATE: ", this.state.id);
     }
     render() {
         const { first_name, last_name, email, bio, id, profile_url } =
@@ -74,6 +72,7 @@ export default class UserProfile extends Component {
                 <div className="bioContent">
                     <h1 className="username">{first_name + " " + last_name}</h1>
                     <p className="userbio"> {bio}</p>
+                    <FriendButton otherUser_id={this.state.id}></FriendButton>
                 </div>
 
                 {this.state.isLightboxVisible && (

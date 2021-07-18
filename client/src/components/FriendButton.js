@@ -6,60 +6,79 @@ export default function FriendButton({ otherUser_id }) {
     //3 states of friendship: null, pending, friends
     const [friend_status, setFriendStatus] = useState("");
     const [buttonState, setButtonState] = useState("");
+    const [iconState, setIconState] = useState("");
+    const [rejectButtonState, setRejectButtonState] = useState(false);
 
-    //on mount (empty dependencies [])
+    //when otherUser_id changes
     useEffect(async () => {
         const { data } = await axios.get(`/api/friendstatus/${otherUser_id}`);
         setFriendStatus(data);
     }, [otherUser_id]);
 
-    useEffect(async () => {
-        console.log(
-            "...(FriendButton: on buttonState change) buttonState: ",
-            buttonState
-        );
-    }, [buttonState]);
-
+    //when friend_status changes
     useEffect(() => {
-        console.log(
-            "...(FriendButton: on friendstatus change) friend_status: ",
-            friend_status
-        );
         if (friend_status.status == null) {
             setButtonState("request");
+            setIconState("person_add");
             return;
         }
         if (friend_status.status == "friends") {
             setButtonState("unfriend");
+            setIconState("person_remove");
             return;
         }
-        console.log(
-            "sender_id, status: ",
-            friend_status.status,
-            friend_status.sender,
-            otherUser_id
-        );
         if (
             friend_status.status == "pending" &&
             friend_status.sender == otherUser_id
         ) {
             setButtonState("accept");
+            setRejectButtonState(true);
+            setIconState("person_add");
             return;
         } else {
             setButtonState("cancel");
+
+            setIconState("person_add_disabled");
+
             return;
         }
     }, [friend_status]);
 
     const onButtonClick = async () => {
-        console.log("CLICK buttonState: ", buttonState);
         const { data } = await axios.post(
             `/api/friendrequest?action=${buttonState}&user2_id=${otherUser_id}`
         );
-        console.log("...(FriendButton: onButtonClick) result: ", data);
-
         setFriendStatus(data);
+        setRejectButtonState(false);
     };
 
-    return <button onClick={onButtonClick}>{buttonState}</button>;
+    const onRejectButtonClick = async () => {
+        const { data } = await axios.post(
+            `/api/friendrequest?action=cancel&user2_id=${otherUser_id}`
+        );
+        setFriendStatus(data);
+        setRejectButtonState(false);
+    };
+
+    return (
+        <div className="buttonsWrapper">
+            <button className="button submitButton" onClick={onButtonClick}>
+                <span className="flex">
+                    <i className="material-icons white">{iconState}</i>
+                    {buttonState}
+                </span>
+            </button>
+            {rejectButtonState && (
+                <button
+                    className="button submitButton"
+                    onClick={onRejectButtonClick}
+                >
+                    <span className="flex">
+                        <i className="material-icons white">person_remove</i>
+                        reject
+                    </span>
+                </button>
+            )}
+        </div>
+    );
 }
