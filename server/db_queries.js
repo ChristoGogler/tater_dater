@@ -67,7 +67,7 @@ function saveUser({ first_name, last_name, email, password }) {
     console.log("...(saveUser)", first_name, last_name, email, password);
     return hashPassword(password).then((password_hash) => {
         return postgresDb.query(
-            "INSERT INTO users(first_name, last_name, email, password_hash) VALUES ( $1, $2, $3, $4) RETURNING *",
+            "INSERT INTO users(first_name, last_name, email, password_hash) VALUES ( $1, $2, LOWER($3), $4) RETURNING *",
             [first_name, last_name, email, password_hash]
         );
     });
