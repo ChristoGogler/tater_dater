@@ -16,11 +16,14 @@ export default class UserProfile extends Component {
             profile_url: "",
             noUserFound: false,
             isLightboxVisible: false,
+            isFriend: "",
         };
 
         // bind methods here!
         this.showLightbox = this.showLightbox.bind(this);
         this.closeLightbox = this.closeLightbox.bind(this);
+        this.onFriendStatusChange = this.onFriendStatusChange.bind(this);
+        this.setFriendStatus = this.setFriendStatus.bind(this);
     }
     showLightbox() {
         // console.log("...(UserProfile: showLightbox) CLICK");
@@ -35,12 +38,25 @@ export default class UserProfile extends Component {
             isLightboxVisible: false,
         });
     }
+    onFriendStatusChange(status) {
+        // console.log(" new friendstatus", status);
+        this.setState({
+            isFriend: status,
+        });
+        const userId = this.props.match.params.id;
+        this.setFriendStatus(userId);
+    }
+
+    async setFriendStatus(userId) {
+        const { data } = await axios.get(`/api/friendstatus/${userId}`);
+        this.setState({ isFriend: data.status });
+    }
     async componentDidMount() {
         console.log("...(UserProfile: componentDidMount)");
         // get id from url --> this.props.match.params.id
         const userId = this.props.match.params.id;
         const otherUser = await axios.get(`/api/user/${userId}`);
-
+        this.setFriendStatus(userId);
         if (otherUser.data.self) {
             this.props.history.push("/");
             return;
@@ -70,9 +86,26 @@ export default class UserProfile extends Component {
                 />
 
                 <div className="bioContent">
-                    <h1 className="username">{first_name + " " + last_name}</h1>
+                    <h1 className="username">
+                        {first_name + " " + last_name}{" "}
+                        {this.state.isFriend == "friends" && (
+                            <span className="friendStatusLabel">
+                                <i className="material-icons">people</i>
+                                (friend)
+                            </span>
+                        )}
+                        {this.state.isFriend == "pending" && (
+                            <span className="friendStatusLabel">
+                                (pending friend request)
+                            </span>
+                        )}
+                    </h1>
+
                     <p className="userbio"> {bio}</p>
-                    <FriendButton otherUser_id={this.state.id}></FriendButton>
+                    <FriendButton
+                        onFriendStatusChange={this.onFriendStatusChange}
+                        otherUser_id={this.state.id}
+                    ></FriendButton>
                 </div>
 
                 {this.state.isLightboxVisible && (

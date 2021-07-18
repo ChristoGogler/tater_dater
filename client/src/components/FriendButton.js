@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "../axios";
 
-export default function FriendButton({ otherUser_id }) {
+export default function FriendButton({
+    otherUser_id,
+    smallButton,
+    onFriendStatusChange,
+}) {
     //4 states of the button: request, accept, cancel, unfriend
     //3 states of friendship: null, pending, friends
     const [friend_status, setFriendStatus] = useState("");
@@ -49,7 +53,9 @@ export default function FriendButton({ otherUser_id }) {
             `/api/friendrequest?action=${buttonState}&user2_id=${otherUser_id}`
         );
         setFriendStatus(data);
+        console.log(data);
         setRejectButtonState(false);
+        onFriendStatusChange(friend_status.status);
     };
 
     const onRejectButtonClick = async () => {
@@ -58,17 +64,21 @@ export default function FriendButton({ otherUser_id }) {
         );
         setFriendStatus(data);
         setRejectButtonState(false);
+        onFriendStatusChange(friend_status.status);
     };
 
     return (
-        <div className="buttonsWrapper">
+        <div className={smallButton ? smallButton : "buttonsWrapper"}>
             <button className="button submitButton" onClick={onButtonClick}>
                 <span className="flex">
                     <i className="material-icons white">{iconState}</i>
-                    {buttonState}
+                    {!smallButton && (
+                        <span className="hideLabel">{buttonState}</span>
+                    )}
                 </span>
             </button>
-            {rejectButtonState && (
+            {/* reject button in case of pending request */}
+            {!smallButton && rejectButtonState && (
                 <button
                     className="button submitButton"
                     onClick={onRejectButtonClick}
