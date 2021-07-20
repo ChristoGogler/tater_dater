@@ -55,6 +55,56 @@ export default function Friends() {
         console.log("pending/friends has changed!", pending, friends);
     }, [pending, friends]);
 
+    const renderFriends = () => {
+        return friends.map((user) => {
+            return (
+                <li key={user.id}>
+                    <Link to={"/user/" + user.id}>
+                        <ProfilePic
+                            className="avatar"
+                            profile_url={user.profile_url}
+                        />
+                    </Link>
+                    <div className="">
+                        <Link to={"/user/" + user.id}>
+                            <h1>{user.first_name + " " + user.last_name}</h1>
+                        </Link>
+                    </div>
+                    <FriendButton
+                        smallButton="smallBtn"
+                        otherUser_id={user.id}
+                        onFriendStatusChange=""
+                    ></FriendButton>
+                </li>
+            );
+        });
+    };
+
+    const renderPending = () => {
+        return pending.map((user) => {
+            return (
+                <li key={user.id}>
+                    <Link to={"/user/" + user.id}>
+                        <ProfilePic
+                            className="avatar"
+                            profile_url={user.profile_url}
+                        />
+                    </Link>
+                    <div className="">
+                        <Link to={"/user/" + user.id}>
+                            <h1>{user.first_name + " " + user.last_name}</h1>
+                        </Link>
+                    </div>
+                    <FriendButton
+                        smallButton="smallBtn"
+                        otherUser_id={user.id}
+                        onFriendStatusChange=""
+                    ></FriendButton>
+                </li>
+            );
+        });
+    };
+
     return (
         <>
             <section className="customRadioBtn">
@@ -65,62 +115,8 @@ export default function Friends() {
             </section>
             <section className="searchResults searchResults2">
                 <ul>
-                    {!friendpending_toggle &&
-                        pending &&
-                        pending.map((user) => {
-                            return (
-                                <li key={user.id}>
-                                    <Link to={"/user/" + user.id}>
-                                        <ProfilePic
-                                            className="avatar"
-                                            profile_url={user.profile_url}
-                                        />
-                                    </Link>
-                                    <div className="">
-                                        <Link to={"/user/" + user.id}>
-                                            <h1>
-                                                {user.first_name +
-                                                    " " +
-                                                    user.last_name}
-                                            </h1>
-                                        </Link>
-                                    </div>
-                                    <FriendButton
-                                        smallButton="smallBtn"
-                                        otherUser_id={user.id}
-                                        onFriendStatusChange=""
-                                    ></FriendButton>
-                                </li>
-                            );
-                        })}
-                    {friendpending_toggle &&
-                        friends &&
-                        friends.map((user) => {
-                            return (
-                                <li key={user.id}>
-                                    <Link to={"/user/" + user.id}>
-                                        <ProfilePic
-                                            className="avatar"
-                                            profile_url={user.profile_url}
-                                        />
-                                    </Link>
-                                    <div className="">
-                                        <Link to={"/user/" + user.id}>
-                                            <h1>
-                                                {user.first_name +
-                                                    " " +
-                                                    user.last_name}
-                                            </h1>
-                                        </Link>
-                                    </div>
-                                    <FriendButton
-                                        smallButton="smallBtn"
-                                        otherUser_id={user.id}
-                                        onFriendStatusChange=""
-                                    ></FriendButton>
-                                </li>
-                            );
-                        })}
+                    {!friendpending_toggle && pending && renderPending()}
+                    {friendpending_toggle && friends && renderFriends()}
                 </ul>
             </section>
         </>
