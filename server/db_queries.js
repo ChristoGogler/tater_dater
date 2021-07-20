@@ -153,8 +153,10 @@ async function getFriendsAndPending({ userId }) {
   FROM friendships
   JOIN users
   ON (friend_status = 'pending' AND recipient_id = $1 AND sender_id = users.id)
+  OR (friend_status = 'pending' AND sender_id = $1 AND recipient_id = users.id)
   OR (friend_status = 'friends' AND recipient_id = $1 AND sender_id = users.id)
-  OR (friend_status = 'friends' AND sender_id = $1 AND recipient_id = users.id)`,
+  OR (friend_status = 'friends' AND sender_id = $1 AND recipient_id = users.id)
+  ORDER BY first_name ASC`,
         [userId]
     );
     return result.rows;
