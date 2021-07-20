@@ -1,6 +1,7 @@
 const exporting = {
     deleteFriend,
     getFriendshipStatus,
+    getFriendsAndPending,
     getUserByEmail,
     getUserById,
     getLatestUserProfiles,
@@ -143,4 +144,18 @@ async function updateFriendstatus({ user1_id, user2_id, friend_status }) {
         [user1_id, user2_id, friend_status]
     );
     return result.rows[0];
+}
+
+async function getFriendsAndPending({ userId }) {
+    console.log("...(DB getFriendsAndPending) user1_id: ", userId);
+    const result = await postgresDb.query(
+        `SELECT users.id, users.first_name, users.last_name, users.profile_url, friendships.friend_status
+  FROM friendships
+  JOIN users
+  ON (friend_status = 'pending' AND recipient_id = $1 AND sender_id = users.id)
+  OR (friend_status = 'friends' AND recipient_id = $1 AND sender_id = users.id)
+  OR (friend_status = 'friends' AND sender_id = $1 AND recipient_id = users.id)`,
+        [userId]
+    );
+    return result.rows;
 }
