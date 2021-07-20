@@ -44,7 +44,32 @@ input[type="email"] {
     color: black;
     font-weight: 400;
 }
+/* TOOL TIPS */
 
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 3px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    top: 30px;
+    left: 0;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
 /* COLORS */
 .white {
     color: white;
@@ -197,6 +222,7 @@ nav {
     justify-content: space-around;
     align-items: center;
     background-color: black;
+    z-index: 10;
 }
 nav button i,
 span {

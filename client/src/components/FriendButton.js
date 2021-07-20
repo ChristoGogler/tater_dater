@@ -42,7 +42,6 @@ export default function FriendButton({
             return;
         } else {
             setButtonState("cancel");
-
             setIconState("person_add_disabled");
 
             return;
@@ -56,7 +55,9 @@ export default function FriendButton({
             );
             setFriendStatus(data);
             setRejectButtonState(false);
-            onFriendStatusChange(friend_status.status);
+            if (onFriendStatusChange) {
+                onFriendStatusChange(friend_status.status);
+            }
         } catch (error) {
             console.log("ERROR changing friendship status: ", error);
             setMessage(
@@ -83,7 +84,14 @@ export default function FriendButton({
 
     return (
         <div className={smallButton ? smallButton : "buttonsWrapper"}>
-            <button className="button submitButton" onClick={onButtonClick}>
+            <button
+                className="button submitButton tooltip"
+                onClick={onButtonClick}
+            >
+                {smallButton && (
+                    <span className="tooltiptext">{buttonState}</span>
+                )}
+
                 <span className="flex">
                     <i className="material-icons white">{iconState}</i>
                     {!smallButton && (
@@ -94,12 +102,13 @@ export default function FriendButton({
             {/* reject button in case of pending request */}
             {!smallButton && rejectButtonState && (
                 <button
-                    className="button submitButton"
+                    className="button submitButton tooltip"
                     onClick={onRejectButtonClick}
                 >
+                    {smallButton && <span className="tooltiptext">reject</span>}
                     <span className="flex">
                         <i className="material-icons white">person_remove</i>
-                        reject
+                        <span className="hideLabel">reject</span>
                     </span>
                 </button>
             )}
