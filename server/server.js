@@ -15,6 +15,7 @@ const {
     findProfiles,
     findLatestProfiles,
     getFriendStatus,
+    getFriendList,
     getMyProfile,
     getUserProfile,
     login,
@@ -83,6 +84,9 @@ app.get("/api/friendstatus/:user_id", getFriendStatus);
 
 //CHANGE FRIEND STATUS
 app.post("/api/friendrequest", changeFriendStatus);
+
+//GET FRIENDS AND PENDING
+app.get("/api/friends", getFriendList);
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
