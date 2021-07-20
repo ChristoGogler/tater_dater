@@ -1,4 +1,5 @@
 import { Component } from "react";
+import Friends from "./Friends";
 import Logo from "./Logo";
 import Logout from "./Logout";
 import MyProfile from "./MyProfile";
@@ -18,6 +19,7 @@ export default class App extends Component {
             last_name: null,
             bio: null,
             profile_url: null,
+            loading: true,
 
             message: "",
             logo: "./img/logo.png",
@@ -69,6 +71,7 @@ export default class App extends Component {
                 bio: user.data.bio,
                 profile_url: user.data.profile_url,
             });
+            this.setState({ loading: false });
         } catch (error) {
             this.state.message = "Error logging in: " + error;
             console.log("Error logging in: ", error);
@@ -86,6 +89,16 @@ export default class App extends Component {
                     </header>
                     <nav>
                         <div>
+                            <Link to="/friends/list">
+                                <button>
+                                    <i className="material-icons">group</i>
+                                    <span className="hideLabel">
+                                        My Friends
+                                    </span>
+                                </button>
+                            </Link>
+                        </div>
+                        <div>
                             <Link to="/users/find">
                                 <button>
                                     <i className="material-icons">group_add</i>
@@ -96,13 +109,15 @@ export default class App extends Component {
                             </Link>
                         </div>
                         <Logout onClick={this.onLogoutClick}></Logout>
-                        <ProfilePic
-                            profile_url={this.state.profile_url}
-                            first_name={this.state.first_name}
-                            last_name={this.state.last_name}
-                            showUploader={this.showUploader}
-                            className="avatar smallProfilePic"
-                        />
+                        {!this.state.loading && (
+                            <ProfilePic
+                                profile_url={this.state.profile_url}
+                                first_name={this.state.first_name}
+                                last_name={this.state.last_name}
+                                showUploader={this.showUploader}
+                                className="avatar smallProfilePic"
+                            />
+                        )}
                     </nav>
                     <section className="mainContent vcenter">
                         <Route
@@ -115,9 +130,11 @@ export default class App extends Component {
                                     bio={this.state.bio}
                                     profile_url={this.state.profile_url}
                                     onBioChange={this.onBioChange}
+                                    loading={this.state.loading}
                                 />
                             )}
                         />
+                        <Route path="/friends/list" component={Friends} />
                         <Route path="/users/find" component={FindProfile} />
                         <Route path="/user/:id" component={UserProfile} />
                         <section className="modal">
