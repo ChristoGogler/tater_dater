@@ -6,7 +6,7 @@ export default function MyProfile({
     first_name,
     last_name,
     bio,
-
+    loading,
     profile_url,
     onBioChange,
 }) {
@@ -18,6 +18,7 @@ export default function MyProfile({
                 profile_url={profile_url}
                 className="bigProfilePic"
             ></ProfileBanner>
+
             <div className="bioContent">
                 <h1>{first_name + " " + last_name}</h1>
                 <BioEditor bio={bio} onBioChange={onBioChange}></BioEditor>
