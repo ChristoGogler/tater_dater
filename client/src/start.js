@@ -3,6 +3,7 @@ import axios from "./axios";
 import Welcome from "./components/Welcome";
 import App from "./components/App";
 import friendshipReducer from "./reducers/friendshipReducer";
+
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import reduxPromise from "redux-promise";

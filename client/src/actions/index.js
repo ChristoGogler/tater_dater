@@ -15,3 +15,10 @@ export const receiveFriendsAndPending = () => {
         });
     });
 };
+
+export const changeFriendpendingToggle = (friendpending_toggle) => {
+    return {
+        type: "CHANGE_FRIENDPENDING_TOGGLE",
+        payload: !friendpending_toggle,
+    };
+};
