@@ -1,6 +1,10 @@
+/* eslint-disable indent */
+
+const { response } = require("express");
 const {
     deleteFriend,
     getFriendshipStatus,
+    getFriendsAndPending,
     getUserById,
     getLatestUserProfiles,
     getUserProfiles,
@@ -36,6 +40,27 @@ const findProfiles = async (request, response) => {
         console.log("ERROR fetching users: ", error);
         response.json({
             error: "Problem fetching users.",
+        });
+    }
+};
+
+//GET FRIENDS AND PENDING
+const getFriendList = async (request, response) => {
+    const { userId } = request.session;
+
+    try {
+        const list = await getFriendsAndPending({ userId });
+        if (list.length == 0) {
+            console.log("...(findProfiles) No Friends Found!");
+            response.status(404).json({ message: "No Friends found!" });
+            return;
+        }
+        console.log("...(RH getFriendsList) result: ", list);
+        response.json(list);
+    } catch (error) {
+        console.log("ERROR fetching friends and pending: ", error);
+        response.json({
+            error: "Problem fetching friends and pending.",
         });
     }
 };
@@ -276,6 +301,7 @@ const exporting = {
     changeFriendStatus,
     checkLogin,
     csrfToken,
+    getFriendList,
     findProfiles,
     findLatestProfiles,
     getFriendStatus,
