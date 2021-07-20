@@ -69,7 +69,10 @@ export default class ResetPassword extends React.Component {
                             ></input>
                         </label>
                         <div className="buttonsWrapper">
-                            <button onClick={this.onEmailSubmit}>
+                            <button
+                                className="btnPadding"
+                                onClick={this.onEmailSubmit}
+                            >
                                 <span className="flex">
                                     <i className="material-icons white">send</i>
                                 </span>
@@ -106,7 +109,10 @@ export default class ResetPassword extends React.Component {
                             ></input>
                         </label>
                         <div className="buttonsWrapper">
-                            <button onClick={this.onCodeSubmit}>
+                            <button
+                                className="btnPadding"
+                                onClick={this.onCodeSubmit}
+                            >
                                 <span className="flex">
                                     <i className="material-icons white">send</i>
                                 </span>

@@ -72,7 +72,7 @@ export default class Login extends Component {
                         />
                     </label>
                     <div className="buttonsWrapper">
-                        <button type="submit">
+                        <button type="submit" className="btnPadding">
                             <span className="flex">
                                 <i className="material-icons white">send</i>
                             </span>

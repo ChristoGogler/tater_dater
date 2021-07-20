@@ -1,3 +1,4 @@
+import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import axios from "../axios";
 
@@ -85,7 +86,7 @@ export default function FriendButton({
     return (
         <div className={smallButton ? smallButton : "buttonsWrapper"}>
             <button
-                className="button submitButton tooltip"
+                className="button submitButton btnPadding tooltip"
                 onClick={onButtonClick}
             >
                 {smallButton && (
@@ -102,7 +103,7 @@ export default function FriendButton({
             {/* reject button in case of pending request */}
             {!smallButton && rejectButtonState && (
                 <button
-                    className="button submitButton tooltip"
+                    className="button submitButton btnPadding tooltip"
                     onClick={onRejectButtonClick}
                 >
                     {smallButton && <span className="tooltiptext">reject</span>}

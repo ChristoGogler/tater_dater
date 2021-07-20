@@ -7,7 +7,7 @@ import FriendButton from "./FriendButton";
 export default function FindProfile() {
     const [isSearching, setIsSearching] = useState(false);
     const [noResults, setNoResults] = useState(false);
-    const [results, setResults] = useState([1, 2, 3]);
+    const [results, setResults] = useState([]);
     const [latestUsers, setLatestUsers] = useState([]);
     const [searchquery, setSearchquery] = useState("");
 
@@ -87,7 +87,7 @@ export default function FindProfile() {
                     <FriendButton
                         smallButton="smallBtn"
                         otherUser_id={user.id}
-                        onFriendStatusChange=""
+                        on
                     ></FriendButton>
                 </li>
             );
@@ -101,7 +101,7 @@ export default function FindProfile() {
                     <input
                         name="searchuser"
                         type="text"
-                        placeholder="Find your Friends"
+                        placeholder="Find other Potatoes"
                         onChange={(event) => setSearchquery(event.target.value)}
                         defaultValue={searchquery}
                         autoFocus
@@ -114,11 +114,11 @@ export default function FindProfile() {
             <section className="searchResults">
                 {isSearching && !noResults && (
                     <>
-                        <p>search results for "{searchquery}"</p>
+                        <p>search results for {searchquery}</p>
                         <ul>{renderResults()}</ul>
                     </>
                 )}
-                {isSearching && noResults && <p>no results</p>}
+                {isSearching && noResults && <p>{message}</p>}
                 {!isSearching && (
                     <>
                         <p>most recently joined users</p>

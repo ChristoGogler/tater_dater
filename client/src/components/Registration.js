@@ -92,8 +92,8 @@ export default class Registration extends Component {
                             onChange={this.onInputChange}
                         />
                     </label>
-                    <div className="buttonsWrapper">
-                        <button type="submit">
+                    <div className="buttonsWrapper btnPadding">
+                        <button type="submit" className="btnPadding">
                             <span className="flex">
                                 <i className="material-icons white">send</i>
                             </span>

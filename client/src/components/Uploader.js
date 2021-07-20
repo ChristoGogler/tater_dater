@@ -50,7 +50,10 @@ export default class Uploader extends Component {
                         action="/api/upload"
                         method="POST"
                     >
-                        <label className="buttonsWrapper" forhtml="file">
+                        <label
+                            className="buttonsWrapper btnPadding"
+                            forhtml="file"
+                        >
                             <input
                                 id="file"
                                 className="textfield"
