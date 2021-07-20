@@ -7,6 +7,7 @@ import {
 import { Link } from "react-router-dom";
 import ProfilePic from "./ProfilePic";
 import FriendButton from "./FriendButton";
+import FriendPendingButton from "./FriendPendingButton";
 
 export default function Friends() {
     //pull toggle from store state
@@ -57,38 +58,12 @@ export default function Friends() {
     return (
         <>
             <section className="customRadioBtn">
-                <div className="buttonsWrapper">
-                    <button
-                        className={
-                            !friendpending_toggle
-                                ? " btnPadding"
-                                : " btnPadding selectedBtn"
-                        }
-                        onClick={onButtonClick}
-                        disabled={friendpending_toggle}
-                    >
-                        <span className="flex">
-                            <i className="material-icons white">people</i>
-                            Friends
-                        </span>
-                    </button>
-                    <button
-                        className={
-                            friendpending_toggle
-                                ? " btnPadding"
-                                : " btnPadding selectedBtn"
-                        }
-                        onClick={onButtonClick}
-                        disabled={!friendpending_toggle}
-                    >
-                        <span className="flex">
-                            <i className="material-icons white">person_add</i>
-                            Pending
-                        </span>
-                    </button>
-                </div>
+                <FriendPendingButton
+                    friendpending_toggle={friendpending_toggle}
+                    onButtonClick={onButtonClick}
+                />
             </section>
-            <section className="searchResults">
+            <section className="searchResults searchResults2">
                 <ul>
                     {!friendpending_toggle &&
                         pending &&
