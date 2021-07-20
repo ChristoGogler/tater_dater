@@ -86,7 +86,11 @@ export default function FriendButton({
     return (
         <div className={smallButton ? smallButton : "buttonsWrapper"}>
             <button
-                className="button submitButton btnPadding tooltip"
+                className={
+                    smallButton
+                        ? "button submitButton tooltip"
+                        : "button submitButton btnPadding tooltip"
+                }
                 onClick={onButtonClick}
             >
                 {smallButton && (
