@@ -1,7 +1,6 @@
-import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import axios from "../axios";
-
+import {} from "../actions";
 export default function FriendButton({
     otherUser_id,
     smallButton,
