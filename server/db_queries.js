@@ -149,7 +149,7 @@ async function updateFriendstatus({ user1_id, user2_id, friend_status }) {
 async function getFriendsAndPending({ userId }) {
     console.log("...(DB getFriendsAndPending) user1_id: ", userId);
     const result = await postgresDb.query(
-        `SELECT users.id, users.first_name, users.last_name, users.profile_url, friendships.friend_status
+        `SELECT users.id, users.first_name, users.last_name, users.profile_url, friendships.friend_status, friendships.sender_id
   FROM friendships
   JOIN users
   ON (friend_status = 'pending' AND recipient_id = $1 AND sender_id = users.id)
