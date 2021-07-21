@@ -1,5 +1,6 @@
 import { Component } from "react";
-import Friends from "./Friends";
+//swap import Friends from "./Friends_redux";
+import Friends from "./Friends_redux";
 import Logo from "./Logo";
 import Logout from "./Logout";
 import MyProfile from "./MyProfile";

@@ -3,10 +3,12 @@ import { useEffect } from "react";
 import {
     receiveFriendsAndPending,
     changeFriendpendingToggle,
+    acceptFriendship,
+    deleteFriendship,
+    cancelRequest,
 } from "../actions";
 import { Link } from "react-router-dom";
 import ProfilePic from "./ProfilePic";
-import FriendButton from "./FriendButton";
 import FriendPendingButton from "./FriendPendingButton";
 
 export default function Friends() {
@@ -44,6 +46,18 @@ export default function Friends() {
         dispatch(changeFriendpendingToggle(friendpending_toggle));
         dispatch(receiveFriendsAndPending(friendsAndPending));
     };
+    const onUnfriendButtonClick = (user_id) => {
+        console.log("unfriend click");
+        dispatch(deleteFriendship(user_id));
+    };
+    const onCancelButtonClick = (user_id) => {
+        console.log("cancel click");
+        dispatch(cancelRequest(user_id));
+    };
+    const onAcceptButtonClick = (user_id) => {
+        console.log("accept click");
+        dispatch(acceptFriendship(user_id));
+    };
 
     useEffect(() => {
         dispatch(receiveFriendsAndPending(friendsAndPending));
@@ -69,11 +83,20 @@ export default function Friends() {
                             <h1>{user.first_name + " " + user.last_name}</h1>
                         </Link>
                     </div>
-                    <FriendButton
-                        smallButton="smallBtn"
-                        otherUser_id={user.id}
-                        onFriendStatusChange=""
-                    ></FriendButton>
+                    <div className="smallBtn">
+                        <button
+                            className="button submitButton tooltip"
+                            onClick={() => onUnfriendButtonClick(user.id)}
+                        >
+                            <span className="tooltiptext">unfriend</span>
+
+                            <span className="flex">
+                                <i className="material-icons white">
+                                    person_remove
+                                </i>
+                            </span>
+                        </button>
+                    </div>
                 </li>
             );
         });
@@ -94,11 +117,30 @@ export default function Friends() {
                             <h1>{user.first_name + " " + user.last_name}</h1>
                         </Link>
                     </div>
-                    <FriendButton
-                        smallButton="smallBtn"
-                        otherUser_id={user.id}
-                        onFriendStatusChange=""
-                    ></FriendButton>
+                    <div className="smallBtn">
+                        <button
+                            className="button submitButton tooltip"
+                            onClick={
+                                user.id == user.sender_id
+                                    ? () => onAcceptButtonClick(user.id)
+                                    : () => onCancelButtonClick(user.id)
+                            }
+                        >
+                            <span className="tooltiptext">
+                                {user.id == user.sender_id
+                                    ? "accept"
+                                    : "cancel"}
+                            </span>
+
+                            <span className="flex">
+                                <i className="material-icons white">
+                                    {user.id == user.sender_id
+                                        ? "person_add"
+                                        : "person_add_disabled"}
+                                </i>
+                            </span>
+                        </button>
+                    </div>
                 </li>
             );
         });
