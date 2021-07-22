@@ -64,10 +64,6 @@ export default function Friends() {
         dispatch(changeFriendpendingToggle(friendpending_toggle));
     }, [dispatch]);
 
-    useEffect(() => {
-        console.log("pending/friends has changed!", pending, friends);
-    }, [pending, friends]);
-
     const renderFriends = () => {
         return friends.map((user) => {
             return (
@@ -78,7 +74,7 @@ export default function Friends() {
                             profile_url={user.profile_url}
                         />
                     </Link>
-                    <div className="">
+                    <div className="searchResultDetails">
                         <Link to={"/user/" + user.id}>
                             <h1>{user.first_name + " " + user.last_name}</h1>
                         </Link>
@@ -112,7 +108,7 @@ export default function Friends() {
                             profile_url={user.profile_url}
                         />
                     </Link>
-                    <div className="">
+                    <div className="searchResultDetails">
                         <Link to={"/user/" + user.id}>
                             <h1>{user.first_name + " " + user.last_name}</h1>
                         </Link>
@@ -140,6 +136,21 @@ export default function Friends() {
                                 </i>
                             </span>
                         </button>
+
+                        {user.id == user.sender_id && (
+                            <button
+                                className="button submitButton tooltip"
+                                onClick={() => onCancelButtonClick(user.id)}
+                            >
+                                <span className="tooltiptext">reject</span>
+
+                                <span className="flex">
+                                    <i className="material-icons white">
+                                        person_remove
+                                    </i>
+                                </span>
+                            </button>
+                        )}
                     </div>
                 </li>
             );
@@ -154,7 +165,7 @@ export default function Friends() {
                     onButtonClick={onButtonClick}
                 />
             </section>
-            <section className="searchResults searchResults2">
+            <section className="searchResults friendsAndPendingList">
                 <ul>
                     {!friendpending_toggle && pending && renderPending()}
                     {friendpending_toggle && friends && renderFriends()}
