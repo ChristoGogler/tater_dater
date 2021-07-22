@@ -10,24 +10,24 @@ const storage = multer.diskStorage({
 
     filename: function (request, file, callback) {
         uidSafe(24).then(function (uid) {
-            console.log(url, uid, path.extname(file.originalname));
+            // console.log(url, uid, path.extname(file.originalname));
 
             request.body.profile_url =
                 url + uid + path.extname(file.originalname);
 
-            console.log("...(file_upload.js) URL: ", request.body.profile_url);
+            // console.log("...(file_upload.js) URL: ", request.body.profile_url);
             callback(null, uid + path.extname(file.originalname));
         });
     },
 });
-console.log("...(file_upload) storage", storage);
+// console.log("...(file_upload) storage", storage);
 const uploader = multer({
     storage,
     limits: {
         filesize: 2097152,
     },
 });
-console.log("(file uploader): ", uploader);
+// console.log("(file uploader): ", uploader);
 
 const exporting = {
     uploader,

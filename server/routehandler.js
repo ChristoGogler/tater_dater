@@ -34,6 +34,7 @@ const findProfiles = async (request, response) => {
         if (profiles.length == 0) {
             console.log("...(findProfiles) No user Found!");
             response.status(404).json({ message: "No users found!" });
+            return;
         }
         response.json(profiles);
     } catch (error) {
@@ -55,7 +56,7 @@ const getFriendList = async (request, response) => {
             response.status(404).json({ message: "No Friends found!" });
             return;
         }
-        console.log("...(RH getFriendsList) result: ", list);
+        // console.log("...(RH getFriendsList) result: ", list);
         response.json(list);
     } catch (error) {
         console.log("ERROR fetching friends and pending: ", error);
