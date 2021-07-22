@@ -8,6 +8,8 @@ const friendshipReducer = (state = {}, action) => {
             return { ...state, friendsAndPending: action.payload };
         case "CHANGE_FRIENDPENDING_TOGGLE":
             return { ...state, friendpending_toggle: action.payload };
+        // case "REQUEST_FRIENDSHIP":
+        //     //TODO
         case "DELETE_FRIENDSHIP":
             updated = state.friendsAndPending.filter(
                 ({ id }) => id != action.payload
@@ -26,13 +28,29 @@ const friendshipReducer = (state = {}, action) => {
                 return x;
             });
             return { ...state, friendsAndPending: updated };
-        // case "REQUEST_FRIENDSHIP":
-        //     return { ...state, friendsAndPending: action.payload };
         case "RECEIVE_FRIEND_STATUS":
             return {
                 ...state,
                 friendButton: [{ friend_status: action.payload }],
             };
+        case "RECENT_MESSAGES":
+            console.log(
+                "...(Reducer RECENT_MESSAGES) action: ",
+                action.payload
+            );
+            return { ...state, chatHistory: action.payload };
+        case "NEW_CHATMESSAGE":
+            console.log(
+                "...(Reducer NEW_CHATMESSAGE) state.chatHistory BEFORE: ",
+                state.chatHistory
+            );
+            state.chatHistory.push(action.payload);
+            console.log(
+                "...(Reducer NEW_CHATMESSAGE) state.chatHistory AFTER: ",
+                state.chatHistory
+            );
+
+            return { ...state };
         default:
             return state;
     }
