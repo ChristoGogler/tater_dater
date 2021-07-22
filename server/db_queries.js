@@ -11,6 +11,7 @@ const exporting = {
     saveNewPassword,
     saveSecretCode,
     getCodeByEmail,
+    saveChatmessage,
     saveProfileUrl,
     saveUserBio,
     updateFriendstatus,
@@ -147,7 +148,7 @@ async function updateFriendstatus({ user1_id, user2_id, friend_status }) {
 }
 
 async function getFriendsAndPending({ userId }) {
-    console.log("...(DB getFriendsAndPending) user1_id: ", userId);
+    // console.log("...(DB getFriendsAndPending) user1_id: ", userId);
     const result = await postgresDb.query(
         `SELECT users.id, users.first_name, users.last_name, users.profile_url, friendships.friend_status, friendships.sender_id
   FROM friendships
@@ -160,4 +161,13 @@ async function getFriendsAndPending({ userId }) {
         [userId]
     );
     return result.rows;
+}
+
+async function saveChatmessage({ userId, chatmessage }) {
+    console.log("...(DB saveChatmessage) user1_id: ", userId);
+    const result = await postgresDb.query(
+        "INSERT INTO chatmessages (sender_id, chatmessage) VALUES ($1, $2) RETURNING *",
+        [userId, chatmessage]
+    );
+    return result.rows[0];
 }
