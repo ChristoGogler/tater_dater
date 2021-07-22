@@ -29,16 +29,12 @@ export default function Friends() {
     };
 
     //separate friends from pending requests
-    const friends = useSelector((state) => {
-        return (
-            state.friendsAndPending && state.friendsAndPending.filter(isFriend)
-        );
-    });
-    const pending = useSelector((state) => {
-        return (
-            state.friendsAndPending && state.friendsAndPending.filter(isPending)
-        );
-    });
+    const friends = () => {
+        return friendsAndPending && friendsAndPending.filter(isFriend);
+    };
+    const pending = () => {
+        return friendsAndPending && friendsAndPending.filter(isPending);
+    };
     const dispatch = useDispatch();
     const onButtonClick = () => {
         dispatch(changeFriendpendingToggle(friendpending_toggle));
