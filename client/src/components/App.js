@@ -1,5 +1,10 @@
 import { Component } from "react";
-//swap import Friends from "./Friends_redux";
+import axios from "../axios";
+import { BrowserRouter, Link, Route } from "react-router-dom";
+
+import Chat from "./Chat";
+import FindProfile from "./FindProfile";
+import Footer from "./Footer";
 import Friends from "./Friends_redux";
 import Logo from "./Logo";
 import Logout from "./Logout";
@@ -7,10 +12,6 @@ import MyProfile from "./MyProfile";
 import ProfilePic from "./ProfilePic";
 import Uploader from "./Uploader";
 import UserProfile from "./UserProfile";
-import Footer from "./Footer";
-import axios from "../axios";
-import { BrowserRouter, Link, Route } from "react-router-dom";
-import FindProfile from "./FindProfile";
 
 export default class App extends Component {
     constructor(props) {
@@ -108,6 +109,16 @@ export default class App extends Component {
                                 </button>
                             </Link>
                         </div>
+                        <div>
+                            <Link to="/chat">
+                                <button>
+                                    <i className="material-icons">
+                                        question_answer
+                                    </i>
+                                    <span className="hideLabel">Chat</span>
+                                </button>
+                            </Link>
+                        </div>
                         <Logout onClick={this.onLogoutClick}></Logout>
                         {!this.state.loading && (
                             <ProfilePic
@@ -137,6 +148,7 @@ export default class App extends Component {
                         <Route path="/friends/list" component={Friends} />
                         <Route path="/users/find" component={FindProfile} />
                         <Route path="/user/:id" component={UserProfile} />
+                        <Route path="/chat" component={Chat} />
                         <section className="modal">
                             {this.state.isUploaderVisible && (
                                 <Uploader
