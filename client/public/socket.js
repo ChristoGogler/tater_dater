@@ -16,20 +16,21 @@ socket.on("connectionEstablished", ({ message }) => {
 
 //10 most recent messages
 socket.on("recentMessages", ({ messages }) => {
-    console.log(messages);
-    //TODO: save messages --> then render them
+    console.log("ON recentMessages: ", messages);
+    //TODO: save messages to global state --> then render them
 });
 
 // receiving new message received
 socket.on("newChatMessage", ({ message, userId }) => {
     console.log(`incoming chat message from ${userId}: ${message}`);
-    //TODO: save message --> then render it
+    //TODO: save message to global state --> then render it
 });
 
 //sending new message
+//TODO: grab message from UI --> then emit
 if (false) {
-    const message = "message content";
-    const msg = { message };
+    const chatmessage = "message content";
+    const msg = { chatmessage };
     socket.emit("newChatMessage", msg);
     // if you want to send some data to the server:
     // document.querySelector("form").addEventListener("submit", (event) => {
