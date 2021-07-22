@@ -4,6 +4,7 @@ const exporting = {
     getFriendsAndPending,
     getUserByEmail,
     getUserById,
+    getLatestChatmessages,
     getLatestUserProfiles,
     getUserProfiles,
     saveFriendrequest,
@@ -164,10 +165,26 @@ async function getFriendsAndPending({ userId }) {
 }
 
 async function saveChatmessage({ userId, chatmessage }) {
-    console.log("...(DB saveChatmessage) user1_id: ", userId);
+    console.log("...(DB saveChatmessage) userId: ", userId);
     const result = await postgresDb.query(
         "INSERT INTO chatmessages (sender_id, chatmessage) VALUES ($1, $2) RETURNING *",
         [userId, chatmessage]
+    );
+    return result.rows[0];
+}
+
+// SELECT to get the 10 most recent messages when a user connects.
+// You will want to join with the users table to get the first and
+// last names and the image urls of the sender
+
+async function getLatestChatmessages({ limit }) {
+    console.log("...(DB getLatestMessages) limit: ", limit);
+    const result = await postgresDb.query(
+        `SELECT sender_id, chatmessage, chatmessages.created_at, first_name, last_name, profile_url FROM chatmessages 
+        JOIN users
+        ON sender_id = users.id
+        ORDER BY chatmessages.created_at DESC LIMIT $1`,
+        [limit]
     );
     return result.rows[0];
 }
