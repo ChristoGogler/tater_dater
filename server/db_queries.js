@@ -186,5 +186,5 @@ async function getLatestChatmessages({ limit }) {
         ORDER BY chatmessages.created_at DESC LIMIT $1`,
         [limit]
     );
-    return result.rows[0];
+    return result.rows;
 }

@@ -26,7 +26,7 @@ export default function FindProfile() {
             );
             setResults([...data]);
         } catch (error) {
-            console.log(error);
+            console.log("FindProfiles Error: ", error);
             setResults([]);
             setNoResults(true);
         }
@@ -118,7 +118,7 @@ export default function FindProfile() {
                         <ul>{renderResults()}</ul>
                     </>
                 )}
-                {isSearching && noResults && <p>{message}</p>}
+                {isSearching && noResults && <p>No users found!</p>}
                 {!isSearching && (
                     <>
                         <p>most recently joined users</p>
