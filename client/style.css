@@ -138,6 +138,7 @@ button {
 .smallBtn {
     background-color: white;
     margin: 10px;
+    display: flex;
 }
 .smallBtn span {
     text-align: right;
@@ -146,7 +147,6 @@ button {
 span span {
     margin: auto;
     color: black;
-    text-align: start;
 }
 .bioeditorButtons {
     display: flex;
@@ -208,7 +208,9 @@ footer {
     width: 50px;
     height: 50px;
 }
-
+.profilePicWrapper {
+    margin-right: 20px;
+}
 .profileWrapper {
     width: 100vw;
     display: flex;
@@ -385,6 +387,110 @@ input[type="file"] {
     margin-left: 20px;
     flex: 1;
 }
+
+/* CHAT */
+.chatWrapper {
+    width: 100vw;
+    margin: 0 auto;
+    height: 60pvh;
+    overflow-y: scroll;
+    display: flex;
+    justify-content: center;
+}
+.chatWrapper ul {
+    width: 90%;
+    list-style: none;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    flex-direction: column;
+}
+.singleMessage {
+}
+.messageWrapper {
+    display: flex;
+    flex-direction: row;
+    margin: 10px 0;
+}
+.messageWrapper div div {
+    border-radius: 3px;
+    background-color: whitesmoke;
+    padding: 10px 15px;
+}
+
+.messageWrapperSelf {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+}
+.messageWrapperSelf div div {
+    border-radius: 3px;
+    background-color: thistle;
+    padding: 10px 15px;
+}
+.messageWrapperSelf.p {
+    text-align: end;
+    font-weight: bold;
+}
+
+.chatImg {
+    padding-right: 20px;
+}
+.chatImgSelf {
+    padding-left: 20px;
+}
+.chatImg img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.chatImgSelf img {
+    border: 3px solid thistle;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.chatFormWrapper {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.chatFormWrapper form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.chatFormWrapper form textarea {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.chatauthor {
+    font-weight: bolder;
+}
+.chatauthorSelf {
+    color: white;
+    text-align: end;
+}
+.chatmsg {
+    font-size: 0.9rem;
+}
+.chatmsgSelf {
+    font-size: 0.9rem;
+    color: white;
+}
+.timestamp {
+    font-size: 0.7rem;
+    text-align: end;
+}
+
 @media only screen and (min-width: 480px) {
     body {
         /* background-color: cadetblue; */
@@ -396,15 +502,16 @@ input[type="file"] {
     .searchResults ul li {
         width: 100%;
     }
+    .chatWrapper {
+        width: 80vw;
+    }
 }
 
 @media only screen and (min-width: 768px) {
     body {
         /* background-color: pink; */
     }
-    .profilePicWrapper {
-        margin-right: 20px;
-    }
+
     .smallProfilePic {
         position: absolute;
         top: 5px;
@@ -465,19 +572,32 @@ input[type="file"] {
         justify-content: space-around;
     }
 
-    .searchResults2 {
+    .friendsAndPendingList {
         width: 90vw;
         max-width: 100%;
     }
 
-    .searchResults2 ul {
+    .friendsAndPendingList ul {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
     }
 
-    .searchResults2 ul li {
+    .friendsAndPendingList ul li {
         width: 45%;
+    }
+    .chatWrapper {
+        width: 60vw;
+    }
+    .chatWrapper ul {
+        width: 50%;
+        max-width: 500px;
+        list-style: none;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        /* align-items: center; */
+        flex-direction: column;
     }
 }
 

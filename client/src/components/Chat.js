@@ -3,48 +3,72 @@ import { useSelector } from "react-redux";
 
 export default function Chat() {
     const chatHistory = useSelector((state) => {
+        console.log("...(Chat) state: ", state);
+
         console.log("...(Chat) chatHistory: ", chatHistory);
         return state.chatHistory;
     });
 
     return (
         <>
-            <p>Chat Component!</p>
-
             <section className="chatWrapper">
                 <ul>
                     {chatHistory &&
                         chatHistory.map(
                             ({
                                 id,
-                                userId,
                                 first_name,
                                 last_name,
                                 profile_url,
                                 chatmessage,
                                 created_at,
+                                sender_id,
                             }) => {
                                 return (
                                     <li key={id} className="singleMessage">
-                                        <div className="messageWrapper">
-                                            <div>
-                                                <img
-                                                    className="chatImg"
-                                                    src={profile_url}
-                                                    alt=""
-                                                />
+                                        <div
+                                            className={
+                                                sender_id == -1
+                                                    ? "messageWrapperSelf"
+                                                    : "messageWrapper"
+                                            }
+                                        >
+                                            <div
+                                                className={
+                                                    sender_id == -1
+                                                        ? "chatImgSelf"
+                                                        : "chatImg"
+                                                }
+                                            >
+                                                <img src={profile_url} alt="" />
                                             </div>
                                             <div>
                                                 <div>
-                                                    <p>
-                                                        <span>
-                                                            {first_name}{" "}
-                                                            {last_name}
-                                                        </span>
+                                                    <p
+                                                        className={
+                                                            sender_id == -1
+                                                                ? "chatauthorSelf"
+                                                                : "chatauthor"
+                                                        }
+                                                    >
+                                                        {first_name +
+                                                            " " +
+                                                            last_name}
                                                     </p>
-                                                    <q>{chatmessage}</q>
+                                                    <q
+                                                        className={
+                                                            sender_id == -1
+                                                                ? "chatmsgSelf"
+                                                                : "chatmsg"
+                                                        }
+                                                    >
+                                                        {chatmessage}
+                                                    </q>
                                                 </div>
-                                                <p>{created_at}</p>
+
+                                                <p className="timestamp">
+                                                    {created_at}
+                                                </p>
                                             </div>
                                         </div>
                                     </li>
@@ -52,6 +76,18 @@ export default function Chat() {
                             }
                         )}
                 </ul>
+            </section>
+            <section className="chatFormWrapper">
+                <label className="searchBox" forhtml="searchuser">
+                    <input
+                        name="chatinput"
+                        type="text"
+                        placeholder="type your message..."
+                    />
+                    <button type="submit">
+                        <i className="material-icons">send</i>
+                    </button>
+                </label>
             </section>
         </>
     );
