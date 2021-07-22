@@ -21,6 +21,11 @@ const io = require("socket.io")(server, {
             request.headers.referer.startsWith("http://localhost:3000")
         ),
 });
+const exporting = {
+    io,
+};
+module.exports = exporting;
+const { handleChatMessages } = require("./socketsHandler");
 
 const {
     changeFriendStatus,
@@ -52,32 +57,7 @@ io.use(function (socket, next) {
 });
 
 //SOCKET.IO CONNECTION
-io.on("connection", (socket) => {
-    if (!socket.request.session.userId) {
-        return socket.disconnect(true);
-    }
-
-    const userId = socket.request.session.userId;
-    console.log(
-        new Date().toLocaleTimeString(),
-        `user/socket with the id ${userId} is now connected!`
-    );
-
-    socket.on("hello", (greeting) => {
-        console.log(`Message from ${userId}: ${greeting}`);
-
-        io.emit(
-            "hello",
-            `Welcome ${userId} - connection established. Let's chat!`
-        );
-    });
-
-    // socket.on("newChatMessage", ({ message }) => {
-    //     console.log(`${socket.id} says: "${message}"`);
-    //     const msg = { message, user: socket.id };
-    //     io.emit("newChatMessage", msg);
-    // });
-});
+io.on("connection", handleChatMessages);
 
 //CSRF Token
 app.use(csurf());
