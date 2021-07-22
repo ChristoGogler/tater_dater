@@ -45,10 +45,9 @@ export default class App extends Component {
             isUploaderVisible: false,
         });
     }
-    onUpload(user) {
-        console.log("onUpload user: ", user);
+    onUpload({ profile_url }) {
         this.setState({
-            profile_url: user.profile_url,
+            profile_url,
         });
     }
 

@@ -1,6 +1,10 @@
-import ProfilePic from "./ProfilePic";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { receiveFriendsAndPending } from "../actions";
+
 import BioEditor from "./BioEditor";
 import ProfileBanner from "./ProfileBanner";
+import FriendsList from "./FriendsList";
 
 export default function MyProfile({
     first_name,
@@ -10,6 +14,15 @@ export default function MyProfile({
     profile_url,
     onBioChange,
 }) {
+    //pull friends and pending from store state
+    const friendsAndPending = useSelector((state) => {
+        return state.friendsAndPending;
+    });
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(receiveFriendsAndPending(friendsAndPending));
+    }, [dispatch]);
+
     return (
         <div className="profileWrapper">
             <ProfileBanner
@@ -23,6 +36,8 @@ export default function MyProfile({
                 <h1>{first_name + " " + last_name}</h1>
                 <BioEditor bio={bio} onBioChange={onBioChange}></BioEditor>
             </div>
+
+            {/* {friendsAndPending && <FriendsList></FriendsList>} */}
         </div>
     );
 }
