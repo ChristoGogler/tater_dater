@@ -110,6 +110,7 @@ export const changeFriendpendingToggle = (friendpending_toggle) => {
 
 //For Chat
 export const recentMessages = (messages) => {
+    console.log("...(ACTION recentMessages) messages: ", messages);
     return {
         type: "RECENT_MESSAGES",
         payload: messages,
