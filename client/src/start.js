@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import reduxPromise from "redux-promise";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { initialiseSocket } from "../public/socket";
 
 const store = createStore(
     friendshipReducer,
@@ -24,5 +25,6 @@ axios.get("/api/user/id.json").then(({ data }) => {
             </Provider>,
             document.getElementById("main")
         );
+        initialiseSocket(store);
     }
 });
