@@ -1,5 +1,9 @@
 const { io } = require("./server");
-const { getLatestChatmessages, saveChatmessage } = require("./db_queries");
+const {
+    getLatestChatmessages,
+    saveChatmessage,
+    getUserById,
+} = require("./db_queries");
 const limit = 10;
 
 const handleChatMessages = (socket) => {
@@ -26,9 +30,23 @@ const handleChatMessages = (socket) => {
 
     //receiving new message
     socket.on("newChatMessage", async ({ chatmessage }) => {
-        const result = await saveChatmessage({ userId, chatmessage });
-        const { created_at } = result;
-        io.emit("newChatMessage", { userId, chatmessage, created_at });
+        const { id, created_at } = await saveChatmessage({
+            userId,
+            chatmessage,
+        });
+
+        const { first_name, last_name, profile_url } = await getUserById(
+            userId
+        );
+        io.emit("newChatMessage", {
+            id,
+            userId,
+            first_name,
+            last_name,
+            profile_url,
+            chatmessage,
+            created_at,
+        });
     });
 };
 
