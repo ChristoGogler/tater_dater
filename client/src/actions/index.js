@@ -16,20 +16,43 @@ export const receiveFriendsAndPending = () => {
         });
     });
 };
+
+export const requestFriendship = (otherUser_id) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post(`/api/friendrequest?action=request&user2_id=${otherUser_id}`)
+            .then((data) => {
+                console.log("...(ACTIONS requestFriendship) data: ", data);
+                resolve({
+                    type: "REQUEST_FRIENDSHIP",
+                    payload: otherUser_id,
+                });
+            })
+            .catch((error) => {
+                console.log("ERROR: ", error);
+                reject({
+                    type: "REQUEST_FRIENDSHIP",
+                    payload: error,
+                });
+            });
+    });
+};
+
 export const deleteFriendship = (otherUser_id) => {
     return new Promise((resolve, reject) => {
         axios
             .post(`/api/friendrequest?action=unfriend&user2_id=${otherUser_id}`)
-            .then((data) => {
-                //TODO action object: type property (e.g., 'DELETE_FRIENDSHIP') and the id
-                console.log("...(ACTION CREATOR: unfriend) id: ", data);
+            .then(() => {
                 resolve({
                     type: "DELETE_FRIENDSHIP",
                     payload: otherUser_id,
                 });
+            })
+            .catch((error) => {
+                console.log("ERROR: ", error);
                 reject({
                     type: "DELETE_FRIENDSHIP",
-                    payload: null,
+                    payload: error,
                 });
             });
     });
@@ -39,17 +62,18 @@ export const cancelRequest = (otherUser_id) => {
     return new Promise((resolve, reject) => {
         axios
             .post(`/api/friendrequest?action=cancel&user2_id=${otherUser_id}`)
-            .then((data) => {
-                //TODO actio object: type property (e.g., 'CANCEL_REQUEST') and the id
-
-                console.log("...(ACTION CREATOR: cancelRequest) id: ", data);
+            .then(() => {
+                // console.log("...(ACTION CREATOR: cancelRequest) id: ", data);
                 resolve({
                     type: "CANCEL_REQUEST",
                     payload: otherUser_id,
                 });
+            })
+            .catch((error) => {
+                console.log("ERROR: ", error);
                 reject({
                     type: "CANCEL_REQUEST",
-                    payload: null,
+                    payload: error,
                 });
             });
     });
@@ -66,9 +90,12 @@ export const acceptFriendship = (otherUser_id) => {
                     type: "ACCEPT_FRIENDSHIP",
                     payload: otherUser_id,
                 });
+            })
+            .catch((error) => {
+                console.log("ERROR: ", error);
                 reject({
                     type: "ACCEPT_FRIENDSHIP",
-                    payload: null,
+                    payload: error,
                 });
             });
     });
@@ -78,6 +105,20 @@ export const changeFriendpendingToggle = (friendpending_toggle) => {
     return {
         type: "CHANGE_FRIENDPENDING_TOGGLE",
         payload: !friendpending_toggle,
+    };
+};
+
+//For Chat
+export const recentMessages = (messages) => {
+    return {
+        type: "RECENT_MESSAGES",
+        payload: messages,
+    };
+};
+export const newChatMessage = (message) => {
+    return {
+        type: "NEW_CHATMESSAGE",
+        payload: message,
     };
 };
 
