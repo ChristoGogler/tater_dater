@@ -20,7 +20,7 @@ const exporting = {
 module.exports = exporting;
 
 const spicedpg = require("spiced-pg");
-const { hashPassword } = require("./functions");
+const { hashPassword, changeDateToTimepast } = require("./functions");
 
 const user = process.env.user || require("./secrets.json").user;
 const pwd = process.env.pwd || require("./secrets.json").pwd;
@@ -170,6 +170,7 @@ async function saveChatmessage({ userId, chatmessage }) {
         "INSERT INTO chatmessages (sender_id, chatmessage) VALUES ($1, $2) RETURNING *",
         [userId, chatmessage]
     );
+    changeDateToTimepast(result);
     return result.rows[0];
 }
 
@@ -186,5 +187,6 @@ async function getLatestChatmessages({ limit }) {
         ORDER BY chatmessages.created_at DESC LIMIT $1`,
         [limit]
     );
+    changeDateToTimepast(result);
     return result.rows;
 }
