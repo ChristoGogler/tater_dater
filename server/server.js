@@ -1,12 +1,26 @@
 const express = require("express");
+const { sessionSecret } = require("./secrets.json");
 const cookieSession = require("cookie-Session");
+const cookieSessionMW = cookieSession({
+    secret: `${sessionSecret}`,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+});
 const app = express();
 const csurf = require("csurf");
 const compression = require("compression");
-const { sessionSecret } = require("./secrets.json");
+
 const path = require("path");
 const { uploader } = require("./file_upload");
 const { uploadFiles3 } = require("./s3");
+//setup: socket.io
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (request, callback) =>
+        callback(
+            null,
+            request.headers.referer.startsWith("http://localhost:3000")
+        ),
+});
 
 const {
     changeFriendStatus,
@@ -32,12 +46,38 @@ app.use(compression());
 //express public folder
 app.use(express.static(path.join(__dirname, "..", "client", "public")))
     .use(express.json())
-    .use(
-        cookieSession({
-            secret: `${sessionSecret}`,
-            maxAge: 1000 * 60 * 60 * 24 * 14,
-        })
+    .use(cookieSessionMW);
+io.use(function (socket, next) {
+    cookieSessionMW(socket.request, socket.request.res, next);
+});
+
+//SOCKET.IO CONNECTION
+io.on("connection", (socket) => {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    const userId = socket.request.session.userId;
+    console.log(
+        new Date().toLocaleTimeString(),
+        `user/socket with the id ${userId} is now connected!`
     );
+
+    socket.on("hello", (greeting) => {
+        console.log(`Message from ${userId}: ${greeting}`);
+
+        io.emit(
+            "hello",
+            `Welcome ${userId} - connection established. Let's chat!`
+        );
+    });
+
+    // socket.on("newChatMessage", ({ message }) => {
+    //     console.log(`${socket.id} says: "${message}"`);
+    //     const msg = { message, user: socket.id };
+    //     io.emit("newChatMessage", msg);
+    // });
+});
 
 //CSRF Token
 app.use(csurf());
@@ -92,6 +132,6 @@ app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
