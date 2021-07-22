@@ -1,4 +1,5 @@
 const exporting = {
+    changeDateToTimepast,
     hashPassword,
     loginUser,
     verifyEmail,
@@ -17,6 +18,7 @@ const {
 } = require("./db_queries");
 const { sendEmail } = require("./SES");
 const cryptoRandomString = require("crypto-random-string");
+const moment = require("moment");
 
 function hashPassword(password) {
     console.log("...(hashPassword) password: ", password);
@@ -110,5 +112,12 @@ function saveToDb(request, response, next) {
         console.log("...(saveProfileUrl) result: ", result);
         request.latestImage = result;
         next();
+    });
+}
+
+function changeDateToTimepast(result) {
+    result.rows.forEach((comment) => {
+        comment.created_at = moment(comment.created_at).fromNow();
+        console.log(comment.created_at);
     });
 }
