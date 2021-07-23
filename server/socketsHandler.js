@@ -3,7 +3,7 @@ const {
     getLatestChatmessages,
     saveChatmessage,
     getUserById,
-} = require("./db_queries");
+} = require("./database/db_queries");
 const limit = 10;
 
 const handleChatMessages = async (socket) => {
@@ -16,7 +16,7 @@ const handleChatMessages = async (socket) => {
 
     //EMIT the 10 latest chat messages to the socket that just connected
     let messages = await getLatestChatmessages({ limit });
-    messages = isSenderAlsoUser(messages, userId);
+    // messages = isSenderAlsoUser(messages, userId);
     io.to(socketId).emit("recentMessages", {
         messages,
     });
@@ -31,16 +31,15 @@ const handleChatMessages = async (socket) => {
         const { first_name, last_name, profile_url } = await getUserById(
             userId
         );
-        // chatmessage = isSenderAlsoUser({ chatmessage }, userId);
 
         io.emit("newChatMessageToClients", {
-            id,
-            userId,
+            sender_id: userId,
+            chatmessage,
+            created_at,
             first_name,
             last_name,
             profile_url,
-            chatmessage,
-            created_at,
+            id,
         });
     });
 };

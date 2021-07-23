@@ -15,7 +15,7 @@ const {
     getUserByEmail,
     saveSecretCode,
     saveProfileUrl,
-} = require("./db_queries");
+} = require("./database/db_queries");
 const { sendEmail } = require("./SES");
 const cryptoRandomString = require("crypto-random-string");
 const moment = require("moment");

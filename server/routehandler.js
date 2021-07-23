@@ -1,6 +1,4 @@
 /* eslint-disable indent */
-
-const { response } = require("express");
 const {
     deleteFriend,
     getFriendshipStatus,
@@ -15,7 +13,7 @@ const {
     saveProfileUrl,
     saveUserBio,
     updateFriendstatus,
-} = require("./db_queries");
+} = require("./database/db_queries");
 const { loginUser, verifyEmail, sendRegistrationMail } = require("./functions");
 
 const csrfToken = (request, response, next) => {
@@ -105,32 +103,35 @@ const changeFriendStatus = async (request, response) => {
     console.log("...(RH: changeFriendStatus)");
     const { userId: user1_id } = request.session;
     const { action, user2_id } = request.query;
-    let result;
+    let updatedFriendship;
     try {
         switch (action) {
             case "request":
-                result = await saveFriendrequest({ user1_id, user2_id });
+                updatedFriendship = await saveFriendrequest({
+                    user1_id,
+                    user2_id,
+                });
                 break;
             case "accept":
-                result = await updateFriendstatus({
+                updatedFriendship = await updateFriendstatus({
                     user1_id,
                     user2_id,
                     friend_status: "friends",
                 });
                 break;
             case "cancel":
-                result = await deleteFriend({ user1_id, user2_id });
+                updatedFriendship = await deleteFriend({ user1_id, user2_id });
                 break;
             case "unfriend":
-                result = await deleteFriend({ user1_id, user2_id });
+                updatedFriendship = await deleteFriend({ user1_id, user2_id });
                 break;
             default:
                 break;
         }
         response.json({
-            status: result.friend_status,
-            sender: result.sender_id,
-            recipient: result.recipient_id,
+            status: updatedFriendship.friend_status,
+            sender: updatedFriendship.sender_id,
+            recipient: updatedFriendship.recipient_id,
         });
     } catch (error) {
         console.log("ERROR updating friendship status: ", error);
