@@ -1,94 +1,102 @@
-import { socket } from "../../public/socket";
 import { useSelector } from "react-redux";
+import { useState } from "react";
+// import ChatInput from "./ChatInput.js";
+import { socket } from "../../public/socket.js";
 
 export default function Chat() {
-    const chatHistory = useSelector((state) => {
-        console.log("...(Chat) state: ", state);
+    //pull chatHistory from redux store
+    const chatHistory = useSelector(({ chatHistory }) => chatHistory);
+    const [newChatmessage, setNewChatmessage] = useState("");
 
-        console.log("...(Chat) chatHistory: ", chatHistory);
-        return state.chatHistory;
-    });
+    //OnSendButtonClick: emit message, empty input field
+    const onSendButtonClick = () => {
+        socket.emit("newChatMessageToServer", { chatmessage: newChatmessage });
+        setNewChatmessage("");
+    };
 
-    return (
-        <>
-            <section className="chatWrapper">
-                <ul>
-                    {chatHistory &&
-                        chatHistory.map(
-                            ({
-                                id,
-                                first_name,
-                                last_name,
-                                profile_url,
-                                chatmessage,
-                                created_at,
-                                sender_id,
-                            }) => {
-                                return (
-                                    <li key={id} className="singleMessage">
-                                        <div
+    const renderChathistory = () => {
+        return (
+            chatHistory &&
+            chatHistory.map(
+                ({
+                    id,
+                    first_name,
+                    last_name,
+                    profile_url,
+                    chatmessage,
+                    created_at,
+                    sender_id,
+                }) => {
+                    return (
+                        <li key={id} className="singleMessage">
+                            <div
+                                className={
+                                    sender_id == -1
+                                        ? "messageWrapperSelf"
+                                        : "messageWrapper"
+                                }
+                            >
+                                <div
+                                    className={
+                                        sender_id == -1
+                                            ? "chatImgSelf"
+                                            : "chatImg"
+                                    }
+                                >
+                                    <img src={profile_url} alt="" />
+                                </div>
+                                <div>
+                                    <div>
+                                        <p
                                             className={
                                                 sender_id == -1
-                                                    ? "messageWrapperSelf"
-                                                    : "messageWrapper"
+                                                    ? "chatauthorSelf"
+                                                    : "chatauthor"
                                             }
                                         >
-                                            <div
-                                                className={
-                                                    sender_id == -1
-                                                        ? "chatImgSelf"
-                                                        : "chatImg"
-                                                }
-                                            >
-                                                <img src={profile_url} alt="" />
-                                            </div>
-                                            <div>
-                                                <div>
-                                                    <p
-                                                        className={
-                                                            sender_id == -1
-                                                                ? "chatauthorSelf"
-                                                                : "chatauthor"
-                                                        }
-                                                    >
-                                                        {first_name +
-                                                            " " +
-                                                            last_name}
-                                                    </p>
-                                                    <q
-                                                        className={
-                                                            sender_id == -1
-                                                                ? "chatmsgSelf"
-                                                                : "chatmsg"
-                                                        }
-                                                    >
-                                                        {chatmessage}
-                                                    </q>
-                                                </div>
+                                            {first_name + " " + last_name}
+                                        </p>
+                                        <q
+                                            className={
+                                                sender_id == -1
+                                                    ? "chatmsgSelf"
+                                                    : "chatmsg"
+                                            }
+                                        >
+                                            {chatmessage}
+                                        </q>
+                                    </div>
 
-                                                <p className="timestamp">
-                                                    {created_at}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                );
-                            }
-                        )}
-                </ul>
-            </section>
-            <section className="chatFormWrapper">
+                                    <p className="timestamp">{created_at}</p>
+                                </div>
+                            </div>
+                        </li>
+                    );
+                }
+            )
+        );
+    };
+
+    return (
+        <section className="chatWrapper">
+            <ul>{renderChathistory()}</ul>
+            {/* <ChatInput /> */}
+            <div className="chatFormWrapper">
                 <label className="searchBox" forhtml="searchuser">
                     <input
                         name="chatinput"
                         type="text"
                         placeholder="type your message..."
+                        value={newChatmessage}
+                        onChange={(event) =>
+                            setNewChatmessage(event.target.value)
+                        }
                     />
-                    <button type="submit">
+                    <button type="submit" onClick={() => onSendButtonClick()}>
                         <i className="material-icons">send</i>
                     </button>
                 </label>
-            </section>
-        </>
+            </div>
+        </section>
     );
 }

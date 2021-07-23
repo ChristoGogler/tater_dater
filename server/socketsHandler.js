@@ -6,7 +6,7 @@ const {
 } = require("./db_queries");
 const limit = 10;
 
-const handleChatMessages = (socket) => {
+const handleChatMessages = async (socket) => {
     //disconnect if not a logged in user!
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
@@ -14,22 +14,15 @@ const handleChatMessages = (socket) => {
     const socketId = socket.id;
     const userId = socket.request.session.userId;
 
-    // First Connection Check
-    socket.on("connectionCheck", async ({ message }) => {
-        console.log(`Message from ${userId}: ${message}`);
-        io.emit("connectionEstablished", {
-            message: "Connection established. Lets chat!",
-        });
-        //EMIT the 10 latest chat messages to the socket that just connected
-        const messages = await getLatestChatmessages({ limit });
-        console.log("SH latestMessages: ", messages);
-        io.to(socketId).emit("recentMessages", {
-            messages,
-        });
+    //EMIT the 10 latest chat messages to the socket that just connected
+    let messages = await getLatestChatmessages({ limit });
+    messages = isSenderAlsoUser(messages, userId);
+    io.to(socketId).emit("recentMessages", {
+        messages,
     });
 
     //receiving new message
-    socket.on("newChatMessage", async ({ chatmessage }) => {
+    socket.on("newChatMessageToServer", async ({ chatmessage }) => {
         const { id, created_at } = await saveChatmessage({
             userId,
             chatmessage,
@@ -38,7 +31,9 @@ const handleChatMessages = (socket) => {
         const { first_name, last_name, profile_url } = await getUserById(
             userId
         );
-        io.emit("newChatMessage", {
+        // chatmessage = isSenderAlsoUser({ chatmessage }, userId);
+
+        io.emit("newChatMessageToClients", {
             id,
             userId,
             first_name,
@@ -54,3 +49,15 @@ const exporting = {
     handleChatMessages,
 };
 module.exports = exporting;
+
+function isSenderAlsoUser(messages, userId) {
+    console.log("messages: ", messages);
+    messages = messages.map((msg) => {
+        if (msg.sender_id == userId) {
+            msg.sender_id = -1;
+            return { ...msg };
+        }
+        return { ...msg };
+    });
+    return messages;
+}

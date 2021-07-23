@@ -107,9 +107,7 @@ function sendRegistrationMail({ email, first_name }) {
 //middleware
 function saveToDb(request, response, next) {
     console.log("...(server saveToDb)");
-    // console.log("...(saveToDb) request body: ", request.body);
     saveProfileUrl(request.body).then((result) => {
-        console.log("...(saveProfileUrl) result: ", result);
         request.latestImage = result;
         next();
     });
@@ -118,6 +116,5 @@ function saveToDb(request, response, next) {
 function changeDateToTimepast(result) {
     result.rows.forEach((comment) => {
         comment.created_at = moment(comment.created_at).fromNow();
-        console.log(comment.created_at);
     });
 }

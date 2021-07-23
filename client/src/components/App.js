@@ -1,6 +1,6 @@
 import { Component } from "react";
 import axios from "../axios";
-import { BrowserRouter, Link, Redirect, Route } from "react-router-dom";
+import { BrowserRouter, Link, Redirect, Route, Switch } from "react-router-dom";
 
 import Chat from "./Chat";
 import FindProfile from "./FindProfile";
@@ -131,27 +131,29 @@ export default class App extends Component {
                         )}
                     </nav>
                     <section className="mainContent vcenter">
-                        <Route
-                            exact
-                            path="/"
-                            render={() => (
-                                <MyProfile
-                                    first_name={this.state.first_name}
-                                    last_name={this.state.last_name}
-                                    bio={this.state.bio}
-                                    profile_url={this.state.profile_url}
-                                    onBioChange={this.onBioChange}
-                                    loading={this.state.loading}
-                                />
-                            )}
-                        />
-                        <Route path="/friends/list" component={Friends} />
-                        <Route path="/users/find" component={FindProfile} />
-                        <Route path="/user/:id" component={UserProfile} />
-                        <Route path="/chat" component={Chat} />
-                        <Route path="/">
-                            <Redirect to="/" />
-                        </Route>
+                        <Switch>
+                            <Route
+                                exact
+                                path="/"
+                                render={() => (
+                                    <MyProfile
+                                        first_name={this.state.first_name}
+                                        last_name={this.state.last_name}
+                                        bio={this.state.bio}
+                                        profile_url={this.state.profile_url}
+                                        onBioChange={this.onBioChange}
+                                        loading={this.state.loading}
+                                    />
+                                )}
+                            />
+                            <Route path="/friends/list" component={Friends} />
+                            <Route path="/users/find" component={FindProfile} />
+                            <Route path="/user/:id" component={UserProfile} />
+                            <Route path="/chat" component={Chat} />
+                            <Route path="/">
+                                <Redirect to="/" />
+                            </Route>
+                        </Switch>
                         <section className="modal">
                             {this.state.isUploaderVisible && (
                                 <Uploader

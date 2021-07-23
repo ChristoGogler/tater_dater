@@ -40,16 +40,7 @@ const friendshipReducer = (state = {}, action) => {
             );
             return { ...state, chatHistory: action.payload };
         case "NEW_CHATMESSAGE":
-            console.log(
-                "...(Reducer NEW_CHATMESSAGE) state.chatHistory BEFORE: ",
-                state.chatHistory
-            );
-            state.chatHistory.push(action.payload);
-            console.log(
-                "...(Reducer NEW_CHATMESSAGE) state.chatHistory AFTER: ",
-                state.chatHistory
-            );
-
+            state.chatHistory.unshift(action.payload);
             return { ...state };
         default:
             return state;
