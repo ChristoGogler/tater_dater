@@ -67,7 +67,7 @@ app.use(csrfToken);
 app.get("/api/user", getMyProfile);
 
 //CHECK IF LOGGED IN
-app.get("/api/user/id.json", checkLogin);
+app.get("/api/user/id", checkLogin);
 
 //REGISTER
 app.post("/api/register", register);

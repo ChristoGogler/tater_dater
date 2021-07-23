@@ -187,8 +187,14 @@ const getUserProfile = async (request, response) => {
 
 //CHECK IF LOGGED IN
 const checkLogin = (request, response) => {
+    if (request.session.userId) {
+        response.json({
+            userId: request.session.userId,
+        });
+        return;
+    }
     response.json({
-        userId: request.session.userId,
+        userId: null,
     });
 };
 

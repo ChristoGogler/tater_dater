@@ -192,7 +192,7 @@ async function saveChatmessage({ userId, chatmessage }) {
 async function getLatestChatmessages({ limit }) {
     // console.log("...(DB getLatestMessages) limit: ", limit);
     const result = await postgresDb.query(
-        `SELECT sender_id, chatmessage, chatmessages.created_at, first_name, last_name, profile_url FROM chatmessages 
+        `SELECT chatmessages.id, sender_id, chatmessage, chatmessages.created_at, first_name, last_name, profile_url FROM chatmessages 
         JOIN users
         ON sender_id = users.id
         ORDER BY chatmessages.created_at DESC LIMIT $1`,
