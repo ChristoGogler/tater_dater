@@ -1,6 +1,6 @@
 import { Component } from "react";
 import axios from "../axios";
-import { BrowserRouter, Link, Route } from "react-router-dom";
+import { BrowserRouter, Link, Redirect, Route } from "react-router-dom";
 
 import Chat from "./Chat";
 import FindProfile from "./FindProfile";
@@ -149,6 +149,9 @@ export default class App extends Component {
                         <Route path="/users/find" component={FindProfile} />
                         <Route path="/user/:id" component={UserProfile} />
                         <Route path="/chat" component={Chat} />
+                        <Route path="/">
+                            <Redirect to="/" />
+                        </Route>
                         <section className="modal">
                             {this.state.isUploaderVisible && (
                                 <Uploader
