@@ -1,23 +1,31 @@
 import { useSelector } from "react-redux";
-import { useState } from "react";
 // import ChatInput from "./ChatInput.js";
 import { socket } from "../../public/socket.js";
 
 export default function Chat() {
     //pull chatHistory from redux store
-    const chatHistory = useSelector(({ chatHistory }) => chatHistory);
-    const [newChatmessage, setNewChatmessage] = useState("");
+    const chatHistory = useSelector((state) => {
+        console.log("...state.chatHistory:", state.chatHistory);
+        return state.chatHistory;
+    });
+    const newMessages = useSelector((state) => {
+        console.log("...state.newMessages:", state.newMessages);
+        return state.newMessages;
+    });
+
+    // const [newChatmessage, setNewChatmessage] = useState("");
 
     //OnSendButtonClick: emit message, empty input field
     const onSendButtonClick = () => {
-        socket.emit("newChatMessageToServer", { chatmessage: newChatmessage });
-        setNewChatmessage("");
+        const text = document.querySelector("input").value;
+        socket.emit("newChatMessageToServer", { chatmessage: text });
+        // setNewChatmessage("");
     };
 
-    const renderChathistory = () => {
+    const renderChathistory = (messages) => {
         return (
-            chatHistory &&
-            chatHistory.map(
+            messages &&
+            messages.map(
                 ({
                     id,
                     first_name,
@@ -79,7 +87,10 @@ export default function Chat() {
 
     return (
         <section className="chatWrapper">
-            <ul>{renderChathistory()}</ul>
+            <ul>
+                {renderChathistory(chatHistory)}
+                {renderChathistory(newMessages)}
+            </ul>
             {/* <ChatInput /> */}
             <div className="chatFormWrapper">
                 <label className="searchBox" forhtml="searchuser">
@@ -87,10 +98,6 @@ export default function Chat() {
                         name="chatinput"
                         type="text"
                         placeholder="type your message..."
-                        value={newChatmessage}
-                        onChange={(event) =>
-                            setNewChatmessage(event.target.value)
-                        }
                     />
                     <button type="submit" onClick={() => onSendButtonClick()}>
                         <i className="material-icons">send</i>
