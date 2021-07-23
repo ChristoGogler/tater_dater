@@ -17,22 +17,33 @@ export const receiveFriendsAndPending = () => {
     });
 };
 
+//TODO: has to get tested still
 export const requestFriendship = (otherUser_id) => {
     return new Promise((resolve, reject) => {
         axios
             .post(`/api/friendrequest?action=request&user2_id=${otherUser_id}`)
-            .then((data) => {
-                console.log("...(ACTIONS requestFriendship) data: ", data);
+            .then((friendship) => {
+                console.log(
+                    "...(ACTIONS requestFriendship) friendship: ",
+                    friendship
+                );
                 resolve({
                     type: "REQUEST_FRIENDSHIP",
-                    payload: otherUser_id,
+                    payload: {
+                        id: friendship.id,
+                        first_name: friendship.first_name,
+                        last_name: friendship.last_name,
+                        profile_url: friendship.profile_url,
+                        friend_status: friendship.friend_status,
+                        sender_id: friendship.sender_id,
+                    },
                 });
             })
             .catch((error) => {
                 console.log("ERROR: ", error);
                 reject({
                     type: "REQUEST_FRIENDSHIP",
-                    payload: error,
+                    payload: { error },
                 });
             });
     });
@@ -45,14 +56,14 @@ export const deleteFriendship = (otherUser_id) => {
             .then(() => {
                 resolve({
                     type: "DELETE_FRIENDSHIP",
-                    payload: otherUser_id,
+                    payload: { otherUser_id },
                 });
             })
             .catch((error) => {
                 console.log("ERROR: ", error);
                 reject({
                     type: "DELETE_FRIENDSHIP",
-                    payload: error,
+                    payload: { error },
                 });
             });
     });
@@ -66,14 +77,14 @@ export const cancelRequest = (otherUser_id) => {
                 // console.log("...(ACTION CREATOR: cancelRequest) id: ", data);
                 resolve({
                     type: "CANCEL_REQUEST",
-                    payload: otherUser_id,
+                    payload: { otherUser_id },
                 });
             })
             .catch((error) => {
                 console.log("ERROR: ", error);
                 reject({
                     type: "CANCEL_REQUEST",
-                    payload: error,
+                    payload: { error },
                 });
             });
     });
@@ -84,18 +95,17 @@ export const acceptFriendship = (otherUser_id) => {
         axios
             .post(`/api/friendrequest?action=accept&user2_id=${otherUser_id}`)
             .then((data) => {
-                //TODO action object: type property (e.g., 'ACCEPT_FRIENDSHIP') and the id
                 console.log("...(ACTION CREATOR: acceptFriendship) id: ", data);
                 resolve({
                     type: "ACCEPT_FRIENDSHIP",
-                    payload: otherUser_id,
+                    payload: { otherUser_id },
                 });
             })
             .catch((error) => {
                 console.log("ERROR: ", error);
                 reject({
                     type: "ACCEPT_FRIENDSHIP",
-                    payload: error,
+                    payload: { error },
                 });
             });
     });
@@ -117,6 +127,8 @@ export const recentMessages = (messages) => {
     };
 };
 export const newChatMessage = (message) => {
+    console.log("...(ACTION newChatMessage) message: ", message);
+
     return {
         type: "NEW_CHATMESSAGE",
         payload: message,
