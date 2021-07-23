@@ -195,9 +195,9 @@ async function getLatestChatmessages({ limit }) {
         `SELECT chatmessages.id, sender_id, chatmessage, chatmessages.created_at, first_name, last_name, profile_url FROM chatmessages 
         JOIN users
         ON sender_id = users.id
-        ORDER BY chatmessages.created_at DESC LIMIT $1`,
+        ORDER BY chatmessages.id DESC LIMIT $1`,
         [limit]
     );
     changeDateToTimepast(result);
-    return result.rows;
+    return result.rows.reverse();
 }

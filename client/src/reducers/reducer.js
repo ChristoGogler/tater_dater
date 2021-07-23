@@ -49,9 +49,9 @@ const reducer = (state = initialState, action) => {
         case "RECENT_MESSAGES":
             console.log(
                 "...(Reducer RECENT_MESSAGES) action.payload: ",
-                action.payload
+                action.payload.messages
             );
-            return { ...state, chatHistory: action.payload };
+            return { ...state, chatHistory: action.payload.messages };
 
         case "NEW_CHATMESSAGE":
             console.log(

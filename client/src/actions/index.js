@@ -123,7 +123,7 @@ export const recentMessages = (messages) => {
     console.log("...(ACTION recentMessages) messages: ", messages);
     return {
         type: "RECENT_MESSAGES",
-        payload: messages,
+        payload: { messages },
     };
 };
 export const newChatMessage = (message) => {

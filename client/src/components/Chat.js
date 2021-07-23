@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-// import ChatInput from "./ChatInput.js";
+import ChatInput from "./ChatInput.js";
 import { socket } from "../../public/socket.js";
 
 export default function Chat() {
@@ -15,12 +15,12 @@ export default function Chat() {
 
     // const [newChatmessage, setNewChatmessage] = useState("");
 
-    //OnSendButtonClick: emit message, empty input field
-    const onSendButtonClick = () => {
-        const text = document.querySelector("input").value;
-        socket.emit("newChatMessageToServer", { chatmessage: text });
-        // setNewChatmessage("");
-    };
+    // //OnSendButtonClick: emit message, empty input field
+    // const onSendButtonClick = () => {
+    //     const text = document.querySelector("input").value;
+    //     socket.emit("newChatMessageToServer", { chatmessage: text });
+    //     // setNewChatmessage("");
+    // };
 
     const renderChathistory = (messages) => {
         return (
@@ -91,19 +91,7 @@ export default function Chat() {
                 {renderChathistory(chatHistory)}
                 {renderChathistory(newMessages)}
             </ul>
-            {/* <ChatInput /> */}
-            <div className="chatFormWrapper">
-                <label className="searchBox" forhtml="searchuser">
-                    <input
-                        name="chatinput"
-                        type="text"
-                        placeholder="type your message..."
-                    />
-                    <button type="submit" onClick={() => onSendButtonClick()}>
-                        <i className="material-icons">send</i>
-                    </button>
-                </label>
-            </div>
+            <ChatInput />
         </section>
     );
 }
