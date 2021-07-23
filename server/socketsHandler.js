@@ -16,30 +16,41 @@ const handleChatMessages = async (socket) => {
 
     //EMIT the 10 latest chat messages to the socket that just connected
     let messages = await getLatestChatmessages({ limit });
-    // messages = isSenderAlsoUser(messages, userId);
+    messages = isSenderAlsoUser(messages, userId);
+    console.log("...(SH EMIT the 10 latest) messages: ", messages);
+
     io.to(socketId).emit("recentMessages", {
         messages,
     });
 
     //receiving new message
     socket.on("newChatMessageToServer", async ({ chatmessage }) => {
-        const { id, created_at } = await saveChatmessage({
+        const newMessage = await saveChatmessage({
             userId,
             chatmessage,
         });
+        console.log("...(SH newChatMessageToServer) newMessage: ", newMessage);
 
         const { first_name, last_name, profile_url } = await getUserById(
             userId
         );
-
-        io.emit("newChatMessageToClients", {
-            sender_id: userId,
+        io.to(socketId).emit("newChatMessageToClients", {
+            id: newMessage.id,
+            sender_id: -1,
             chatmessage,
-            created_at,
+            created_at: newMessage.created_at,
             first_name,
             last_name,
             profile_url,
-            id,
+        });
+        socket.broadcast.emit("newChatMessageToClients", {
+            id: newMessage.id,
+            sender_id: userId,
+            chatmessage,
+            created_at: newMessage.created_at,
+            first_name,
+            last_name,
+            profile_url,
         });
     });
 };
