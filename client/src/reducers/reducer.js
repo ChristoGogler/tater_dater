@@ -5,6 +5,8 @@ const initialState = {
     friendsAndPending: [],
     chatHistory: [],
     newMessages: [],
+    user: {},
+    bioEditor: { isBeingEdited: false },
 };
 
 const reducer = (state = initialState, action) => {
@@ -55,13 +57,37 @@ const reducer = (state = initialState, action) => {
 
         case "NEW_CHATMESSAGE":
             console.log(
-                "...(Reducer RECENT_MESSAGES) action.payload: ",
+                "...(Reducer NEW_CHATMESSAGE) action.payload: ",
                 action.payload
             );
             return {
                 ...state,
                 newMessages: [...state.newMessages, action.payload],
             };
+        case "UPDATE_BIO":
+            console.log(
+                "...(Reducer UPDATE_BIO) action.payload: ",
+                action.payload
+            );
+            return {
+                ...state,
+                user: action.payload,
+            };
+        case "CHANGE_BIOEDITOR":
+            return {
+                ...state,
+                bioEditor: { isBeingEdited: action.payload.isBeingEdited },
+            };
+        case "GET_USER":
+            console.log(
+                "...(Reducer GET_USER) action.payload: ",
+                action.payload
+            );
+            return {
+                ...state,
+                user: action.payload.user,
+            };
+
         default:
             return state;
     }

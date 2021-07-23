@@ -111,17 +111,17 @@ async function saveUserBio({ bio, userId }) {
             bio,
             userId,
         ])
-        .then((result) => {
-            return result.rows[0];
+        .then((user) => {
+            return user.rows[0];
         });
 }
 
 async function getFriendshipStatus({ user1_id, user2_id }) {
-    const result = await postgresDb.query(
+    const friendship = await postgresDb.query(
         "SELECT * FROM friendships WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1)",
         [user1_id, user2_id]
     );
-    return result.rows[0];
+    return friendship.rows[0];
 }
 
 async function saveFriendrequest({ user1_id, user2_id }) {

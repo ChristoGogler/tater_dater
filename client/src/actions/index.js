@@ -150,3 +150,33 @@ export const newChatMessage = (message) => {
 //         });
 //     });
 // };
+
+//FOR BIOEDITOR
+export const saveBio = async (bio) => {
+    console.log("...(ACTION saveBio) bio: ", bio);
+    const user = await axios.put("/api/user/update/bio", {
+        bio,
+    });
+    console.log("...(ACTION saveBio) user: ", user.data);
+    return {
+        type: "UPDATE_BIO",
+        payload: user.data,
+    };
+};
+
+export const changeBioEditor = (isBeingEdited) => {
+    return {
+        type: "CHANGE_BIOEDITOR",
+        payload: isBeingEdited,
+    };
+};
+
+export const getUser = async () => {
+    const user = await axios.get("/api/user", {});
+    console.log("...(ACTION getUser) user: ", user.data);
+
+    return {
+        type: "UPDATE_BIO",
+        payload: user.data,
+    };
+};
