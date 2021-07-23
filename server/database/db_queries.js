@@ -20,10 +20,10 @@ const exporting = {
 module.exports = exporting;
 
 const spicedpg = require("spiced-pg");
-const { hashPassword, changeDateToTimepast } = require("./functions");
+const { hashPassword, changeDateToTimepast } = require("../functions");
 
-const user = process.env.user || require("./secrets.json").user;
-const pwd = process.env.pwd || require("./secrets.json").pwd;
+const user = process.env.user || require("../secrets.json").user;
+const pwd = process.env.pwd || require("../secrets.json").pwd;
 const database = "socialnetwork";
 
 const postgresDb =
@@ -125,11 +125,22 @@ async function getFriendshipStatus({ user1_id, user2_id }) {
 }
 
 async function saveFriendrequest({ user1_id, user2_id }) {
-    const result = await postgresDb.query(
+    const friendship = await postgresDb.query(
         "INSERT INTO friendships (sender_id, recipient_id) VALUES ($1,$2 ) RETURNING *",
         [user1_id, user2_id]
     );
-    return result.rows[0];
+    const user = await getUserById(user2_id);
+    const friend = {
+        id: friendship.rows[0].id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        profile_url: user.profile_url,
+        friend_status: friendship.rows[0].friend_status,
+        sender_id: friendship.rows[0].sender_id,
+        recipient_id: friendship.rows[0].recipient_id,
+    };
+    // console.log("...(DB saveFriendrequest) friend: ", friend);
+    return friend;
 }
 
 async function deleteFriend({ user1_id, user2_id }) {
@@ -165,7 +176,7 @@ async function getFriendsAndPending({ userId }) {
 }
 
 async function saveChatmessage({ userId, chatmessage }) {
-    console.log("...(DB saveChatmessage) userId: ", userId);
+    console.log("...(DB saveChatmessage) userId: ", userId, chatmessage);
     const result = await postgresDb.query(
         "INSERT INTO chatmessages (sender_id, chatmessage) VALUES ($1, $2) RETURNING *",
         [userId, chatmessage]
@@ -179,7 +190,7 @@ async function saveChatmessage({ userId, chatmessage }) {
 // last names and the image urls of the sender
 
 async function getLatestChatmessages({ limit }) {
-    console.log("...(DB getLatestMessages) limit: ", limit);
+    // console.log("...(DB getLatestMessages) limit: ", limit);
     const result = await postgresDb.query(
         `SELECT sender_id, chatmessage, chatmessages.created_at, first_name, last_name, profile_url FROM chatmessages 
         JOIN users
