@@ -7,6 +7,7 @@ const initialState = {
     newMessages: [],
     user: {},
     bioEditor: { isBeingEdited: false },
+    resetPassword: { step: 1 },
 };
 
 const reducer = (state = initialState, action) => {
@@ -49,26 +50,14 @@ const reducer = (state = initialState, action) => {
             };
 
         case "RECENT_MESSAGES":
-            console.log(
-                "...(Reducer RECENT_MESSAGES) action.payload: ",
-                action.payload.messages
-            );
             return { ...state, chatHistory: action.payload.messages };
 
         case "NEW_CHATMESSAGE":
-            console.log(
-                "...(Reducer NEW_CHATMESSAGE) action.payload: ",
-                action.payload
-            );
             return {
                 ...state,
                 newMessages: [...state.newMessages, action.payload],
             };
         case "UPDATE_BIO":
-            console.log(
-                "...(Reducer UPDATE_BIO) action.payload: ",
-                action.payload
-            );
             return {
                 ...state,
                 user: action.payload,
@@ -79,15 +68,18 @@ const reducer = (state = initialState, action) => {
                 bioEditor: { isBeingEdited: action.payload.isBeingEdited },
             };
         case "GET_USER":
-            console.log(
-                "...(Reducer GET_USER) action.payload: ",
-                action.payload
-            );
             return {
                 ...state,
                 user: action.payload.user,
             };
-
+        case "RESETPW_NEXTSTEP":
+            return {
+                ...state,
+                resetPassword: {
+                    step: action.payload.step,
+                    message: action.payload.message,
+                },
+            };
         default:
             return state;
     }

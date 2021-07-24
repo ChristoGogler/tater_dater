@@ -1,36 +1,22 @@
-import axios from "../axios";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
+import { resetPwNextStep } from "../actions";
 import SubmitButton from "./SubmitButton.js";
 import { Link } from "react-router-dom";
 
 export default function ResetPassword() {
-    const [resetPwInput, setResetPwInput] = useState({ step: 1 });
-    const [message, setMessage] = useState("");
+    const currentStep = useSelector((state) => state.resetPassword.step);
+    const [resetPwInput, setResetPwInput] = useState();
+    const dispatch = useDispatch();
 
     const onCodeSubmit = async (event) => {
         event.preventDefault();
-        try {
-            await axios.post("/api/password/reset/step2", resetPwInput);
-            setResetPwInput({ ...resetPwInput, step: 3 });
-            setMessage("");
-        } catch (error) {
-            console.log("...(onCodeSubmit) Error: ", error.response.data.error);
-            setMessage(error.response.data.error);
-        }
+
+        dispatch(resetPwNextStep(currentStep, resetPwInput));
     };
     const onEmailSubmit = async (event) => {
         event.preventDefault();
-        try {
-            await axios.post("/api/password/reset/step1", resetPwInput);
-            setResetPwInput({ ...resetPwInput, step: 2 });
-            setMessage("");
-        } catch (error) {
-            console.log(
-                "...(onEmailSubmit) Error: ",
-                error.response.data.error
-            );
-            setMessage(error.response.data.error);
-        }
+        dispatch(resetPwNextStep(currentStep, resetPwInput));
     };
     const renderStep1 = () => {
         return (
@@ -56,7 +42,7 @@ export default function ResetPassword() {
                     </label>
                     <SubmitButton onClick={onEmailSubmit} />
                 </form>
-                <p>{message}</p>
+                <p>{currentStep.message}</p>
             </div>
         );
     };
@@ -95,7 +81,7 @@ export default function ResetPassword() {
                     </label>
                     <SubmitButton onClick={onCodeSubmit} />
                 </form>
-                <p>{message}</p>
+                <p>{currentStep.message}</p>
             </div>
         );
     };
@@ -113,15 +99,15 @@ export default function ResetPassword() {
                     </div>
                 </form>
 
-                <p>{message}</p>
+                <p>{currentStep.message}</p>
             </div>
         );
     };
     return (
         <>
-            {resetPwInput.step == 1 && renderStep1()}
-            {resetPwInput.step == 2 && renderStep2()}
-            {resetPwInput.step == 3 && renderStep3()}
+            {currentStep == 1 && renderStep1()}
+            {currentStep == 2 && renderStep2()}
+            {currentStep == 3 && renderStep3()}
         </>
     );
 }

@@ -164,7 +164,7 @@ export const saveBio = async (bio) => {
     };
 };
 
-export const changeBioEditor = (isBeingEdited) => {
+export const toggleBioEditor = (isBeingEdited) => {
     return {
         type: "CHANGE_BIOEDITOR",
         payload: isBeingEdited,
@@ -179,4 +179,28 @@ export const getUser = async () => {
         type: "UPDATE_BIO",
         payload: user.data,
     };
+};
+
+//FOR RESETPASSWORD
+export const resetPwNextStep = async (step, resetPwInput) => {
+    if (step == 1) {
+        const { message } = await axios.post(
+            "/api/password/reset/step1",
+            resetPwInput
+        );
+        return {
+            type: "RESETPW_NEXTSTEP",
+            payload: { message, step: 2 },
+        };
+    }
+    if (step == 2) {
+        const { message } = await axios.post(
+            "/api/password/reset/step2",
+            resetPwInput
+        );
+        return {
+            type: "RESETPW_NEXTSTEP",
+            payload: { message, step: 3 },
+        };
+    }
 };
