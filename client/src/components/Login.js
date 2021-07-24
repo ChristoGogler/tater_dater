@@ -3,18 +3,13 @@ import SubmitButton from "./SubmitButton.js";
 import axios from "../axios";
 
 export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [loginInput, setLoginInput] = useState({});
     const [message, setMessage] = useState("");
 
     const onLoginSubmit = async (event) => {
         event.preventDefault();
-
         try {
-            await axios.post("/api/login", {
-                email,
-                password,
-            });
+            await axios.post("/api/login", loginInput);
             location.reload();
         } catch (error) {
             console.log(
@@ -37,7 +32,12 @@ export default function Login() {
                         name="email"
                         placeholder="email"
                         required
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) =>
+                            setLoginInput({
+                                ...loginInput,
+                                [e.target.name]: e.target.value,
+                            })
+                        }
                     />
                 </label>
                 <label htmlFor="password">
@@ -48,7 +48,12 @@ export default function Login() {
                         name="password"
                         placeholder="******"
                         required
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) =>
+                            setLoginInput({
+                                ...loginInput,
+                                [e.target.name]: e.target.value,
+                            })
+                        }
                     />
                 </label>
                 <SubmitButton />
