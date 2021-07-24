@@ -1,152 +1,127 @@
-import React from "react";
 import axios from "../axios";
+import { useState } from "react";
 import SubmitButton from "./SubmitButton.js";
 import { Link } from "react-router-dom";
 
-export default class ResetPassword extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            step: 1,
-            email: null,
-            code: null,
-            message: null,
-            title: "Forgot your password? No worries, we'll send you an email to reset it!",
-        };
-        //bind methods here!
-        this.onEmailSubmit = this.onEmailSubmit.bind(this);
-        this.onCodeSubmit = this.onCodeSubmit.bind(this);
-        this.onInputChange = this.onInputChange.bind(this);
-    }
+export default function ResetPassword() {
+    const [resetPwInput, setResetPwInput] = useState({ step: 1 });
+    const [message, setMessage] = useState("");
 
-    async onCodeSubmit(event) {
+    const onCodeSubmit = async (event) => {
         event.preventDefault();
         try {
-            await axios.post("/api/password/reset/step2", this.state);
-            this.setState({ step: 3 });
+            await axios.post("/api/password/reset/step2", resetPwInput);
+            setResetPwInput({ ...resetPwInput, step: 3 });
+            setMessage("");
         } catch (error) {
             console.log("...(onCodeSubmit) Error: ", error.response.data.error);
-            this.setState({
-                message: error.response.data.error,
-            });
+            setMessage(error.response.data.error);
         }
-    }
-    async onEmailSubmit(event) {
+    };
+    const onEmailSubmit = async (event) => {
         event.preventDefault();
         try {
-            await axios.post("/api/password/reset/step1", this.state);
-            this.setState({ step: 2 });
+            await axios.post("/api/password/reset/step1", resetPwInput);
+            setResetPwInput({ ...resetPwInput, step: 2 });
+            setMessage("");
         } catch (error) {
             console.log(
                 "...(onEmailSubmit) Error: ",
                 error.response.data.error
             );
-            this.setState({
-                message: error.response.data.error,
-            });
+            setMessage(error.response.data.error);
         }
-    }
-    onInputChange(event) {
-        console.log("...(onInputChange) event.target: ", event.target);
-        this.setState({
-            [event.target.name]: event.target.value,
-        });
-    }
-    render() {
-        console.log("STEP: ", this.state.step);
-        console.log("Email: ", this.state.email);
-        if (this.state.step == 1) {
-            return (
-                <div className="authentificationWrapper">
-                    <h1>{this.state.title}</h1>
-                    <form>
-                        <label htmlFor="email">
-                            email
-                            <input
-                                id="id"
-                                type="email"
-                                name="email"
-                                onChange={this.onInputChange}
-                            ></input>
-                        </label>
-                        <SubmitButton onClick={this.onEmailSubmit} />
+    };
+    const renderStep1 = () => {
+        return (
+            <div className="authentificationWrapper">
+                <h1>
+                    Forgot your password? No worries, we`ll send you an email to
+                    reset it!
+                </h1>
+                <form>
+                    <label htmlFor="email">
+                        email
+                        <input
+                            id="id"
+                            type="email"
+                            name="email"
+                            onChange={(e) =>
+                                setResetPwInput({
+                                    ...resetPwInput,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
+                        ></input>
+                    </label>
+                    <SubmitButton onClick={onEmailSubmit} />
+                </form>
+                <p>{message}</p>
+            </div>
+        );
+    };
+    const renderStep2 = () => {
+        return (
+            <div className="authentificationWrapper">
+                <h1>Please enter the Code you have received in your email!</h1>
+                <form onClick={onCodeSubmit}>
+                    <label htmlFor="code">
+                        code
+                        <input
+                            type="text"
+                            id="code"
+                            name="code"
+                            onChange={(e) =>
+                                setResetPwInput({
+                                    ...resetPwInput,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
+                        ></input>
+                    </label>
+                    <label htmlFor="password">
+                        new password
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            onChange={(e) =>
+                                setResetPwInput({
+                                    ...resetPwInput,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
+                        ></input>
+                    </label>
+                    <SubmitButton onClick={onCodeSubmit} />
+                </form>
+                <p>{message}</p>
+            </div>
+        );
+    };
+    const renderStep3 = () => {
+        return (
+            <div className="authentificationWrapper">
+                <h1>Your password has been changed.</h1>
+                <form>
+                    <div className="buttonsWrapper btnPadding">
+                        <Link to="/login">
+                            <span className="flex">
+                                <i className="material-icons white">login</i>
+                            </span>
+                        </Link>
+                    </div>
+                </form>
 
-                        {/* <div className="buttonsWrapper">
-                            <button
-                                className="btnPadding"
-                                onClick={this.onEmailSubmit}
-                            >
-                                <span className="flex">
-                                    <i className="material-icons white">send</i>
-                                </span>
-                            </button>
-                        </div> */}
-                    </form>
-                    <p>{this.state.message}</p>
-                </div>
-            );
-        }
-        if (this.state.step == 2) {
-            return (
-                <div className="authentificationWrapper">
-                    <h1>
-                        Please enter the Code you have received in your email!
-                    </h1>
-                    <form>
-                        <label htmlFor="code">
-                            code
-                            <input
-                                type="text"
-                                id="code"
-                                name="code"
-                                onChange={this.onInputChange}
-                            ></input>
-                        </label>
-                        <label htmlFor="password">
-                            new password
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                onChange={this.onInputChange}
-                            ></input>
-                        </label>
-                        <SubmitButton onClick={this.onCodeSubmit} />
-
-                        {/* <div className="buttonsWrapper">
-                            <button
-                                className="btnPadding"
-                                onClick={this.onCodeSubmit}
-                            >
-                                <span className="flex">
-                                    <i className="material-icons white">send</i>
-                                </span>
-                            </button>
-                        </div> */}
-                    </form>
-                    <p>{this.state.message}</p>
-                </div>
-            );
-        }
-        if (this.state.step == 3) {
-            return (
-                <div className="authentificationWrapper">
-                    <h1>Your password has been changed.</h1>
-                    <form>
-                        <div className="buttonsWrapper btnPadding">
-                            <Link to="/login">
-                                <span className="flex">
-                                    <i className="material-icons white">
-                                        login
-                                    </i>
-                                </span>
-                            </Link>
-                        </div>
-                    </form>
-
-                    <p>{this.state.message}</p>
-                </div>
-            );
-        }
-    }
+                <p>{message}</p>
+            </div>
+        );
+    };
+    return (
+        <>
+            {resetPwInput.step == 1 && renderStep1()}
+            {resetPwInput.step == 2 && renderStep2()}
+            {resetPwInput.step == 3 && renderStep3()}
+        </>
+    );
 }
