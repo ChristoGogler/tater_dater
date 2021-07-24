@@ -2,12 +2,16 @@
 // Reducer
 
 const initialState = {
+    user: {},
     friendsAndPending: [],
     chatHistory: [],
     newMessages: [],
-    user: {},
     bioEditor: { isBeingEdited: false },
+    isSearching: false,
     resetPassword: { step: 1 },
+    mostRecentUsers: [],
+    userSearchResults: [],
+    isUploaderVisible: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -57,7 +61,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 newMessages: [...state.newMessages, action.payload],
             };
-        case "UPDATE_BIO":
+        case "UPDATE_USER":
             return {
                 ...state,
                 user: action.payload,
@@ -66,6 +70,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 bioEditor: { isBeingEdited: action.payload.isBeingEdited },
+            };
+        case "TOGGLE_ISSEARCHING":
+            return {
+                ...state,
+                isSearching: action.payload.isSearching,
             };
         case "GET_USER":
             return {
@@ -79,6 +88,21 @@ const reducer = (state = initialState, action) => {
                     step: action.payload.step,
                     message: action.payload.message,
                 },
+            };
+        case "GET_MOST_RECENT_USERS":
+            return {
+                ...state,
+                mostRecentUsers: action.payload.mostRecentUsers,
+            };
+        case "GET_USER_SEARCH_RESULTS":
+            return {
+                ...state,
+                userSearchResults: action.payload.userSearchResults,
+            };
+        case "TOGGLE_ISUPLOADERVISIBLE":
+            return {
+                ...state,
+                isUploaderVisible: action.payload.isVisible,
             };
         default:
             return state;

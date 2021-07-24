@@ -1,36 +1,27 @@
 import axios from "../axios";
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateProfilePic } from "../actions";
 
 export default function Uploader(props) {
+    // const profile_url = useSelector((state) => state.user.proofile_url);
     const [file, setFile] = useState(null);
-    const [message, setMessage] = useState("");
+    const dispatch = useDispatch();
 
     const onPictureUpload = async () => {
-        console.log("...(onPictureUpload) file: ", file);
-
+        console.log("onPictureUpload", file);
         event.preventDefault();
         const formData = new FormData();
         formData.append("file", file);
-        try {
-            const result = await axios.post("/api/upload", formData);
-            props.onUpload(result.data.user);
-            props.hideUploader();
-        } catch (error) {
-            setMessage({
-                message: "Problem uploading your photo: " + error,
-            });
-            console.log("ERROR uploading photo: ", error);
-        }
-    };
-
-    const onFileinputChange = async () => {
-        console.log("1", file);
-        await setFile(event.target.files[0]);
+        await dispatch(updateProfilePic(formData));
+        props.hideUploader();
     };
 
     useEffect(() => {
         console.log("EFFECT file: ", file);
-        onPictureUpload();
+        if (file != null) {
+            onPictureUpload();
+        }
     }, [file]);
 
     return (
@@ -40,7 +31,6 @@ export default function Uploader(props) {
             </button>
 
             <section className="uploadSection">
-                <h1>JJJJ</h1>
                 <h1>Choose a new profile picture!</h1>
                 <form
                     id="uploadForm"
@@ -55,7 +45,7 @@ export default function Uploader(props) {
                             type="file"
                             accept="image/*"
                             name="file"
-                            onChange={onFileinputChange}
+                            onChange={() => setFile(event.target.files[0])}
                             required
                         />
                         <span className="flex">

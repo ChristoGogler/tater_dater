@@ -120,7 +120,7 @@ export const changeFriendpendingToggle = (friendpending_toggle) => {
 
 //For Chat
 export const recentMessages = (messages) => {
-    console.log("...(ACTION recentMessages) messages: ", messages);
+    // console.log("...(ACTION recentMessages) messages: ", messages);
     return {
         type: "RECENT_MESSAGES",
         payload: { messages },
@@ -151,15 +151,16 @@ export const newChatMessage = (message) => {
 //     });
 // };
 
-//FOR BIOEDITOR
+//FOR USER / BIOEDITOR
 export const saveBio = async (bio) => {
     console.log("...(ACTION saveBio) bio: ", bio);
     const user = await axios.put("/api/user/update/bio", {
         bio,
     });
     console.log("...(ACTION saveBio) user: ", user.data);
+
     return {
-        type: "UPDATE_BIO",
+        type: "UPDATE_USER",
         payload: user.data,
     };
 };
@@ -176,8 +177,18 @@ export const getUser = async () => {
     console.log("...(ACTION getUser) user: ", user.data);
 
     return {
-        type: "UPDATE_BIO",
+        type: "UPDATE_USER",
         payload: user.data,
+    };
+};
+export const updateProfilePic = async (formData) => {
+    console.log("...(ACTIONS updateProfilePic) formData: ", formData);
+    const user = await axios.post("/api/upload", formData);
+    console.log("...(ACTIONS updateProfilePic) user: ", user.data.user);
+
+    return {
+        type: "UPDATE_USER",
+        payload: user.data.user,
     };
 };
 
@@ -203,4 +214,60 @@ export const resetPwNextStep = async (step, resetPwInput) => {
             payload: { message, step: 3 },
         };
     }
+};
+
+//FOR FINDPROFILE
+
+export const getMostRecentUsers = () => {
+    return new Promise((resolve, reject) => {
+        axios.get("/api/users/latest").then((mostRecentUsers) => {
+            console.log(
+                "...(ACTIONS getMostRecentUsers) mostRecentUsers: ",
+                mostRecentUsers
+            );
+            resolve({
+                type: "GET_MOST_RECENT_USERS",
+                payload: { mostRecentUsers: mostRecentUsers.data },
+            });
+            reject({
+                type: "GET_MOST_RECENT_USERS",
+                payload: null,
+            });
+        });
+    });
+    // const mostRecentUsers = await axios.get("/api/users/latest");
+    // console.log(
+    //     "...(ACTIONS getMostRecentUsers) recentUsers: ",
+    //     mostRecentUsers.data
+    // );
+    // return {
+    //     type: "GET_MOST_RECENT_USERS",
+    //     payload: { mostRecentUsers: mostRecentUsers.data },
+    // };
+};
+
+export const getUserSearchResults = async (searchquery) => {
+    const userResults = await axios.get(`/api/users/find?q=${searchquery}`);
+    console.log(
+        "...(ACTIONS getUserSearchResults) recentUsers: ",
+        userResults.data
+    );
+    return {
+        type: "GET_USER_SEARCH_RESULTS",
+        payload: { userResults: userResults.data },
+    };
+};
+
+export const toggleIsSearching = (isSearching) => {
+    return {
+        type: "TOGGLE_ISSEARCHING",
+        payload: { isSearching },
+    };
+};
+
+export const toggleUploaderVisible = (isVisible) => {
+    return {
+        type: "TOGGLE_ISUPLOADERVISIBLE",
+        payload: { isVisible },
+    };
 };

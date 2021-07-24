@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect } from "react";
-import { saveBio, changeBioEditor, getUser } from "../actions";
+import { saveBio, toggleBioEditor, getUser } from "../actions";
 
 export default function BioEditor() {
     const currentUser = useSelector((state) => state.user);
@@ -10,22 +10,18 @@ export default function BioEditor() {
     const dispatch = useDispatch();
 
     const onEditClick = () => {
-        // console.log("...(Edit Button Click)");
-
-        dispatch(changeBioEditor({ isBeingEdited: true }));
+        dispatch(toggleBioEditor({ isBeingEdited: true }));
     };
 
     const onCancelClick = () => {
-        // console.log("...(Cancel Button Click)");
         event.preventDefault();
-        dispatch(changeBioEditor({ isBeingEdited: false }));
+        dispatch(toggleBioEditor({ isBeingEdited: false }));
     };
 
     const onSaveClick = async () => {
         event.preventDefault();
         dispatch(saveBio(bioText.current.value));
-        //TODO close editor
-        dispatch(changeBioEditor({ isBeingEdited: false }));
+        dispatch(toggleBioEditor({ isBeingEdited: false }));
     };
     useEffect(() => {
         dispatch(getUser(currentUser));

@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-export default function FindProfile() {
+export default function Footer() {
     return (
         <footer>
             <div>
