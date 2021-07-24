@@ -1,4 +1,5 @@
 import { Component } from "react";
+import SubmitButton from "./SubmitButton.js";
 import axios from "../axios";
 
 export default class Registration extends Component {
@@ -92,13 +93,7 @@ export default class Registration extends Component {
                             onChange={this.onInputChange}
                         />
                     </label>
-                    <div className="buttonsWrapper btnPadding">
-                        <button type="submit" className="btnPadding">
-                            <span className="flex">
-                                <i className="material-icons white">send</i>
-                            </span>
-                        </button>
-                    </div>
+                    <SubmitButton />
                 </form>
                 <p className="message">{this.state.message}</p>
             </div>

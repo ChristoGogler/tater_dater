@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "../axios";
+import SubmitButton from "./SubmitButton.js";
 import { Link } from "react-router-dom";
 
 export default class ResetPassword extends React.Component {
@@ -68,7 +69,9 @@ export default class ResetPassword extends React.Component {
                                 onChange={this.onInputChange}
                             ></input>
                         </label>
-                        <div className="buttonsWrapper">
+                        <SubmitButton onClick={this.onEmailSubmit} />
+
+                        {/* <div className="buttonsWrapper">
                             <button
                                 className="btnPadding"
                                 onClick={this.onEmailSubmit}
@@ -77,7 +80,7 @@ export default class ResetPassword extends React.Component {
                                     <i className="material-icons white">send</i>
                                 </span>
                             </button>
-                        </div>
+                        </div> */}
                     </form>
                     <p>{this.state.message}</p>
                 </div>
@@ -108,7 +111,9 @@ export default class ResetPassword extends React.Component {
                                 onChange={this.onInputChange}
                             ></input>
                         </label>
-                        <div className="buttonsWrapper">
+                        <SubmitButton onClick={this.onCodeSubmit} />
+
+                        {/* <div className="buttonsWrapper">
                             <button
                                 className="btnPadding"
                                 onClick={this.onCodeSubmit}
@@ -117,7 +122,7 @@ export default class ResetPassword extends React.Component {
                                     <i className="material-icons white">send</i>
                                 </span>
                             </button>
-                        </div>
+                        </div> */}
                     </form>
                     <p>{this.state.message}</p>
                 </div>
@@ -128,12 +133,12 @@ export default class ResetPassword extends React.Component {
                 <div className="authentificationWrapper">
                     <h1>Your password has been changed.</h1>
                     <form>
-                        <div className="buttonsWrapper">
+                        <div className="buttonsWrapper btnPadding">
                             <Link to="/login">
                                 <span className="flex">
                                     <i className="material-icons white">
                                         login
-                                    </i>{" "}
+                                    </i>
                                 </span>
                             </Link>
                         </div>
