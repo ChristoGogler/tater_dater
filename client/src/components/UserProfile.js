@@ -14,9 +14,10 @@ export default function UserProfile(props) {
     const closeLightbox = () => {
         setIsLightboxVisible(false);
     };
-    const onFriendStatusChange = () => {
+    const onFriendStatusChange = async () => {
         const userId = props.match.params.id;
-        setFriendStatus(userId);
+        const status = await setFriendStatus(userId);
+        setOtherUser({ ...otherUser, ...status });
     };
 
     const setFriendStatus = async (userId) => {
@@ -48,6 +49,10 @@ export default function UserProfile(props) {
             updatedUser = { data: null };
         }
     }, []);
+
+    useEffect(() => {
+        console.log("EFFECT otherUser: ", otherUser);
+    }, [otherUser]);
 
     const { first_name, last_name, email, bio, id, profile_url, isFriend } =
         otherUser;
