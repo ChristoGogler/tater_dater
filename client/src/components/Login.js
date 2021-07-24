@@ -1,82 +1,60 @@
-import { Component } from "react";
+import { useState } from "react";
 import SubmitButton from "./SubmitButton.js";
 import axios from "../axios";
 
-export default class Login extends Component {
-    constructor(props) {
-        // call superconstrutor from Component
-        super(props);
+export default function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
 
-        //first state of
-        this.state = {
-            email: null,
-            password: null,
-            loggedin: false,
-            message: null,
-            title: "Login with your email!",
-        };
-
-        //bind methods here!
-        this.onLoginSubmit = this.onLoginSubmit.bind(this);
-        this.onInputChange = this.onInputChange.bind(this);
-    }
-    async onLoginSubmit(event) {
-        console.log("...(onLoginSubmit) this.state: ", this.state);
+    const onLoginSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const response = await axios.post("/api/login", this.state);
-
-            console.log("...(axios post) response: ", response);
+            await axios.post("/api/login", {
+                email,
+                password,
+            });
             location.reload();
         } catch (error) {
             console.log(
                 "...(onLoginSubmit) Error: ",
                 error.response.data.error
             );
-            this.setState({
-                message: error.response.data.error,
-            });
+            setMessage(error.response.data.error);
         }
-    }
-    onInputChange(event) {
-        console.log("...(onInputChange) event.target: ", event.target);
-        this.setState({
-            [event.target.name]: event.target.value,
-        });
-    }
-    render() {
-        return (
-            <div className="authentificationWrapper">
-                <h1>{this.state.title}</h1>
-                <form onSubmit={this.onLoginSubmit}>
-                    <label htmlFor="email">
-                        Email
-                        <input
-                            id="email"
-                            type="text"
-                            name="email"
-                            placeholder="email"
-                            required
-                            onChange={this.onInputChange}
-                        />
-                    </label>
-                    <label htmlFor="password">
-                        Password
-                        <input
-                            id="password"
-                            type="password"
-                            name="password"
-                            placeholder="******"
-                            required
-                            onChange={this.onInputChange}
-                        />
-                    </label>
-                    <SubmitButton />
-                </form>
+    };
 
-                <p className="message">{this.state.message}</p>
-            </div>
-        );
-    }
+    return (
+        <div className="authentificationWrapper">
+            <h1>Login with your email!</h1>
+            <form onSubmit={onLoginSubmit}>
+                <label htmlFor="email">
+                    Email
+                    <input
+                        id="email"
+                        type="text"
+                        name="email"
+                        placeholder="email"
+                        required
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </label>
+                <label htmlFor="password">
+                    Password
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        placeholder="******"
+                        required
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </label>
+                <SubmitButton />
+            </form>
+
+            <p className="message">{message}</p>
+        </div>
+    );
 }
