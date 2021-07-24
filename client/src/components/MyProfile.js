@@ -6,10 +6,13 @@ import BioEditor from "./BioEditor";
 import ProfileBanner from "./ProfileBanner";
 import FriendsList from "./FriendsList";
 
-export default function MyProfile({ first_name, last_name, profile_url }) {
+export default function MyProfile() {
     //pull friends and pending from store state
     const friendsAndPending = useSelector((state) => {
         return state.friendsAndPending;
+    });
+    const user = useSelector((state) => {
+        return state.user;
     });
     const dispatch = useDispatch();
     useEffect(() => {
@@ -19,14 +22,14 @@ export default function MyProfile({ first_name, last_name, profile_url }) {
     return (
         <div className="profileWrapper">
             <ProfileBanner
-                first_name={first_name}
-                last_name={last_name}
-                profile_url={profile_url}
+                first_name={user.first_name}
+                last_name={user.last_name}
+                profile_url={user.profile_url}
                 className="bigProfilePic"
             ></ProfileBanner>
 
             <div className="bioContent">
-                <h1>{first_name + " " + last_name}</h1>
+                <h1>{user.first_name + " " + user.last_name}</h1>
                 <BioEditor></BioEditor>
             </div>
 
