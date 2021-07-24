@@ -1,132 +1,101 @@
-import { Component } from "react";
 import ProfileBanner from "./ProfileBanner";
 import FriendButton from "./FriendButton";
+import { useState, useEffect } from "react";
 import axios from "../axios";
 
-export default class UserProfile extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            first_name: "",
-            last_name: "",
-            email: "",
-            bio: "",
-            id: "",
-            profile_url: "",
-            noUserFound: false,
-            isLightboxVisible: false,
-            isFriend: "",
-            message: "",
-        };
+export default function UserProfile(props) {
+    const [otherUser, setOtherUser] = useState({});
+    const [isLightboxVisible, setIsLightboxVisible] = useState(false);
+    const [message, setMessage] = useState("");
 
-        // bind methods here!
-        this.showLightbox = this.showLightbox.bind(this);
-        this.closeLightbox = this.closeLightbox.bind(this);
-        this.onFriendStatusChange = this.onFriendStatusChange.bind(this);
-        this.setFriendStatus = this.setFriendStatus.bind(this);
-    }
-    showLightbox() {
-        this.setState({
-            isLightboxVisible: true,
-        });
-    }
-    closeLightbox() {
-        this.setState({
-            isLightboxVisible: false,
-        });
-    }
-    onFriendStatusChange(status) {
-        const userId = this.props.match.params.id;
-        this.setState({
-            isFriend: status,
-        });
-        this.setFriendStatus(userId);
-    }
+    const showLightbox = () => {
+        setIsLightboxVisible(true);
+    };
+    const closeLightbox = () => {
+        setIsLightboxVisible(false);
+    };
+    const onFriendStatusChange = () => {
+        const userId = props.match.params.id;
+        setFriendStatus(userId);
+    };
 
-    async setFriendStatus(userId) {
+    const setFriendStatus = async (userId) => {
         try {
             const { data } = await axios.get(`/api/friendstatus/${userId}`);
-            this.setState({ isFriend: data.status });
+            return { isFriend: data.status };
         } catch (error) {
-            this.setState({
+            setMessage({
                 message:
                     "Problem getting your friendship status with this person.",
             });
             console.log("ERROR getting friendship status: ", error);
         }
-    }
-    async componentDidMount() {
-        const userId = this.props.match.params.id;
-        let otherUser;
+    };
+    useEffect(async () => {
+        const userId = props.match.params.id;
+        let updatedUser;
         try {
-            otherUser = await axios.get(`/api/user/${userId}`);
+            updatedUser = await axios.get(`/api/user/${userId}`);
+            const status = await setFriendStatus(userId);
+            if (updatedUser.data.self) {
+                //redirect to myprofile if trying to open otherUser profile with own id
+                location.redirect("/");
+                return;
+            }
+            setOtherUser({ ...updatedUser.data, ...status });
         } catch (error) {
             console.log("ERROR getting user id:", error);
-            otherUser = { data: null };
+            updatedUser = { data: null };
         }
-        this.setFriendStatus(userId);
-        if (otherUser.data.self) {
-            this.props.history.push("/");
-            return;
-        }
-        if (otherUser.data == null) {
-            this.setState({
-                first_name: "Patty",
-                last_name: "Potato",
-                bio: "Hej, Im Patty Potato! Were you looking for me? 404",
-            });
-        }
-        this.setState(otherUser.data);
-    }
-    render() {
-        const { first_name, last_name, email, bio, id, profile_url } =
-            this.state;
+    }, []);
 
-        return (
-            <div className="profileWrapper">
-                <ProfileBanner
-                    first_name={first_name}
-                    last_name={last_name}
-                    profile_url={profile_url}
-                    showLightbox={this.showLightbox}
-                    className="bigProfilePic"
-                />
+    const { first_name, last_name, email, bio, id, profile_url, isFriend } =
+        otherUser;
 
-                <div className="bioContent">
-                    <h1 className="username">
-                        {first_name + " " + last_name}{" "}
-                        {this.state.isFriend == "friends" && (
-                            <span className="friendStatusLabel">
-                                <i className="material-icons">people</i>
-                                (friend)
-                            </span>
-                        )}
-                        {this.state.isFriend == "pending" && (
-                            <span className="friendStatusLabel">
-                                (pending friend request)
-                            </span>
-                        )}
-                    </h1>
+    return (
+        <div className="profileWrapper">
+            <ProfileBanner
+                first_name={first_name}
+                last_name={last_name}
+                profile_url={profile_url}
+                showLightbox={showLightbox}
+                className="bigProfilePic"
+            />
 
-                    <p className="userbio"> {bio}</p>
-                    <FriendButton
-                        onFriendStatusChange={this.onFriendStatusChange}
-                        otherUser_id={this.state.id}
-                    ></FriendButton>
-                </div>
+            <div className="bioContent">
+                <h1 className="username">
+                    {first_name + " " + last_name}{" "}
+                    {isFriend == "friends" && (
+                        <span className="friendStatusLabel">
+                            <i className="material-icons">people</i>
+                            (friend)
+                        </span>
+                    )}
+                    {isFriend == "pending" && (
+                        <span className="friendStatusLabel">
+                            (pending friend request)
+                        </span>
+                    )}
+                </h1>
 
-                {this.state.isLightboxVisible && (
-                    <section className="backdrop" onClick={this.closeLightbox}>
-                        <div className="lightbox">
-                            <img
-                                src={profile_url}
-                                alt={first_name + " " + last_name}
-                                onClick={(event) => event.stopPropagation()}
-                            ></img>
-                        </div>
-                    </section>
-                )}
+                <p className="userbio"> {bio}</p>
+                <FriendButton
+                    onFriendStatusChange={onFriendStatusChange}
+                    otherUser_id={otherUser.id}
+                ></FriendButton>
             </div>
-        );
-    }
+
+            {isLightboxVisible && (
+                <section className="backdrop" onClick={closeLightbox}>
+                    <div className="lightbox">
+                        <img
+                            src={profile_url}
+                            alt={first_name + " " + last_name}
+                            onClick={(event) => event.stopPropagation()}
+                        ></img>
+                    </div>
+                </section>
+            )}
+        </div>
+    );
 }
