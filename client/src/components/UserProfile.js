@@ -92,6 +92,7 @@ export default function UserProfile(props) {
 
             {isLightboxVisible && (
                 <section className="backdrop" onClick={closeLightbox}>
+                    <button className="closeButton">×</button>
                     <div className="lightbox">
                         <img
                             src={profile_url}
