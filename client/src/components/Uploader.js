@@ -1,32 +1,22 @@
-import axios from "../axios";
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { updateProfilePic } from "../actions";
+import { useDispatch } from "react-redux";
+import { updateProfilePic, toggleUploaderVisible } from "../actions";
 
-export default function Uploader(props) {
-    // const profile_url = useSelector((state) => state.user.proofile_url);
-    const [file, setFile] = useState(null);
+export default function Uploader() {
     const dispatch = useDispatch();
 
-    const onPictureUpload = async () => {
-        console.log("onPictureUpload", file);
-        event.preventDefault();
+    const onPictureUpload = async (file) => {
         const formData = new FormData();
         formData.append("file", file);
         await dispatch(updateProfilePic(formData));
-        props.hideUploader();
+        dispatch(toggleUploaderVisible(false));
     };
-
-    useEffect(() => {
-        console.log("EFFECT file: ", file);
-        if (file != null) {
-            onPictureUpload();
-        }
-    }, [file]);
 
     return (
         <section className="backdrop">
-            <button className="closeButton" onClick={props.hideUploader}>
+            <button
+                className="closeButton"
+                onClick={() => dispatch(toggleUploaderVisible(false))}
+            >
                 ×
             </button>
 
@@ -45,7 +35,9 @@ export default function Uploader(props) {
                             type="file"
                             accept="image/*"
                             name="file"
-                            onChange={() => setFile(event.target.files[0])}
+                            onChange={() =>
+                                onPictureUpload(event.target.files[0])
+                            }
                             required
                         />
                         <span className="flex">
