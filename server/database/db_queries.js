@@ -86,7 +86,7 @@ async function getCodeByEmail({ email }) {
         `SELECT * FROM pwdreset WHERE email ILIKE $1 AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' ORDER BY created_at DESC LIMIT 1 `,
         [email]
     );
-    return result.rows[0];
+    return result.rows[0].secret_code;
 }
 
 async function saveNewPassword({ email, password }) {

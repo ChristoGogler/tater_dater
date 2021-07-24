@@ -21,29 +21,28 @@ const cryptoRandomString = require("crypto-random-string");
 const moment = require("moment");
 
 function hashPassword(password) {
-    console.log("...(hashPassword) password: ", password);
+    console.log("...(hashPassword");
     return genSalt().then((salt) => {
         return hash(password, salt);
     });
 }
 
 function loginUser({ email, password }) {
-    console.log("...(loginUser) email, password: ", email, password);
+    console.log("...(loginUser) email: ", email);
     return getUserByEmail(email).then((user) => {
-        console.log("...(loginUser) user: ", user);
         if (!user) {
             console.log("no user!");
             //do send error message - wrong credentials
             return Promise.resolve(null);
         }
-        // console.log("password hash: ", user.password_hash);
+        const { id, first_name, last_name, email, profile_url, bio } = user;
         return compare(password, user.password_hash).then((same) => {
             if (!same) {
                 console.log("Passwords dont match!");
                 return null;
             }
             console.log("Found User: ", user);
-            return user;
+            return { id, first_name, last_name, email, profile_url, bio };
         });
     });
 }
@@ -56,7 +55,6 @@ function verifyEmail({ email }) {
                 console.log("No User Found!");
                 return Promise.resolve(false);
             }
-            console.log("user: ", user);
             sendVerificationMail(user);
             return true;
         })
@@ -79,10 +77,6 @@ function sendVerificationMail({ email, first_name }) {
     Cheers, Christo`;
     saveSecretCode(email, secretCode)
         .then((result) => {
-            console.log(
-                "...(sendVerificationCode), saveSecretCode -> result: ",
-                result
-            );
             sendEmail(email, body, subject);
         })
         .catch((error) => {

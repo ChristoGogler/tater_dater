@@ -220,6 +220,7 @@ const logout = (request, response) => {
 //REGISTER
 const register = async (request, response) => {
     try {
+        console.log("...(RH register) request.body: ", request.body);
         const user = await saveUser({ ...request.body });
         request.session.userId = user.rows[0].id;
         response.statusCode = 200;
@@ -238,6 +239,7 @@ const resetPassword_step1 = async (request, response) => {
     try {
         const isVerified = await verifyEmail({ ...request.body });
         if (isVerified) {
+            // console.log("VERIFIED!");
             response.json({ isVerified: true });
             return;
         }
@@ -254,8 +256,9 @@ const resetPassword_step1 = async (request, response) => {
 };
 const resetPassword_step2 = async (request, response) => {
     try {
-        const result = await getCodeByEmail({ ...request.body });
-        if (result.secret_code == request.body.code) {
+        const secret_code = await getCodeByEmail({ ...request.body });
+        // console.log("STEP 2: ", secret_code, request.body);
+        if (secret_code == request.body.code) {
             try {
                 const user = await saveNewPassword({ ...request.body });
                 response.json({ user: user });
