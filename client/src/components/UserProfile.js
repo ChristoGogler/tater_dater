@@ -9,6 +9,7 @@ import {
 } from "../actions";
 import { Redirect } from "react-router";
 import FriendsList from "./FriendsList";
+import LightBox from "./LightBox";
 
 export default function UserProfile(props) {
     const dispatch = useDispatch();
@@ -75,20 +76,10 @@ export default function UserProfile(props) {
                         userId={userId}
                     />
                     {isLightboxVisible && (
-                        <section className="backdrop" onClick={toggleLightbox}>
-                            <button className="closeButton">×</button>
-                            <div className="lightbox">
-                                <img
-                                    src={otherUser.profile_url}
-                                    alt={
-                                        otherUser.first_name +
-                                        " " +
-                                        otherUser.last_name
-                                    }
-                                    onClick={(event) => event.stopPropagation()}
-                                ></img>
-                            </div>
-                        </section>
+                        <LightBox
+                            user={otherUser}
+                            toggleLightbox={toggleLightbox}
+                        />
                     )}
                 </div>
             )}
