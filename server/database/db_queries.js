@@ -67,7 +67,7 @@ async function getUserProfiles(query) {
 
 async function getPhotosById(id) {
     const photos = await postgresDb.query(
-        "SELECT * FROM photos WHERE user_id = $1",
+        "SELECT * FROM photos WHERE user_id = $1 ORDER BY id DESC",
         [id]
     );
     console.log("...(DB getPhotosById) photos:", photos);

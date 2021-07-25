@@ -285,6 +285,31 @@ export const receivePhotoGallery = async (id) => {
         payload: { photos: photos.data.photos },
     };
 };
+export const setPhotoPicker = (start, end, direction, length) => {
+    console.log("...(ACTIONS setPhotoPicker) start/end: ", start, end);
+    if (direction) {
+        start += 5;
+        end += 5;
+    } else {
+        start -= 5;
+        end -= 5;
+    }
+    let hidePrev, hideNext;
+    if (start < 1) {
+        hidePrev = true;
+    } else {
+        hidePrev = false;
+    }
+    if (end >= length) {
+        hideNext = true;
+    } else {
+        hideNext = false;
+    }
+    return {
+        type: "UPDATE_PHOTOPICKER_STARTEND",
+        payload: { startEnd: { start, end, hidePrev, hideNext } },
+    };
+};
 
 export const toggleLightboxVisible = (isVisible) => {
     return {

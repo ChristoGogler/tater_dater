@@ -4,11 +4,15 @@ import {
     receivePhotoGallery,
     setNewProfilePhoto,
     toggleUploaderVisible,
+    setPhotoPicker,
 } from "../actions";
 
 export default function PhotoGallery(props) {
     const dispatch = useDispatch();
     const photos = useSelector((state) => state.photoGallery);
+    const { start, end, hidePrev, hideNext } = useSelector(
+        (state) => state.photoPicker
+    );
 
     const setProfilePhoto = (photo_url) => {
         dispatch(setNewProfilePhoto(photo_url));
@@ -25,7 +29,9 @@ export default function PhotoGallery(props) {
     }, []);
 
     const rendergallery = (photos) => {
-        return photos.map((photo) => {
+        return photos.slice(start, end).map((photo) => {
+            // do your logic );
+            // photos.map((photo) => {
             return (
                 <div className="galleryPhotoFrame" key={photo.id}>
                     <img
@@ -40,7 +46,29 @@ export default function PhotoGallery(props) {
 
     return (
         <div className="galleryWrapper">
+            {!hidePrev && (
+                <button
+                    onClick={() =>
+                        dispatch(
+                            setPhotoPicker(start, end, false, photos.length)
+                        )
+                    }
+                >
+                    <i className="material-icons">arrow_left</i>
+                </button>
+            )}
             {photos.length > 0 && rendergallery(photos)}
+            {!hideNext && (
+                <button
+                    onClick={() =>
+                        dispatch(
+                            setPhotoPicker(start, end, true, photos.length)
+                        )
+                    }
+                >
+                    <i className="material-icons">arrow_right</i>
+                </button>
+            )}
         </div>
     );
 }

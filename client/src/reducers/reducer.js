@@ -18,6 +18,7 @@ const initialState = {
     isUploaderVisible: false,
     loading: true,
     isLightboxVisible: false,
+    photoPicker: { start: 0, end: 5, hidePrev: true, hideNext: false },
 };
 
 const reducer = (state = initialState, action) => {
@@ -87,6 +88,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 user: { ...state.user, profile_url: action.payload.photo },
+            };
+        case "UPDATE_PHOTOPICKER_STARTEND":
+            return {
+                ...state,
+                photoPicker: action.payload.startEnd,
             };
         case "CHANGE_BIOEDITOR":
             return {
