@@ -18,6 +18,7 @@ const exporting = {
     saveProfileUrl,
     saveUserBio,
     updateFriendstatus,
+    updatePhotoById,
 };
 module.exports = exporting;
 
@@ -114,8 +115,16 @@ async function saveProfileUrl({ userId, profile_url }) {
         [profile_url, userId]
     );
     await postgresDb.query(
-        "INSERT INTO photos (user_id, profile_url = $1) VALUES ($1,$2)  RETURNING *",
+        "INSERT INTO photos (user_id, photo_url) VALUES ($1,$2)  RETURNING *",
         [userId, profile_url]
+    );
+    return newProfilePhoto.rows[0];
+}
+
+async function updatePhotoById({ userId, photo_url }) {
+    const newProfilePhoto = await postgresDb.query(
+        "UPDATE users SET profile_url = $1 WHERE id = $2 RETURNING *",
+        [photo_url, userId]
     );
     return newProfilePhoto.rows[0];
 }

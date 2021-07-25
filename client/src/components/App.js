@@ -85,8 +85,6 @@ export default function App() {
                     {
                         <ProfilePic
                             profile_url={currentUser.profile_url}
-                            first_name={currentUser.first_name}
-                            last_name={currentUser.last_name}
                             showUploader={showUploader}
                             className="avatar smallProfilePic"
                         />
@@ -104,7 +102,7 @@ export default function App() {
                         </Route>
                     </Switch>
                     <section className="modal">
-                        {isUploaderVisible && <Uploader />}
+                        {isUploaderVisible && <Uploader id={currentUser.id} />}
                     </section>
                 </section>
                 <Footer />

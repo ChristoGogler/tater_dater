@@ -261,6 +261,31 @@ export const updateProfilePic = async (formData) => {
     };
 };
 
+export const setNewProfilePhoto = async (photo_url) => {
+    console.log("...(ACTIONS setNewProfilePhoto) photo_url: ", photo_url);
+    const photo = await axios.post("/api/setprofilepic", { photo_url });
+    console.log("...(ACTIONS setNewProfilePhoto) photo: ", photo);
+
+    return {
+        type: "UPDATE_PROFILE_PIC",
+        payload: { photo: photo.data.photo.profile_url },
+    };
+};
+
+export const receivePhotoGallery = async (id) => {
+    console.log("...(ACTIONS receivePhotoGallery) id: ", id);
+    const photos = await axios.get(`/api/gallery/${id}`);
+    console.log(
+        "...(ACTIONS receivePhotoGallery) photos: ",
+        photos.data.photos
+    );
+
+    return {
+        type: "RECEIVE_PHOTO_GALLERY",
+        payload: { photos: photos.data.photos },
+    };
+};
+
 export const toggleLightboxVisible = (isVisible) => {
     return {
         type: "IS_LIGHTBOX_VISIBLE",

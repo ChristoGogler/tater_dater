@@ -15,6 +15,7 @@ const {
     saveProfileUrl,
     saveUserBio,
     updateFriendstatus,
+    updatePhotoById,
 } = require("./database/db_queries");
 const { loginUser, verifyEmail, sendRegistrationMail } = require("./functions");
 
@@ -332,6 +333,7 @@ const saveNewBio = async (request, response) => {
 
 //UPLOAD PROFILE PICTURE
 const saveProfilePictureUrl = async (request, response) => {
+    console.log("...(RH saveProfilePictureUrl)");
     try {
         const result = await saveProfileUrl({
             ...request.body,
@@ -345,13 +347,31 @@ const saveProfilePictureUrl = async (request, response) => {
             .json({ error: "Problem saving profile picture: " + error });
     }
 };
+const updateProfilePic = async (request, response) => {
+    console.log("...(RH updateProfilePic)", request.body);
+    //todo: url
+    const { photo_url } = request.body;
+    // console.log("...(RH updateProfilePic)", photo_url);
+
+    const { userId } = request.session;
+
+    try {
+        const photo = await updatePhotoById({ userId, photo_url });
+        console.log("...(RH getAllPhotosById)", photo);
+        response.json({ photo });
+    } catch (error) {
+        response
+            .statusCode(500)
+            .json({ error: "Problem fetching photos: " + error });
+    }
+};
 
 const getAllPhotosById = async (request, response) => {
+    console.log("...(RH getAllPhotosById) id: ", request.params.id);
+    const id = request.params.id;
     try {
-        const photos = await getPhotosById({
-            ...request.body,
-            ...request.session,
-        });
+        const photos = await getPhotosById(id);
+        console.log("...(RH getAllPhotosById)", photos);
         response.json({ photos });
     } catch (error) {
         response
@@ -379,5 +399,6 @@ const exporting = {
     resetPassword_step2,
     saveNewBio,
     saveProfilePictureUrl,
+    updateProfilePic,
 };
 module.exports = exporting;

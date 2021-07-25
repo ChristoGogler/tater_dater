@@ -46,6 +46,7 @@ const {
     resetPassword_step2,
     saveNewBio,
     saveProfilePictureUrl,
+    updateProfilePic,
 } = require("./routehandler");
 
 app.use(compression());
@@ -89,6 +90,7 @@ app.post(
     uploadFiles3,
     saveProfilePictureUrl
 );
+app.post("/api/setprofilepic", updateProfilePic);
 
 // GET PHOTOS/GALLERY BY ID
 app.get("/api/gallery/:id", getAllPhotosById);

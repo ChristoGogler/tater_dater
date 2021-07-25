@@ -7,6 +7,7 @@ const initialState = {
     friendsAndPending: [],
     otherUserFriends: [],
     mutualFriends: [],
+    photoGallery: [],
     chatHistory: [],
     newMessages: [],
     bioEditor: { isBeingEdited: false },
@@ -82,6 +83,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 user: action.payload,
             };
+        case "UPDATE_PROFILE_PIC":
+            return {
+                ...state,
+                user: { ...state.user, profile_url: action.payload.photo },
+            };
         case "CHANGE_BIOEDITOR":
             return {
                 ...state,
@@ -149,6 +155,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 mutualFriends: action.payload.mutualFriends,
+            };
+        case "RECEIVE_PHOTO_GALLERY":
+            return {
+                ...state,
+                photoGallery: action.payload.photos,
             };
         default:
             return state;

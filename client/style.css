@@ -40,14 +40,14 @@ q {
 textarea {
     border: 1px solid black;
     border-radius: 3px;
-    padding: 5px;
 }
 label {
     font-size: 0.8rem;
 }
 input[type="text"],
 input[type="password"],
-input[type="email"] {
+input[type="email"],
+textarea {
     padding: 10px;
 }
 .friendStatusLabel {
@@ -217,13 +217,17 @@ footer {
     cursor: pointer;
 }
 
+.miniAvatar {
+    width: 30px;
+    height: 30px;
+}
+
 .smallProfilePic {
     object-fit: cover;
     width: 30px;
     height: 30px;
 }
 .profilePicWrapper {
-    margin-right: 20px;
 }
 .profileWrapper {
     width: 100vw;
@@ -246,7 +250,31 @@ footer {
     margin: 10px;
     max-width: 500px;
 }
+.mutualFriendsList ul {
+    list-style: none;
+}
+.mutualFriendsList ul li {
+    display: flex;
+    align-items: center;
+}
+.mutualFriendsList p {
+    padding-block-end: 20px;
+}
+/* GALLERY */
 
+.galleryWrapper {
+    display: flex;
+}
+.galleryPhotoFrame {
+    width: 50px;
+    height: 50px;
+    margin-inline: 5px;
+}
+.galleryPhotoFrame img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
 /* RADIO BUTTON */
 
 .customRadioBtn {
@@ -372,7 +400,6 @@ input[type="file"] {
     background-color: white;
 }
 .searchBox input {
-    padding: 10px;
     border: none;
 }
 .searchBox button {
@@ -538,6 +565,10 @@ input[type="file"] {
         width: 100px;
         height: 100px;
     }
+    .miniAvatar {
+        width: 50px;
+        height: 50px;
+    }
     nav {
         position: sticky;
         top: 0;
@@ -559,13 +590,13 @@ input[type="file"] {
         flex-direction: row;
         padding: 20px;
         justify-content: flex-start;
-        margin-left: 50px;
     }
     .profileBannerWrapper {
         width: 200px;
         height: 200px;
         border-radius: 3px;
         overflow: hidden;
+        flex-shrink: 0;
     }
     .profileBannerWrapper img {
         width: 100%;
@@ -604,6 +635,9 @@ input[type="file"] {
     }
     .chatWrapper ul {
         max-width: 700px;
+    }
+    .mutualFriendsList {
+        flex-shrink: 0;
     }
 }
 

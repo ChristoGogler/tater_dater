@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { updateProfilePic, toggleUploaderVisible } from "../actions";
-
-export default function Uploader() {
+import PhotoPicker from "./PhotoPicker";
+export default function Uploader(props) {
     const dispatch = useDispatch();
 
     const onPictureUpload = async (file) => {
@@ -21,7 +21,10 @@ export default function Uploader() {
             </button>
 
             <section className="uploadSection">
-                <h1>Choose a new profile picture!</h1>
+                <h1>Choose a profile picture!</h1>
+                <div>
+                    <PhotoPicker id={props.id} />
+                </div>
                 <form
                     id="uploadForm"
                     encType="multipart/form-data"
@@ -42,7 +45,7 @@ export default function Uploader() {
                         />
                         <span className="flex">
                             <i className="material-icons white">add_a_photo</i>
-                            choose a picture
+                            pick a new one
                         </span>
                     </label>
                 </form>
