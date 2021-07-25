@@ -16,6 +16,39 @@ export const receiveFriendsAndPending = () => {
         });
     });
 };
+export const receiveOtherUserFriends = (otherUser_id) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`/api/friends/${otherUser_id}`).then((result) => {
+            console.log(
+                "...(ACTIONS receiveOtherUserFriends) result: ",
+                result
+            );
+
+            resolve({
+                type: "RECEIVE_OTHER_USER_FRIENDS",
+                payload: { friends: result.data },
+            });
+            reject({
+                type: "RECEIVE_OTHER_USER_FRIENDS",
+                payload: { friends: null },
+            });
+        });
+    });
+};
+
+export const getMutualfriends = (myFriends, yourFriends) => {
+    //Filter for mutual friends
+    const mutualFriends = myFriends.filter((friendOfMe) => {
+        return yourFriends.some((friendOfYou) => {
+            return friendOfMe.id === friendOfYou.id;
+        });
+    });
+
+    return {
+        type: "GET_MUTUAL_FRIENDS",
+        payload: { mutualFriends },
+    };
+};
 
 //TODO: has to get tested still
 export const requestFriendship = (otherUser_id) => {

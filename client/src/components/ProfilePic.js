@@ -1,14 +1,16 @@
 const DEFAULT_PROFILEPIC = "../img/default_profileImg.png";
-
-export default function ProfilePic({
-    first_name,
-    last_name,
-    profile_url,
-    showUploader,
-    className,
-}) {
-    const fullName = first_name + " " + last_name;
+import { useSelector, useDispatch } from "react-redux";
+import { toggleUploaderVisible } from "../actions";
+export default function ProfilePic({ profile_url, className }) {
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
+    const fullName = user.first_name + " " + user.last_name;
     // console.log("ProfilePic url: ", profile_url);
+
+    const showUploader = () => {
+        dispatch(toggleUploaderVisible(true));
+    };
+
     return (
         <div className="profilePicWrapper">
             <img

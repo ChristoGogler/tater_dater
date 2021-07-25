@@ -5,6 +5,8 @@ const initialState = {
     user: {},
     otherUser: {},
     friendsAndPending: [],
+    otherUserFriends: [],
+    mutualFriends: [],
     chatHistory: [],
     newMessages: [],
     bioEditor: { isBeingEdited: false },
@@ -137,6 +139,16 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLightboxVisible: action.payload.isVisible,
+            };
+        case "RECEIVE_OTHER_USER_FRIENDS":
+            return {
+                ...state,
+                otherUserFriends: action.payload.friends,
+            };
+        case "GET_MUTUAL_FRIENDS":
+            return {
+                ...state,
+                mutualFriends: action.payload.mutualFriends,
             };
         default:
             return state;

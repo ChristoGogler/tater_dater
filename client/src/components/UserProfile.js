@@ -2,14 +2,22 @@ import ProfileBanner from "./ProfileBanner";
 import FriendButton from "./FriendButton";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { receiveOtherUser, toggleLightboxVisible } from "../actions";
+import {
+    receiveOtherUser,
+    receiveOtherUserFriends,
+    toggleLightboxVisible,
+} from "../actions";
 import { Redirect } from "react-router";
+import FriendsList from "./FriendsList";
 
 export default function UserProfile(props) {
     const dispatch = useDispatch();
     const userId = props.match.params.id;
     const otherUser = useSelector((state) => {
         return state.otherUser;
+    });
+    const otherUserFriends = useSelector((state) => {
+        return state.otherUserFriends;
     });
     const isLightboxVisible = useSelector((state) => state.isLightboxVisible);
 
@@ -23,6 +31,7 @@ export default function UserProfile(props) {
 
     useEffect(async () => {
         await dispatch(receiveOtherUser(userId));
+        await dispatch(receiveOtherUserFriends(userId));
     }, []);
 
     return (
@@ -37,7 +46,6 @@ export default function UserProfile(props) {
                         showLightbox={toggleLightbox}
                         className="bigProfilePic"
                     />
-
                     <div className="bioContent">
                         <h1 className="username">
                             {otherUser.first_name + " " + otherUser.last_name}{" "}
@@ -62,7 +70,10 @@ export default function UserProfile(props) {
                             otherUser_id={otherUser.id}
                         ></FriendButton>
                     </div>
-
+                    <FriendsList
+                        otherUserFriends={otherUserFriends}
+                        userId={userId}
+                    />
                     {isLightboxVisible && (
                         <section className="backdrop" onClick={toggleLightbox}>
                             <button className="closeButton">×</button>
