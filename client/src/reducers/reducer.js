@@ -3,6 +3,7 @@
 
 const initialState = {
     user: {},
+    otherUser: {},
     friendsAndPending: [],
     chatHistory: [],
     newMessages: [],
@@ -12,6 +13,8 @@ const initialState = {
     mostRecentUsers: [],
     userSearchResults: [],
     isUploaderVisible: false,
+    loading: true,
+    isLightboxVisible: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -51,6 +54,17 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 friendButton: [{ friend_status: action.payload }],
+            };
+        case "UPDATE_FRIENDSHIP_STATUS":
+            return {
+                ...state,
+                otherUser: {
+                    ...state.otherUser,
+                    friendship: {
+                        ...state.otherUser.friendship,
+                        friend_status: action.payload.status,
+                    },
+                },
             };
 
         case "RECENT_MESSAGES":
@@ -103,6 +117,26 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isUploaderVisible: action.payload.isVisible,
+            };
+        case "IS_LOADING":
+            return {
+                ...state,
+                loading: action.payload.isLoading,
+            };
+        case "RECEIVE_OTHER_USER":
+            return {
+                ...state,
+                otherUser: action.payload.otherUser,
+            };
+        case "UPDATE_OTHER_USER":
+            return {
+                ...state,
+                otherUser: { ...state.otherUser, ...action.payload },
+            };
+        case "IS_LIGHTBOX_VISIBLE":
+            return {
+                ...state,
+                isLightboxVisible: action.payload.isVisible,
             };
         default:
             return state;

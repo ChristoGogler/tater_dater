@@ -1,7 +1,7 @@
 //ACTION CREATOR
 import axios from "../axios";
 
-//For Friends and Pending Page
+//---FOR FRIENDS AND PENDING---//
 export const receiveFriendsAndPending = () => {
     return new Promise((resolve, reject) => {
         axios.get("/api/friends").then((result) => {
@@ -118,7 +118,7 @@ export const changeFriendpendingToggle = (friendpending_toggle) => {
     };
 };
 
-//For Chat
+//---FOR CHAT---//
 export const recentMessages = (messages) => {
     // console.log("...(ACTION recentMessages) messages: ", messages);
     return {
@@ -135,7 +135,7 @@ export const newChatMessage = (message) => {
     };
 };
 
-//For FriendButton
+//---FOR FRIENDBUTTON---//
 // export const receiveFriendStatus = (otherUser_id) => {
 //     return new Promise((resolve, reject) => {
 //         axios.get(`/api/friendstatus/${otherUser_id}`).then((data) => {
@@ -151,9 +151,49 @@ export const newChatMessage = (message) => {
 //     });
 // };
 
-//FOR USER / BIOEDITOR
+//---FOR USER / BIOEDITOR / UserProfile---//
+export const receiveOtherUser = (id) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`/api/user/${id}`).then((otherUser) => {
+            console.log("...(ACTION receiveOtherUser) otherUser: ", otherUser);
+            resolve({
+                type: "RECEIVE_OTHER_USER",
+                payload: { otherUser: otherUser.data },
+            });
+            reject({
+                type: "RECEIVE_OTHER_USER",
+                payload: null,
+            });
+        });
+    });
+};
+
+// export const receiveOtherUser = async (id) => {
+//     const otherUser = await axios.get(`/api/user/${id}`);
+//     return {
+//         type: "RECEIVE_OTHER_USER",
+//         payload: { otherUser: otherUser.data },
+//     };
+// };
+
+export const addFriendshipStatusToOtherUser = async (id) => {
+    const friendship = await axios.get(`/api/friendstatus/${id}`);
+    console.log("...(ACTION) friendship:", friendship);
+    return {
+        type: "UPDATE_OTHER_USER",
+        payload: { friendship: friendship.data },
+    };
+};
+
+export const changeFriendshipStatus = (status) => {
+    console.log("...(ACTION changeFriendshipStatus) status: ", status);
+    return {
+        type: "UPDATE_FRIENDSHIP_STATUS",
+        payload: { status },
+    };
+};
+
 export const saveBio = async (bio) => {
-    console.log("...(ACTION saveBio) bio: ", bio);
     const user = await axios.put("/api/user/update/bio", {
         bio,
     });
@@ -174,25 +214,28 @@ export const toggleBioEditor = (isBeingEdited) => {
 
 export const getUser = async () => {
     const user = await axios.get("/api/user", {});
-    console.log("...(ACTION getUser) user: ", user.data);
-
     return {
         type: "UPDATE_USER",
         payload: user.data,
     };
 };
-export const updateProfilePic = async (formData) => {
-    console.log("...(ACTIONS updateProfilePic) formData: ", formData);
-    const user = await axios.post("/api/upload", formData);
-    console.log("...(ACTIONS updateProfilePic) user: ", user.data.user);
 
+export const updateProfilePic = async (formData) => {
+    const user = await axios.post("/api/upload", formData);
     return {
         type: "UPDATE_USER",
         payload: user.data.user,
     };
 };
 
-//FOR RESETPASSWORD
+export const toggleLightboxVisible = (isVisible) => {
+    return {
+        type: "IS_LIGHTBOX_VISIBLE",
+        payload: { isVisible: !isVisible },
+    };
+};
+
+//---FOR RESET PASSWORD---//
 export const resetPwNextStep = async (step, resetPwInput) => {
     if (step == 1) {
         const { message } = await axios.post(
@@ -216,8 +259,7 @@ export const resetPwNextStep = async (step, resetPwInput) => {
     }
 };
 
-//FOR FINDPROFILE
-
+//---FOR FINDPROFILE---//
 export const getMostRecentUsers = () => {
     return new Promise((resolve, reject) => {
         axios.get("/api/users/latest").then((mostRecentUsers) => {
@@ -269,5 +311,12 @@ export const toggleUploaderVisible = (isVisible) => {
     return {
         type: "TOGGLE_ISUPLOADERVISIBLE",
         payload: { isVisible },
+    };
+};
+
+export const stillLoading = (isLoading) => {
+    return {
+        type: "IS_LOADING",
+        payload: { isLoading },
     };
 };
