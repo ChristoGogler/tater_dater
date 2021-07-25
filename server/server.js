@@ -35,7 +35,9 @@ const {
     findLatestProfiles,
     getFriendStatus,
     getFriendList,
+    getFriendListById,
     getMyProfile,
+    getPhotosById,
     getUserProfile,
     login,
     logout,
@@ -87,6 +89,9 @@ app.post(
     uploadFiles3,
     saveProfilePictureUrl
 );
+
+// GET PHOTOS/GALLERY BY ID
+app.get("/api/gallery/:id", getPhotosById);
 // SAVE NEW BIO
 app.put("/api/user/update/bio", saveNewBio);
 
@@ -107,6 +112,8 @@ app.post("/api/friendrequest", changeFriendStatus);
 
 //GET FRIENDS AND PENDING
 app.get("/api/friends", getFriendList);
+//GET OTHER USERS FRIENDS
+app.get("/api/friends/:id", getFriendListById);
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
