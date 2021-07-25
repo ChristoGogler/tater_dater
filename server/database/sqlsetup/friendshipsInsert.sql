@@ -1,4 +1,13 @@
 INSERT INTO friendships (sender_id, recipient_id, friend_status) VALUES
+(3,1, 'friends'),
+(1,5, 'friends'),
+(6,1, 'friends'),
+(7,1, 'friends'),
+(8,1, 'friends'),
+(12,1, 'friends'),
+(1,13, 'friends'),
+(14,1, 'friends'),
+(1,15, 'friends'),
 (3,2, 'friends'),
 (2,5, 'pending'),
 (6,2, 'friends'),

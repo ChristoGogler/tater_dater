@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS chatmessages;
 DROP TABLE IF EXISTS friendships;
 DROP TABLE IF EXISTS pwdreset;
+DROP TABLE IF EXISTS photos;
 DROP TABLE IF EXISTS users;
 
 
@@ -12,6 +13,14 @@ CREATE TABLE users (
     profile_url VARCHAR(255),
     bio TEXT,
     password_hash VARCHAR NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE photos (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) NOT NULL,
+    photo_url VARCHAR(255) NOT NULL,
+    photo_description VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

@@ -12,4 +12,6 @@ INSERT INTO chatmessages (sender_id, chatmessage, created_at) VALUES
 (2, 'Stop it!', '2021-07-22 21:36:03.955908'),
 (7, 'Dont be such a potato!', '2021-07-23 01:34:03.955908'),
 (2, 'Your moms a hot potato.', '2021-07-23 02:12:03.955908'),
-(7, '😛', '2021-07-23 09:24:44.955908');
+(7, '😛', '2021-07-23 09:24:44.955908'),
+INSERT INTO chatmessages (sender_id, chatmessage, created_at) VALUES
+(14, 'Guys, can anyone recommend a good mashed potato recipe here? Ive been looking everywhere and just cant find anything proper! :/', '2021-07-24 10:44:44.955908');

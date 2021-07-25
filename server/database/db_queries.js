@@ -2,6 +2,7 @@ const exporting = {
     deleteFriend,
     getFriendshipStatus,
     getFriendsAndPending,
+    getFriendsById,
     getUserByEmail,
     getUserById,
     getLatestChatmessages,
@@ -62,6 +63,15 @@ async function getUserProfiles(query) {
     return result.rows;
 }
 
+async function getPhotosById(id) {
+    const photos = await postgresDb.query(
+        "SELECT * FROM photos WHERE user_id = $1",
+        [id]
+    );
+    console.log("...(DB getPhotosById) photos:", photos);
+    return photos.rows;
+}
+
 async function saveUser({ first_name, last_name, email, password }) {
     const password_hash = await hashPassword(password);
     return postgresDb.query(
@@ -97,12 +107,16 @@ async function saveNewPassword({ email, password }) {
     );
 }
 
-async function saveProfileUrl({ profile_url, userId }) {
-    const result = await postgresDb.query(
+async function saveProfileUrl({ userId, profile_url }) {
+    const newProfilePhoto = await postgresDb.query(
         "UPDATE users SET profile_url = $1 WHERE id = $2 RETURNING *",
         [profile_url, userId]
     );
-    return result.rows[0];
+    await postgresDb.query(
+        "INSERT INTO photos (user_id, profile_url = $1) VALUES ($1,$2)  RETURNING *",
+        [userId, profile_url]
+    );
+    return newProfilePhoto.rows[0];
 }
 
 async function saveUserBio({ bio, userId }) {
@@ -175,6 +189,21 @@ async function getFriendsAndPending({ userId }) {
     return result.rows;
 }
 
+async function getFriendsById({ id }) {
+    console.log("...(DB getFriendsById) id: ", id);
+    const result = await postgresDb.query(
+        `SELECT users.id, users.first_name, users.last_name, users.profile_url, friendships.friend_status, friendships.sender_id
+  FROM friendships
+  JOIN users
+  ON (friend_status = 'friends' AND recipient_id = $1 AND sender_id = users.id)
+  OR (friend_status = 'friends' AND sender_id = $1 AND recipient_id = users.id)
+  ORDER BY first_name ASC`,
+        [id]
+    );
+    console.log("...(DB getFriendsById) result: ", result.rows);
+
+    return result.rows;
+}
 async function saveChatmessage({ userId, chatmessage }) {
     console.log("...(DB saveChatmessage) userId: ", userId, chatmessage);
     const result = await postgresDb.query(
