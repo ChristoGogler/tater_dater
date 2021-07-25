@@ -1,28 +1,16 @@
 import { useSelector } from "react-redux";
 import ChatInput from "./ChatInput.js";
-import { socket } from "../../public/socket.js";
 
 export default function Chat() {
     //pull chatHistory from redux store
     const chatHistory = useSelector((state) => {
-        console.log("...state.chatHistory:", state.chatHistory);
         return state.chatHistory;
     });
     const newMessages = useSelector((state) => {
-        console.log("...state.newMessages:", state.newMessages);
         return state.newMessages;
     });
 
-    // const [newChatmessage, setNewChatmessage] = useState("");
-
-    // //OnSendButtonClick: emit message, empty input field
-    // const onSendButtonClick = () => {
-    //     const text = document.querySelector("input").value;
-    //     socket.emit("newChatMessageToServer", { chatmessage: text });
-    //     // setNewChatmessage("");
-    // };
-
-    const renderChathistory = (messages) => {
+    const renderChatMessages = (messages) => {
         return (
             messages &&
             messages.map(
@@ -88,8 +76,8 @@ export default function Chat() {
     return (
         <section className="chatWrapper">
             <ul>
-                {renderChathistory(chatHistory)}
-                {renderChathistory(newMessages)}
+                {renderChatMessages(chatHistory)}
+                {renderChatMessages(newMessages)}
             </ul>
             <ChatInput />
         </section>

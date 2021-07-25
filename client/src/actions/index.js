@@ -288,11 +288,11 @@ export const receivePhotoGallery = async (id) => {
 export const setPhotoPicker = (start, end, direction, length) => {
     console.log("...(ACTIONS setPhotoPicker) start/end: ", start, end);
     if (direction) {
-        start += 5;
-        end += 5;
+        start += 4;
+        end += 4;
     } else {
-        start -= 5;
-        end -= 5;
+        start -= 4;
+        end -= 4;
     }
     let hidePrev, hideNext;
     if (start < 1) {

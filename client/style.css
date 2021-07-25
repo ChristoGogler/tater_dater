@@ -260,21 +260,30 @@ footer {
 .mutualFriendsList p {
     padding-block-end: 20px;
 }
-/* GALLERY */
+/* PhotoPicker */
 
-.galleryWrapper {
+.photoPickerWrapper {
+    width: 320px;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-.galleryPhotoFrame {
+.photoPickerFrame {
     width: 50px;
     height: 50px;
     margin-inline: 5px;
 }
-.galleryPhotoFrame img {
+.photoPickerFrame img {
     width: 50px;
     height: 50px;
     object-fit: cover;
 }
+.photoPickerControls {
+    width: 30px;
+    display: flex;
+    justify-content: center;
+}
+
 /* RADIO BUTTON */
 
 .customRadioBtn {
@@ -494,6 +503,8 @@ input[type="file"] {
     display: flex;
     justify-content: center;
     margin-block-end: 20px;
+    position: sticky;
+    bottom: 30px;
 }
 
 .chatFormWrapper form {
@@ -638,6 +649,27 @@ input[type="file"] {
     }
     .mutualFriendsList {
         flex-shrink: 0;
+    }
+    /* PhotoPicker */
+
+    .photoPickerWrapper {
+        max-width: 600px;
+        justify-content: center;
+    }
+    .photoPickerFrame {
+        width: 120px;
+        height: 120px;
+        margin-inline: 5px;
+    }
+    .photoPickerFrame img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+    }
+    .photoPickerControls {
+        width: 30px;
+        display: flex;
+        justify-content: center;
     }
 }
 

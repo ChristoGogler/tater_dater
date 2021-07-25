@@ -33,7 +33,7 @@ export default function PhotoGallery(props) {
             // do your logic );
             // photos.map((photo) => {
             return (
-                <div className="galleryPhotoFrame" key={photo.id}>
+                <div className="photoPickerFrame" key={photo.id}>
                     <img
                         src={photo.photo_url}
                         alt={photo.photo_description}
@@ -45,30 +45,36 @@ export default function PhotoGallery(props) {
     };
 
     return (
-        <div className="galleryWrapper">
-            {!hidePrev && (
-                <button
-                    onClick={() =>
-                        dispatch(
-                            setPhotoPicker(start, end, false, photos.length)
-                        )
-                    }
-                >
-                    <i className="material-icons">arrow_left</i>
-                </button>
-            )}
+        <div className="photoPickerWrapper">
+            <div>
+                {!hidePrev && (
+                    <button
+                        className="photoPickerControls"
+                        onClick={() =>
+                            dispatch(
+                                setPhotoPicker(start, end, false, photos.length)
+                            )
+                        }
+                    >
+                        <i className="material-icons">arrow_left</i>
+                    </button>
+                )}
+            </div>
             {photos.length > 0 && rendergallery(photos)}
-            {!hideNext && (
-                <button
-                    onClick={() =>
-                        dispatch(
-                            setPhotoPicker(start, end, true, photos.length)
-                        )
-                    }
-                >
-                    <i className="material-icons">arrow_right</i>
-                </button>
-            )}
+            <div>
+                {!hideNext && (
+                    <button
+                        className="photoPickerControls"
+                        onClick={() =>
+                            dispatch(
+                                setPhotoPicker(start, end, true, photos.length)
+                            )
+                        }
+                    >
+                        <i className="material-icons">arrow_right</i>
+                    </button>
+                )}
+            </div>
         </div>
     );
 }

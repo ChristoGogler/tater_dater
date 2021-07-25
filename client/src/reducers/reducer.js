@@ -18,7 +18,7 @@ const initialState = {
     isUploaderVisible: false,
     loading: true,
     isLightboxVisible: false,
-    photoPicker: { start: 0, end: 5, hidePrev: true, hideNext: false },
+    photoPicker: { start: 0, end: 4, hidePrev: true, hideNext: false },
 };
 
 const reducer = (state = initialState, action) => {
