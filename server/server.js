@@ -37,7 +37,7 @@ const {
     getFriendList,
     getFriendListById,
     getMyProfile,
-    getPhotosById,
+    getAllPhotosById,
     getUserProfile,
     login,
     logout,
@@ -91,7 +91,7 @@ app.post(
 );
 
 // GET PHOTOS/GALLERY BY ID
-app.get("/api/gallery/:id", getPhotosById);
+app.get("/api/gallery/:id", getAllPhotosById);
 // SAVE NEW BIO
 app.put("/api/user/update/bio", saveNewBio);
 

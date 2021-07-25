@@ -3,6 +3,7 @@ const exporting = {
     getFriendshipStatus,
     getFriendsAndPending,
     getFriendsById,
+    getPhotosById,
     getUserByEmail,
     getUserById,
     getLatestChatmessages,
@@ -153,7 +154,6 @@ async function saveFriendrequest({ user1_id, user2_id }) {
         sender_id: friendship.rows[0].sender_id,
         recipient_id: friendship.rows[0].recipient_id,
     };
-    // console.log("...(DB saveFriendrequest) friend: ", friend);
     return friend;
 }
 
@@ -174,7 +174,6 @@ async function updateFriendstatus({ user1_id, user2_id, friend_status }) {
 }
 
 async function getFriendsAndPending({ userId }) {
-    // console.log("...(DB getFriendsAndPending) user1_id: ", userId);
     const result = await postgresDb.query(
         `SELECT users.id, users.first_name, users.last_name, users.profile_url, friendships.friend_status, friendships.sender_id
   FROM friendships
@@ -190,7 +189,6 @@ async function getFriendsAndPending({ userId }) {
 }
 
 async function getFriendsById({ id }) {
-    console.log("...(DB getFriendsById) id: ", id);
     const result = await postgresDb.query(
         `SELECT users.id, users.first_name, users.last_name, users.profile_url, friendships.friend_status, friendships.sender_id
   FROM friendships
@@ -200,12 +198,9 @@ async function getFriendsById({ id }) {
   ORDER BY first_name ASC`,
         [id]
     );
-    console.log("...(DB getFriendsById) result: ", result.rows);
-
     return result.rows;
 }
 async function saveChatmessage({ userId, chatmessage }) {
-    console.log("...(DB saveChatmessage) userId: ", userId, chatmessage);
     const result = await postgresDb.query(
         "INSERT INTO chatmessages (sender_id, chatmessage) VALUES ($1, $2) RETURNING *",
         [userId, chatmessage]
@@ -214,12 +209,7 @@ async function saveChatmessage({ userId, chatmessage }) {
     return result.rows[0];
 }
 
-// SELECT to get the 10 most recent messages when a user connects.
-// You will want to join with the users table to get the first and
-// last names and the image urls of the sender
-
 async function getLatestChatmessages({ limit }) {
-    // console.log("...(DB getLatestMessages) limit: ", limit);
     const result = await postgresDb.query(
         `SELECT chatmessages.id, sender_id, chatmessage, chatmessages.created_at, first_name, last_name, profile_url FROM chatmessages 
         JOIN users

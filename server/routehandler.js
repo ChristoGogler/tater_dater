@@ -3,6 +3,8 @@ const {
     deleteFriend,
     getFriendshipStatus,
     getFriendsAndPending,
+    getFriendsById,
+    getPhotosById,
     getUserById,
     getLatestUserProfiles,
     getUserProfiles,
@@ -64,6 +66,28 @@ const getFriendList = async (request, response) => {
     }
 };
 
+//GET OTHER USER FRIENDS
+const getFriendListById = async (request, response) => {
+    const { id } = request.params;
+    console.log("...(RH getFriendListById) id: ", id);
+
+    try {
+        const list = await getFriendsById({ id });
+        if (list.length == 0) {
+            console.log("...(findProfiles) No Friends Found!");
+            response.status(404).json({ message: "No Friends found!" });
+            return;
+        }
+        // console.log("...(RH getFriendsList) result: ", list);
+        response.json(list);
+    } catch (error) {
+        console.log("ERROR fetching friends and pending: ", error);
+        response.json({
+            error: "Problem fetching friends and pending.",
+        });
+    }
+};
+
 //FIND LATEST PROFILES
 const findLatestProfiles = async (request, response) => {
     try {
@@ -85,16 +109,21 @@ const findLatestProfiles = async (request, response) => {
 const getFriendStatus = async (request, response) => {
     const { userId: user1_id } = request.session;
     const { user_id: user2_id } = request.params;
+    console.log("request.params:", request.params);
     try {
+        console.log(user1_id, user2_id);
         const result = await getFriendshipStatus({ user1_id, user2_id });
+        console.log("RH: friendship:", result);
         response.json({
             status: result.friend_status,
             sender: result.sender_id,
             recipient: result.recipient_id,
         });
     } catch (error) {
-        console.log("Not a friend. userId: ", user2_id);
-        response.json({ status: null });
+        console.log("RH: Not a friend. userId: ", user2_id);
+        response.json({
+            status: null,
+        });
     }
 };
 
@@ -176,7 +205,16 @@ const getUserProfile = async (request, response) => {
             response.json(null);
             return;
         }
-        response.json(user);
+        try {
+            const friendship = await getFriendshipStatus({
+                user1_id: request.session.userId,
+                user2_id: id,
+            });
+            response.json({ ...user, friendship: { ...friendship } });
+        } catch (error) {
+            console.log("ERROR fetching friendship info: ", error);
+            response.json({ ...user, friendship: { status: null } });
+        }
     } catch (error) {
         console.log("ERROR fetching user profile: ", error);
         response.json({
@@ -308,15 +346,31 @@ const saveProfilePictureUrl = async (request, response) => {
     }
 };
 
+const getAllPhotosById = async (request, response) => {
+    try {
+        const photos = await getPhotosById({
+            ...request.body,
+            ...request.session,
+        });
+        response.json({ photos });
+    } catch (error) {
+        response
+            .statusCode(500)
+            .json({ error: "Problem fetching photos: " + error });
+    }
+};
+
 const exporting = {
     changeFriendStatus,
     checkLogin,
     csrfToken,
     getFriendList,
+    getFriendListById,
     findProfiles,
     findLatestProfiles,
     getFriendStatus,
     getMyProfile,
+    getAllPhotosById,
     getUserProfile,
     login,
     logout,
