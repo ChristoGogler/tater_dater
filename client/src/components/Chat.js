@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { useEffect, useRef } from "react";
 import ChatInput from "./ChatInput.js";
 
 export default function Chat() {
@@ -9,6 +10,11 @@ export default function Chat() {
     const newMessages = useSelector((state) => {
         return state.newMessages;
     });
+    const messagesEndRef = useRef(null);
+    const scrollToBottom = () => {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    };
+    useEffect(scrollToBottom, [newMessages, chatHistory]);
 
     const renderChatMessages = (messages) => {
         return (
@@ -78,6 +84,7 @@ export default function Chat() {
             <ul>
                 {renderChatMessages(chatHistory)}
                 {renderChatMessages(newMessages)}
+                <div ref={messagesEndRef}></div>
             </ul>
             <ChatInput />
         </section>
