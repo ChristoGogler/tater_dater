@@ -180,17 +180,16 @@ span span {
 header {
     width: 100vw;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    position: relative;
     background-color: #c4e7ea;
-    position: sticky;
     top: 0;
     z-index: 20;
-    /* #3592C5 */
 }
 .logo {
-    width: 70vw;
-    max-width: 300px !important;
+    max-height: 10vh;
+    margin: 10px;
 }
 /* MAINCONTENT SECTION*/
 .mainContent {
@@ -345,7 +344,7 @@ span {
     right: 0;
     padding: 10px;
     margin: 10px;
-    color: white;
+    color: black;
     background: none;
     border: none;
     font-size: 26pt;
@@ -423,6 +422,7 @@ input[type="file"] {
 .searchResults {
     margin: 0 auto;
     padding: 0 10px;
+    flex: 1;
 }
 .searchResults > p {
     text-align: center;
@@ -505,7 +505,7 @@ input[type="file"] {
     justify-content: center;
     margin-block-end: 20px;
     position: sticky;
-    bottom: 30px;
+    bottom: 60px;
 }
 
 .chatFormWrapper form {
@@ -545,6 +545,9 @@ input[type="file"] {
     body {
         /* background-color: cadetblue; */
     }
+    header {
+        background-color: #c4e7ea;
+    }
     .searchResults {
         width: 80vw;
         max-width: 720px;
@@ -562,7 +565,17 @@ input[type="file"] {
     }
 
     header {
+        width: 100vw;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        top: 0;
+        z-index: 20;
         position: relative;
+    }
+    .logo {
+        max-height: 20vh;
+        margin: 0;
     }
     .smallProfilePic {
         position: absolute;

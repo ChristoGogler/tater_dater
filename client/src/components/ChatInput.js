@@ -1,7 +1,7 @@
 import { socket } from "../../public/socket.js";
 import React from "react";
 
-export default function ChatInput() {
+export default function ChatInput(props) {
     let textInput = React.createRef();
     //OnSendButtonClick: emit message, empty input field
     const onSendButtonClick = () => {
@@ -18,6 +18,7 @@ export default function ChatInput() {
                     name="chatinput"
                     type="text"
                     placeholder="type your message..."
+                    onFocus={() => props.scrollToBottom()}
                     onKeyPress={(event) => {
                         if (event.key === "Enter") {
                             onSendButtonClick();

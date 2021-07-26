@@ -12,6 +12,7 @@ export default function Chat() {
     });
     const messagesEndRef = useRef(null);
     const scrollToBottom = () => {
+        console.log("CLICK");
         messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     };
     useEffect(scrollToBottom, [newMessages, chatHistory]);
@@ -86,7 +87,7 @@ export default function Chat() {
                 {renderChatMessages(newMessages)}
                 <div ref={messagesEndRef}></div>
             </ul>
-            <ChatInput />
+            <ChatInput scrollToBottom={scrollToBottom} />
         </section>
     );
 }
