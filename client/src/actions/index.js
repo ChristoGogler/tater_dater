@@ -301,7 +301,7 @@ export const setPhotoPicker = (start, end, direction, length) => {
     } else {
         hidePrev = false;
     }
-    if (end >= length || length > PICTURES_PER_PAGE) {
+    if (end >= length) {
         hideNext = true;
     } else {
         hideNext = false;

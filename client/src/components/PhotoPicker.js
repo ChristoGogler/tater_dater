@@ -60,7 +60,7 @@ export default function PhotoGallery(props) {
             </div>
             {photos.length > 0 && rendergallery(photos)}
             <div>
-                {!hideNext && photos.length > end && (
+                {!hideNext && photos.length >= end && (
                     <button
                         className="photoPickerControls"
                         onClick={() =>
