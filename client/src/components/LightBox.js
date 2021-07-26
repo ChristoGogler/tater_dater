@@ -19,7 +19,11 @@ export default function LightBox({ user, toggleLightbox, photos }) {
         return photos.slice(start, end).map((photo) => {
             return (
                 <div className="" key={photo.id}>
-                    <img src={photo.photo_url} alt={photo.photo_description} />
+                    <img
+                        src={photo.photo_url}
+                        alt={photo.photo_description}
+                        onClick={(event) => event.stopPropagation()}
+                    />
                 </div>
             );
         });

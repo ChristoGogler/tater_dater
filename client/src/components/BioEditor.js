@@ -32,7 +32,10 @@ export default function BioEditor() {
             <>
                 {currentUser ? (
                     <>
-                        <p>{currentUser.bio}</p>
+                        <p>
+                            <span className="bolder">Bio: </span>
+                            {currentUser.bio}
+                        </p>
                         <button type="button" onClick={onEditClick}>
                             <i className="material-icons editButton">edit</i>
                         </button>

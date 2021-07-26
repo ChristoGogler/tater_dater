@@ -50,6 +50,10 @@ input[type="email"],
 textarea {
     padding: 10px;
 }
+.bolder {
+    font-weight: bolder;
+}
+
 .friendStatusLabel {
     color: black;
     font-weight: 400;
@@ -306,7 +310,7 @@ nav {
     z-index: 10;
 }
 nav button i,
-span {
+nav button span {
     color: white;
 }
 

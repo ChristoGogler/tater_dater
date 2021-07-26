@@ -7,6 +7,7 @@ import {
 } from "../actions";
 import BioEditor from "./BioEditor";
 import ProfileBanner from "./ProfileBanner";
+import ProfileDetails from "./ProfileDetails";
 import LightBox from "./LightBox";
 
 export default function MyProfile() {
@@ -39,11 +40,12 @@ export default function MyProfile() {
                 className="bigProfilePic"
                 showLightbox={toggleLightbox}
             ></ProfileBanner>
-
             <div className="bioContent">
                 <h1>{user.first_name + " " + user.last_name}</h1>
                 <BioEditor></BioEditor>
+                <ProfileDetails />
             </div>
+
             {isLightboxVisible && photos && (
                 <LightBox
                     user={user}

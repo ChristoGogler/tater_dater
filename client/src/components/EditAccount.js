@@ -17,26 +17,7 @@ export default function EditAccount() {
 
     const onEditAccountSubmit = async (event) => {
         event.preventDefault();
-        const { first_name, last_name, email, password } = event.target;
-
-        if (!password.value) {
-            await dispatch(
-                onUserInputChange({
-                    first_name: first_name.value,
-                    last_name: last_name.value,
-                    email: email.value,
-                })
-            );
-        } else {
-            await dispatch(
-                onUserInputChange({
-                    first_name: first_name.value,
-                    last_name: last_name.value,
-                    email: email.value,
-                    password: password.value,
-                })
-            );
-        }
+        await dispatchUserInput(event, dispatch);
     };
 
     useEffect(() => {
@@ -101,4 +82,26 @@ export default function EditAccount() {
             )}
         </div>
     );
+}
+async function dispatchUserInput(event, dispatch) {
+    const { first_name, last_name, email, password } = event.target;
+
+    if (!password.value) {
+        await dispatch(
+            onUserInputChange({
+                first_name: first_name.value,
+                last_name: last_name.value,
+                email: email.value,
+            })
+        );
+    } else {
+        await dispatch(
+            onUserInputChange({
+                first_name: first_name.value,
+                last_name: last_name.value,
+                email: email.value,
+                password: password.value,
+            })
+        );
+    }
 }
