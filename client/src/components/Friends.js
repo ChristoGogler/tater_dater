@@ -3,21 +3,19 @@ import { useEffect } from "react";
 import {
     receiveFriendsAndPending,
     changeFriendpendingToggle,
+    acceptFriendship,
+    requestFriendship,
+    deleteFriendship,
+    cancelRequest,
 } from "../actions";
 import { Link } from "react-router-dom";
 import ProfilePic from "./ProfilePic";
-import FriendButton from "./FriendButton";
 import FriendPendingButton from "./FriendPendingButton";
 
 export default function Friends() {
     //pull toggle from store state
     const friendpending_toggle = useSelector((state) => {
         return state.friendpending_toggle;
-    });
-
-    //pull friends and pending from store state
-    const friendsAndPending = useSelector((state) => {
-        return state.friendsAndPending;
     });
 
     //Filter for friends & pending
@@ -29,29 +27,38 @@ export default function Friends() {
     };
 
     //separate friends from pending requests
-    const friends = () => {
-        return friendsAndPending && friendsAndPending.filter(isFriend);
-    };
-    const pending = () => {
-        return friendsAndPending && friendsAndPending.filter(isPending);
-    };
+    const friends = useSelector((state) => {
+        return (
+            state.friendsAndPending && state.friendsAndPending.filter(isFriend)
+        );
+    });
+    const pending = useSelector((state) => {
+        return (
+            state.friendsAndPending && state.friendsAndPending.filter(isPending)
+        );
+    });
     const dispatch = useDispatch();
     const onButtonClick = () => {
         dispatch(changeFriendpendingToggle(friendpending_toggle));
-        dispatch(receiveFriendsAndPending(friendsAndPending));
+        dispatch(receiveFriendsAndPending());
+    };
+    const onUnfriendButtonClick = (user_id) => {
+        dispatch(deleteFriendship(user_id));
+    };
+    const onCancelButtonClick = (user_id) => {
+        dispatch(cancelRequest(user_id));
+    };
+    const onAcceptButtonClick = (user_id) => {
+        dispatch(acceptFriendship(user_id));
     };
 
     useEffect(() => {
-        dispatch(receiveFriendsAndPending(friendsAndPending));
+        dispatch(receiveFriendsAndPending());
         dispatch(changeFriendpendingToggle(friendpending_toggle));
     }, [dispatch]);
 
-    useEffect(() => {
-        console.log("pending/friends has changed!", pending, friends);
-    }, [pending, friends]);
-
-    const renderFriends = () => {
-        return friends.map((user) => {
+    const renderList = (list) => {
+        return list.map((user) => {
             return (
                 <li key={user.id}>
                     <Link to={"/user/" + user.id}>
@@ -60,41 +67,15 @@ export default function Friends() {
                             profile_url={user.profile_url}
                         />
                     </Link>
-                    <div className="">
+                    <div className="searchResultDetails">
                         <Link to={"/user/" + user.id}>
                             <h1>{user.first_name + " " + user.last_name}</h1>
                         </Link>
                     </div>
-                    <FriendButton
-                        smallButton="smallBtn"
-                        otherUser_id={user.id}
-                        onFriendStatusChange=""
-                    ></FriendButton>
-                </li>
-            );
-        });
-    };
-
-    const renderPending = () => {
-        return pending.map((user) => {
-            return (
-                <li key={user.id}>
-                    <Link to={"/user/" + user.id}>
-                        <ProfilePic
-                            className="avatar"
-                            profile_url={user.profile_url}
-                        />
-                    </Link>
-                    <div className="">
-                        <Link to={"/user/" + user.id}>
-                            <h1>{user.first_name + " " + user.last_name}</h1>
-                        </Link>
-                    </div>
-                    <FriendButton
-                        smallButton="smallBtn"
-                        otherUser_id={user.id}
-                        onFriendStatusChange=""
-                    ></FriendButton>
+                    {user.friend_status == "pending" &&
+                        renderAcceptRejectButtons(user)}
+                    {user.friend_status == "friends" &&
+                        renderUnfriendButton(user)}
                 </li>
             );
         });
@@ -108,12 +89,72 @@ export default function Friends() {
                     onButtonClick={onButtonClick}
                 />
             </section>
-            <section className="searchResults searchResults2">
+            <section className="searchResults friendsAndPendingList">
                 <ul>
-                    {!friendpending_toggle && pending && renderPending()}
-                    {friendpending_toggle && friends && renderFriends()}
+                    {friendpending_toggle
+                        ? renderList(friends)
+                        : renderList(pending)}
                 </ul>
             </section>
         </>
     );
+
+    function renderAcceptRejectButtons(user) {
+        return (
+            <div className="smallBtn">
+                <button
+                    className="button submitButton tooltip"
+                    onClick={
+                        user.id == user.sender_id
+                            ? () => onAcceptButtonClick(user.id)
+                            : () => onCancelButtonClick(user.id)
+                    }
+                >
+                    <span className="tooltiptext">
+                        {user.id == user.sender_id ? "accept" : "cancel"}
+                    </span>
+
+                    <span className="flex">
+                        <i className="material-icons white">
+                            {user.id == user.sender_id
+                                ? "person_add"
+                                : "person_add_disabled"}
+                        </i>
+                    </span>
+                </button>
+
+                {user.id == user.sender_id && (
+                    <button
+                        className="button submitButton tooltip"
+                        onClick={() => onCancelButtonClick(user.id)}
+                    >
+                        <span className="tooltiptext">reject</span>
+
+                        <span className="flex">
+                            <i className="material-icons white">
+                                person_remove
+                            </i>
+                        </span>
+                    </button>
+                )}
+            </div>
+        );
+    }
+
+    function renderUnfriendButton(user) {
+        return (
+            <div className="smallBtn">
+                <button
+                    className="button submitButton tooltip"
+                    onClick={() => onUnfriendButtonClick(user.id)}
+                >
+                    <span className="tooltiptext">unfriend</span>
+
+                    <span className="flex">
+                        <i className="material-icons white">person_remove</i>
+                    </span>
+                </button>
+            </div>
+        );
+    }
 }
