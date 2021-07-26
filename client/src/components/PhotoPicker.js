@@ -10,9 +10,15 @@ import {
 export default function PhotoPicker(props) {
     const dispatch = useDispatch();
     const photos = useSelector((state) => state.photoPickerGallery);
-    const { start, end, hidePrev, hideNext } = useSelector(
-        (state) => state.photoPicker
-    );
+    const {
+        start,
+        end,
+        hidePrev,
+        hideNext,
+        direction,
+        length,
+        picturesPerPage,
+    } = useSelector((state) => state.photoPicker);
 
     const setProfilePhoto = (photo_url) => {
         dispatch(setNewProfilePhoto(photo_url));
@@ -23,10 +29,12 @@ export default function PhotoPicker(props) {
         console.log("...(PhotoGallery EFFECT [photos]) photos: ", photos);
     }, [photos]);
 
-    useEffect(() => {
-        dispatch(receivePhotoPickerGallery(props.id));
-        console.log("...(PhotoGallery EFFECT []) photos: ", photos);
+    useEffect(async () => {
+        await dispatch(receivePhotoPickerGallery(props.id));
+        dispatch(setPhotoPicker(4, 8, null, photos.length, 4));
     }, []);
+
+    // start, end, direction, length, picturesPerPage;
 
     const renderPhotos = (photos) => {
         return photos.slice(start, end).map((photo) => {
@@ -53,7 +61,13 @@ export default function PhotoPicker(props) {
                     }
                     onClick={() =>
                         dispatch(
-                            setPhotoPicker(start, end, false, photos.length)
+                            setPhotoPicker(
+                                start,
+                                end,
+                                false,
+                                photos.length,
+                                picturesPerPage
+                            )
                         )
                     }
                 >
@@ -70,7 +84,13 @@ export default function PhotoPicker(props) {
                     }
                     onClick={() =>
                         dispatch(
-                            setPhotoPicker(start, end, true, photos.length)
+                            setPhotoPicker(
+                                start,
+                                end,
+                                true,
+                                photos.length,
+                                picturesPerPage
+                            )
                         )
                     }
                 >

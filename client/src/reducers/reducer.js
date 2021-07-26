@@ -18,7 +18,15 @@ const initialState = {
     isUploaderVisible: false,
     loading: true,
     isLightboxVisible: false,
-    photoPicker: { start: 0, end: 4, hidePrev: true, hideNext: false },
+    photoPicker: {
+        start: 0,
+        end: 0,
+        hidePrev: true,
+        hideNext: false,
+        direction: true,
+        length: 1,
+        picturesPerPage: 1,
+    },
     userInput: {},
 };
 

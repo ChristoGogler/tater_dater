@@ -293,15 +293,21 @@ export const receivePhotoPickerGallery = async (id) => {
         payload: { photos: photos.data.photos },
     };
 };
-export const setPhotoPicker = (start, end, direction, length) => {
+export const setPhotoPicker = (
+    start,
+    end,
+    direction,
+    length,
+    picturesPerPage
+) => {
     console.log("...(ACTIONS setPhotoPicker) start/end: ", start, end);
-    const PICTURES_PER_PAGE = 4;
+    // const PICTURES_PER_PAGE = 4;
     if (direction) {
-        start += PICTURES_PER_PAGE;
-        end += PICTURES_PER_PAGE;
+        start += picturesPerPage;
+        end += picturesPerPage;
     } else {
-        start -= PICTURES_PER_PAGE;
-        end -= PICTURES_PER_PAGE;
+        start -= picturesPerPage;
+        end -= picturesPerPage;
     }
     let hidePrev, hideNext;
     if (start < 1) {
@@ -316,7 +322,17 @@ export const setPhotoPicker = (start, end, direction, length) => {
     }
     return {
         type: "UPDATE_PHOTOPICKER_STARTEND",
-        payload: { startEnd: { start, end, hidePrev, hideNext } },
+        payload: {
+            startEnd: {
+                start,
+                end,
+                hidePrev,
+                hideNext,
+                direction,
+                length,
+                picturesPerPage,
+            },
+        },
     };
 };
 
