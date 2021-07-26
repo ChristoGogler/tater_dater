@@ -30,8 +30,6 @@ export default function PhotoGallery(props) {
 
     const rendergallery = (photos) => {
         return photos.slice(start, end).map((photo) => {
-            // do your logic );
-            // photos.map((photo) => {
             return (
                 <div className="photoPickerFrame" key={photo.id}>
                     <img
@@ -62,7 +60,7 @@ export default function PhotoGallery(props) {
             </div>
             {photos.length > 0 && rendergallery(photos)}
             <div>
-                {!hideNext && (
+                {!hideNext && photos.length > end && (
                     <button
                         className="photoPickerControls"
                         onClick={() =>

@@ -287,12 +287,13 @@ export const receivePhotoGallery = async (id) => {
 };
 export const setPhotoPicker = (start, end, direction, length) => {
     console.log("...(ACTIONS setPhotoPicker) start/end: ", start, end);
+    const PICTURES_PER_PAGE = 4;
     if (direction) {
-        start += 4;
-        end += 4;
+        start += PICTURES_PER_PAGE;
+        end += PICTURES_PER_PAGE;
     } else {
-        start -= 4;
-        end -= 4;
+        start -= PICTURES_PER_PAGE;
+        end -= PICTURES_PER_PAGE;
     }
     let hidePrev, hideNext;
     if (start < 1) {
@@ -300,7 +301,7 @@ export const setPhotoPicker = (start, end, direction, length) => {
     } else {
         hidePrev = false;
     }
-    if (end >= length) {
+    if (end >= length || length > PICTURES_PER_PAGE) {
         hideNext = true;
     } else {
         hideNext = false;
