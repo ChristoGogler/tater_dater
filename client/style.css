@@ -311,6 +311,7 @@ span {
 /* AUTHENTIFICATION */
 .authentificationWrapper {
     text-align: center;
+    width: 100%;
 }
 .authentificationWrapper label {
     max-width: 400px;

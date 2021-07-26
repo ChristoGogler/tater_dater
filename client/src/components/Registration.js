@@ -3,7 +3,6 @@ import SubmitButton from "./SubmitButton.js";
 import axios from "../axios";
 
 export default function Registration() {
-    setRegistrationInput;
     const [registrationInput, setRegistrationInput] = useState({});
     const [message, setMessage] = useState("");
 

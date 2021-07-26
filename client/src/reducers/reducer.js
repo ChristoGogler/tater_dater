@@ -19,6 +19,7 @@ const initialState = {
     loading: true,
     isLightboxVisible: false,
     photoPicker: { start: 0, end: 4, hidePrev: true, hideNext: false },
+    userInput: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -82,7 +83,7 @@ const reducer = (state = initialState, action) => {
         case "UPDATE_USER":
             return {
                 ...state,
-                user: action.payload,
+                user: { ...state.user, ...action.payload },
             };
         case "UPDATE_PROFILE_PIC":
             return {
@@ -166,6 +167,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 photoGallery: action.payload.photos,
+            };
+        case "UPDATE_USERINPUT":
+            return {
+                ...state,
+                userInput: { ...state.userInput, ...action.payload.input },
             };
         default:
             return state;

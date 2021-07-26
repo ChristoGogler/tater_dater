@@ -201,14 +201,6 @@ export const receiveOtherUser = (id) => {
     });
 };
 
-// export const receiveOtherUser = async (id) => {
-//     const otherUser = await axios.get(`/api/user/${id}`);
-//     return {
-//         type: "RECEIVE_OTHER_USER",
-//         payload: { otherUser: otherUser.data },
-//     };
-// };
-
 export const addFriendshipStatusToOtherUser = async (id) => {
     const friendship = await axios.get(`/api/friendstatus/${id}`);
     console.log("...(ACTION) friendship:", friendship);
@@ -253,6 +245,27 @@ export const getUser = async () => {
     };
 };
 
+export const onUserInputChange = (input) => {
+    console.log("...(ACTIONS onUserInputChange) input: ", input);
+    return {
+        type: "UPDATE_USERINPUT",
+        payload: { input },
+    };
+};
+
+export const updateAccount = async (editAccountInput) => {
+    console.log(
+        "...(ACTIONS updateAccount) editAccountInput: ",
+        editAccountInput
+    );
+    const user = await axios.post("/api/editaccount", editAccountInput);
+    console.log("...(ACTIONS updateAccount) user: ", user.data.rows[0]);
+    return {
+        type: "UPDATE_USER",
+        payload: user.data.rows[0],
+    };
+};
+
 export const updateProfilePic = async (formData) => {
     const user = await axios.post("/api/upload", formData);
     return {
@@ -273,12 +286,7 @@ export const setNewProfilePhoto = async (photo_url) => {
 };
 
 export const receivePhotoGallery = async (id) => {
-    console.log("...(ACTIONS receivePhotoGallery) id: ", id);
     const photos = await axios.get(`/api/gallery/${id}`);
-    console.log(
-        "...(ACTIONS receivePhotoGallery) photos: ",
-        photos.data.photos
-    );
 
     return {
         type: "RECEIVE_PHOTO_GALLERY",

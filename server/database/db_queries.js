@@ -19,6 +19,7 @@ const exporting = {
     saveUserBio,
     updateFriendstatus,
     updatePhotoById,
+    updateUser,
 };
 module.exports = exporting;
 
@@ -80,6 +81,29 @@ async function saveUser({ first_name, last_name, email, password }) {
         "INSERT INTO users(first_name, last_name, email, password_hash) VALUES ( $1, $2, LOWER($3), $4) RETURNING *",
         [first_name, last_name, email, password_hash]
     );
+}
+
+async function updateUser({ id, first_name, last_name, email, password }) {
+    console.log(
+        "...(DB updateUser) id, first_name, last_name, email, password: ",
+        id,
+        first_name,
+        last_name,
+        email,
+        password
+    );
+    if (password) {
+        const password_hash = await hashPassword(password);
+        return postgresDb.query(
+            "UPDATE users SET email = $1, first_name = $2, last_name = $3, password_hash = $4 WHERE id = $5 RETURNING *",
+            [email, first_name, last_name, password_hash, id]
+        );
+    } else {
+        return postgresDb.query(
+            "UPDATE users SET email = $1, first_name = $2, last_name = $3 WHERE id = $4 RETURNING *",
+            [email, first_name, last_name, id]
+        );
+    }
 }
 
 async function saveSecretCode(email, secret_code) {

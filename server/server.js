@@ -31,6 +31,7 @@ const {
     changeFriendStatus,
     checkLogin,
     csrfToken,
+    editAccountDetails,
     findProfiles,
     findLatestProfiles,
     getFriendStatus,
@@ -96,7 +97,8 @@ app.post("/api/setprofilepic", updateProfilePic);
 app.get("/api/gallery/:id", getAllPhotosById);
 // SAVE NEW BIO
 app.put("/api/user/update/bio", saveNewBio);
-
+// EDIT ACCOUNT
+app.post("/api/editaccount", editAccountDetails);
 //GET USER PROFILE
 app.get("/api/user/:id", getUserProfile);
 

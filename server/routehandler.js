@@ -16,8 +16,15 @@ const {
     saveUserBio,
     updateFriendstatus,
     updatePhotoById,
+    updateUser,
 } = require("./database/db_queries");
-const { loginUser, verifyEmail, sendRegistrationMail } = require("./functions");
+
+const {
+    loginUser,
+    verifyEmail,
+    sendRegistrationMail,
+    sendEditAccountMail,
+} = require("./functions");
 
 const csrfToken = (request, response, next) => {
     response.cookie("myCsrfToken", request.csrfToken());
@@ -273,6 +280,31 @@ const register = async (request, response) => {
     }
 };
 
+//EDIT ACCOUNT DETAILS
+const editAccountDetails = async (request, response) => {
+    try {
+        console.log("...(RH editAccountDetails) request.body: ", request.body);
+        const { id, first_name, email } = await getUserById(
+            request.session.userId
+        );
+        const user = await updateUser({ id, ...request.body });
+        //send email to old address in case email changed
+        if (email != user.rows[0].email) {
+            sendEditAccountMail({
+                first_name,
+                email,
+                newmail: user.rows[0].email,
+            });
+        }
+        response.json(user);
+    } catch (error) {
+        console.log("ERROR saving user with this email: ", error);
+        response.json({
+            error: "Problem saving user with this email.",
+        });
+    }
+};
+
 //PASSWORD  RESET
 const resetPassword_step1 = async (request, response) => {
     try {
@@ -384,6 +416,7 @@ const exporting = {
     changeFriendStatus,
     checkLogin,
     csrfToken,
+    editAccountDetails,
     getFriendList,
     getFriendListById,
     findProfiles,
