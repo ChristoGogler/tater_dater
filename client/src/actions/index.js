@@ -285,11 +285,11 @@ export const setNewProfilePhoto = async (photo_url) => {
     };
 };
 
-export const receivePhotoGallery = async (id) => {
+export const receivePhotoPickerGallery = async (id) => {
     const photos = await axios.get(`/api/gallery/${id}`);
 
     return {
-        type: "RECEIVE_PHOTO_GALLERY",
+        type: "RECEIVE_PHOTOPICKER_GALLERY",
         payload: { photos: photos.data.photos },
     };
 };

@@ -7,7 +7,7 @@ const initialState = {
     friendsAndPending: [],
     otherUserFriends: [],
     mutualFriends: [],
-    photoGallery: [],
+    photoPickerGallery: [],
     chatHistory: [],
     newMessages: [],
     bioEditor: { isBeingEdited: false },
@@ -163,10 +163,10 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 mutualFriends: action.payload.mutualFriends,
             };
-        case "RECEIVE_PHOTO_GALLERY":
+        case "RECEIVE_PHOTOPICKER_GALLERY":
             return {
                 ...state,
-                photoGallery: action.payload.photos,
+                photoPickerGallery: action.payload.photos,
             };
         case "UPDATE_USERINPUT":
             return {

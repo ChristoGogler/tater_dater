@@ -1,15 +1,15 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {
-    receivePhotoGallery,
+    receivePhotoPickerGallery,
     setNewProfilePhoto,
     toggleUploaderVisible,
     setPhotoPicker,
 } from "../actions";
 
-export default function PhotoGallery(props) {
+export default function PhotoPicker(props) {
     const dispatch = useDispatch();
-    const photos = useSelector((state) => state.photoGallery);
+    const photos = useSelector((state) => state.photoPickerGallery);
     const { start, end, hidePrev, hideNext } = useSelector(
         (state) => state.photoPicker
     );
@@ -24,11 +24,11 @@ export default function PhotoGallery(props) {
     }, [photos]);
 
     useEffect(() => {
-        dispatch(receivePhotoGallery(props.id));
+        dispatch(receivePhotoPickerGallery(props.id));
         console.log("...(PhotoGallery EFFECT []) photos: ", photos);
     }, []);
 
-    const rendergallery = (photos) => {
+    const renderPhotos = (photos) => {
         return photos.slice(start, end).map((photo) => {
             return (
                 <div className="photoPickerFrame" key={photo.id}>
@@ -45,33 +45,37 @@ export default function PhotoGallery(props) {
     return (
         <div className="photoPickerWrapper">
             <div>
-                {!hidePrev && (
-                    <button
-                        className="photoPickerControls"
-                        onClick={() =>
-                            dispatch(
-                                setPhotoPicker(start, end, false, photos.length)
-                            )
-                        }
-                    >
-                        <i className="material-icons">arrow_left</i>
-                    </button>
-                )}
+                <button
+                    className={
+                        !hidePrev
+                            ? "photoPickerControls"
+                            : "photoPickerControls hideButton"
+                    }
+                    onClick={() =>
+                        dispatch(
+                            setPhotoPicker(start, end, false, photos.length)
+                        )
+                    }
+                >
+                    <i className="material-icons">arrow_left</i>
+                </button>
             </div>
-            {photos.length > 0 && rendergallery(photos)}
+            {photos.length > 0 && renderPhotos(photos)}
             <div>
-                {!hideNext && photos.length >= end && (
-                    <button
-                        className="photoPickerControls"
-                        onClick={() =>
-                            dispatch(
-                                setPhotoPicker(start, end, true, photos.length)
-                            )
-                        }
-                    >
-                        <i className="material-icons">arrow_right</i>
-                    </button>
-                )}
+                <button
+                    className={
+                        !hideNext && photos.length >= end
+                            ? "photoPickerControls"
+                            : "photoPickerControls hideButton"
+                    }
+                    onClick={() =>
+                        dispatch(
+                            setPhotoPicker(start, end, true, photos.length)
+                        )
+                    }
+                >
+                    <i className="material-icons">arrow_right</i>
+                </button>
             </div>
         </div>
     );

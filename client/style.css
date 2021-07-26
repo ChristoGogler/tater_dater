@@ -125,6 +125,9 @@ button {
 .hideLabel {
     display: none;
 }
+.hideButton {
+    visibility: hidden;
+}
 .buttonsWrapper {
     display: flex;
     justify-content: space-around;
