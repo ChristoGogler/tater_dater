@@ -75,11 +75,13 @@ export default function UserProfile(props) {
                         </h1>
 
                         <p className="userbio"> {otherUser.bio}</p>
-                        <FriendButton
-                            onFriendStatusChange={setFriendStatus}
-                            otherUser_id={otherUser.id}
-                        ></FriendButton>
-                        <HotPotatoButton user_id={otherUser.id} />
+                        <div className="friendButtonsWrapper">
+                            <FriendButton
+                                onFriendStatusChange={setFriendStatus}
+                                otherUser_id={otherUser.id}
+                            ></FriendButton>
+                            <HotPotatoButton user_id={otherUser.id} />
+                        </div>
                         <ProfileDetails />
                     </div>
                     <FriendsList

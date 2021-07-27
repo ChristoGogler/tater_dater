@@ -288,7 +288,10 @@ async function getSinglePotatoById({ sender, receiver }) {
         [sender, receiver]
     );
     console.log("...(DB) potatoButtonState: ", potatoButtonState.rows[0].count);
-    return potatoButtonState.rows[0].count;
+    if (potatoButtonState.rows[0].count > 0) {
+        return false;
+    }
+    return true;
 }
 async function savePotatoes({ user1_id, user2_id, isAdding }) {
     console.log(
@@ -299,16 +302,15 @@ async function savePotatoes({ user1_id, user2_id, isAdding }) {
     );
 
     let potatoButtonState;
-
-    try {
+    if (isAdding == 0) {
         potatoButtonState = await postgresDb.query(
-            "UPDATE potatoes SET potato_count = potato_count - $3 where receiver_id = $2 AND sender_id = $1",
-            [user1_id, user2_id, isAdding]
+            "DELETE FROM potatoes where sender_id = $1 AND receiver_id = $2",
+            [user1_id, user2_id]
         );
-        console.log("...(DB savePotatoes) UPDATE :", potatoButtonState);
-    } catch (error) {
+        console.log("...(DB savePotatoes) DELETE :", potatoButtonState);
+    } else {
         potatoButtonState = await postgresDb.query(
-            "INSERT INTO potatoes (sender_id, receiver_id, potato_count) VALUES ($1,$2, $3)",
+            "INSERT INTO potatoes (sender_id, receiver_id, potato_count) VALUES ($1,$2, $3) returning *",
             [user1_id, user2_id, isAdding]
         );
         console.log("...(DB savePotatoes) INSERT :", potatoButtonState);

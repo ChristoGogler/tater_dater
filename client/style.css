@@ -183,6 +183,12 @@ span span {
     /* font-weight: 800; */
 }
 
+.friendButtonsWrapper {
+    display: flex;
+    width: 280px;
+    justify-content: space-between;
+}
+
 /* HEADER LOGO */
 header {
     width: 100vw;
@@ -622,6 +628,7 @@ input[type="file"] {
         flex-direction: row;
         padding: 20px;
         justify-content: flex-start;
+        align-items: flex-start;
     }
     .profileBannerWrapper {
         width: 200px;
@@ -670,7 +677,9 @@ input[type="file"] {
     }
     .mutualFriendsList {
         flex-shrink: 0;
+        margin-top: 40px;
     }
+
     /* PhotoPicker */
 
     .photoPickerWrapper {
