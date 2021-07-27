@@ -26,7 +26,7 @@ export default function PhotoPicker(props) {
     };
 
     useEffect(() => {
-        console.log("...(PhotoGallery EFFECT [photos]) photos: ", photos);
+        // console.log("...(PhotoGallery EFFECT [photos]) photos: ", photos);
     }, [photos]);
 
     useEffect(async () => {

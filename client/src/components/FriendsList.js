@@ -10,7 +10,7 @@ import ProfilePic from "./ProfilePic";
 import { Link } from "react-router-dom";
 
 export default function FriendsList(props) {
-    console.log("props: ", props);
+    // console.log("props: ", props);
     const dispatch = useDispatch();
 
     //Filter for friends
@@ -36,7 +36,7 @@ export default function FriendsList(props) {
     }, [yourFriends]);
 
     useEffect(async () => {
-        console.log(props);
+        // console.log(props);
         await dispatch(receiveOtherUser(props.userId));
         await dispatch(receiveOtherUserFriends(props.userId));
     }, [props.userId]);
@@ -45,14 +45,14 @@ export default function FriendsList(props) {
         return mutualFriends.map((user) => {
             return (
                 <li key={user.id}>
-                    <div>
-                        <div className="searchResultDetails">
-                            <Link to={`/user/${user.id}`}>
-                                <h1>
-                                    {user.first_name + " " + user.last_name}
-                                </h1>
-                            </Link>
-                        </div>
+                    <ProfilePic
+                        profile_url={user.profile_url}
+                        className="avatar miniAvatar"
+                    ></ProfilePic>
+                    <div className="searchResultDetails">
+                        <Link to={`/user/${user.id}`}>
+                            <h1>{user.first_name + " " + user.last_name}</h1>
+                        </Link>
                     </div>
                 </li>
             );
@@ -60,8 +60,14 @@ export default function FriendsList(props) {
     };
 
     return (
-        <div>
-            <p>You have {mutualFriends.length} mutual friends:</p>
+        <div className="mutualFriendsList">
+            {mutualFriends.length > 0 && (
+                <p>
+                    <span className="bolder">
+                        {mutualFriends.length} mutual friends:
+                    </span>
+                </p>
+            )}
             <ul>{mutualFriends.length > 0 && renderResults()}</ul>
         </div>
     );

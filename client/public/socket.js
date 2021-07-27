@@ -10,13 +10,13 @@ export const initialiseSocket = (store) => {
 
         //10 most recent messages
         socket.on("recentMessages", ({ messages }) => {
-            console.log("...(Client) messages received:", messages);
+            // console.log("...(Client) messages received:", messages);
             store.dispatch(recentMessages(messages));
         });
 
         // receiving new message received
         socket.on("newChatMessageToClients", (message) => {
-            console.log("...(Client) message received:", message);
+            // console.log("...(Client) message received:", message);
             store.dispatch(newChatMessage(message));
         });
     }

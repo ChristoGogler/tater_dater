@@ -17,7 +17,7 @@ const handleChatMessages = async (socket) => {
     //EMIT the 10 latest chat messages to the socket that just connected
     let messages = await getLatestChatmessages({ limit });
     messages = isSenderAlsoUser(messages, userId);
-    console.log("...(SH EMIT the 10 latest) messages: ", messages);
+    // console.log("...(SH EMIT the 10 latest) messages: ", messages);
 
     io.to(socketId).emit("recentMessages", {
         messages,
@@ -29,7 +29,7 @@ const handleChatMessages = async (socket) => {
             userId,
             chatmessage,
         });
-        console.log("...(SH newChatMessageToServer) newMessage: ", newMessage);
+        // console.log("...(SH newChatMessageToServer) newMessage: ", newMessage);
 
         const { first_name, last_name, profile_url } = await getUserById(
             userId
@@ -61,7 +61,7 @@ const exporting = {
 module.exports = exporting;
 
 function isSenderAlsoUser(messages, userId) {
-    console.log("messages: ", messages);
+    // console.log("messages: ", messages);
     messages = messages.map((msg) => {
         if (msg.sender_id == userId) {
             msg.sender_id = -1;

@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
 import ChatInput from "./ChatInput.js";
+import { Link } from "react-router-dom";
 
 export default function Chat() {
     //pull chatHistory from redux store
@@ -46,19 +47,35 @@ export default function Chat() {
                                             : "chatImg"
                                     }
                                 >
-                                    <img src={profile_url} alt="" />
+                                    <Link
+                                        to={
+                                            sender_id == -1
+                                                ? "/"
+                                                : "/user/" + sender_id
+                                        }
+                                    >
+                                        <img src={profile_url} alt="" />
+                                    </Link>
                                 </div>
                                 <div>
                                     <div>
-                                        <p
-                                            className={
+                                        <Link
+                                            to={
                                                 sender_id == -1
-                                                    ? "chatauthorSelf"
-                                                    : "chatauthor"
+                                                    ? "/"
+                                                    : "/user/" + sender_id
                                             }
                                         >
-                                            {first_name + " " + last_name}
-                                        </p>
+                                            <p
+                                                className={
+                                                    sender_id == -1
+                                                        ? "chatauthorSelf"
+                                                        : "chatauthor"
+                                                }
+                                            >
+                                                {first_name + " " + last_name}
+                                            </p>
+                                        </Link>
                                         <q
                                             className={
                                                 sender_id == -1

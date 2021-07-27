@@ -101,7 +101,7 @@ export default function FindProfile() {
                     <input
                         name="searchuser"
                         type="text"
-                        placeholder="Find other Potatoes"
+                        placeholder="Find other Taters"
                         onChange={(event) => setSearchquery(event.target.value)}
                         defaultValue={searchquery}
                         autoFocus
@@ -118,10 +118,10 @@ export default function FindProfile() {
                         <ul>{renderResults()}</ul>
                     </>
                 )}
-                {isSearching && noResults && <p>No users found!</p>}
+                {isSearching && noResults && <p>No Taters found!</p>}
                 {!isSearching && (
                     <>
-                        <p>most recently joined users</p>
+                        <p>most recently joined Taters</p>
                         <ul>{renderLatestUsers()}</ul>
                     </>
                 )}
