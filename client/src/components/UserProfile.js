@@ -11,6 +11,8 @@ import {
 import { Redirect } from "react-router";
 import FriendsList from "./FriendsList";
 import LightBox from "./LightBox";
+import ProfileDetails from "./ProfileDetails";
+import HotPotatoButton from "./HotPotatoButton";
 
 export default function UserProfile(props) {
     const dispatch = useDispatch();
@@ -77,6 +79,8 @@ export default function UserProfile(props) {
                             onFriendStatusChange={setFriendStatus}
                             otherUser_id={otherUser.id}
                         ></FriendButton>
+                        <HotPotatoButton user_id={otherUser.id} />
+                        <ProfileDetails />
                     </div>
                     <FriendsList
                         otherUserFriends={otherUserFriends}

@@ -16,6 +16,30 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE profiles (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) NOT NULL, 
+    about_me VARCHAR(255),
+    city VARCHAR(255),
+    likes VARCHAR(255),
+    dislikes VARCHAR(255),
+    interested_in VARCHAR(255),
+    gender VARCHAR(255),
+    orientation VARCHAR(255),
+    profile_url VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE potatoes (
+     id SERIAL PRIMARY KEY,
+    sender_id INT REFERENCES users(id) NOT NULL,
+    receiver_id INT REFERENCES users(id) NOT NULL,
+    potato_count INT
+);
+
+
+
+
 CREATE TABLE photos (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id) NOT NULL,

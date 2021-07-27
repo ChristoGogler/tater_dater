@@ -28,6 +28,8 @@ const initialState = {
         picturesPerPage: 1,
     },
     userInput: {},
+    potatoCount: 0,
+    potatoButtonState: true,
 };
 
 const reducer = (state = initialState, action) => {
@@ -180,6 +182,22 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 userInput: { ...state.userInput, ...action.payload.input },
+            };
+        case "CHANGE_POTATOCOUNT":
+            return {
+                ...state,
+                potatoButtonState: action.payload.toggleState,
+                potatoCount: state.potatoCount - action.payload.number,
+            };
+        case "RECEIVE_POTATOCOUNT":
+            return {
+                ...state,
+                potatoCount: action.payload.potatoCount,
+            };
+        case "RECEIVE_POTATOBUTTON":
+            return {
+                ...state,
+                potatoButtonState: action.payload.potatoButtonState,
             };
         default:
             return state;

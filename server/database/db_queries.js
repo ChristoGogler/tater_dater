@@ -20,6 +20,9 @@ const exporting = {
     updateFriendstatus,
     updatePhotoById,
     updateUser,
+    getPotatoesById,
+    getSinglePotatoById,
+    savePotatoes,
 };
 module.exports = exporting;
 
@@ -71,7 +74,7 @@ async function getPhotosById(id) {
         "SELECT * FROM photos WHERE user_id = $1 ORDER BY id DESC",
         [id]
     );
-    console.log("...(DB getPhotosById) photos:", photos);
+    // console.log("...(DB getPhotosById) photos:", photos);
     return photos.rows;
 }
 
@@ -252,4 +255,64 @@ async function getLatestChatmessages({ limit }) {
     );
     changeDateToTimepast(result);
     return result.rows.reverse();
+}
+
+async function getPotatoesById({ id }) {
+    console.log("...(DB getPotatoesById) id: ", id);
+    let potato_count;
+    try {
+        potato_count = await postgresDb.query(
+            "SELECT COUNT(*) from potatoes where receiver_id = $1",
+            [id]
+        );
+        console.log(
+            "...(DB TRY getPotatoesById) potato_count: ",
+            potato_count.rows[0].count
+        );
+        return potato_count.rows[0].count;
+    } catch (error) {
+        // console.log(
+        //     "...(DB CATCH getPotatoesById) potato_count: ",
+        //     potato_count.data.potatoCount.rows[0].count,
+        //     error
+        // );
+
+        return -1;
+    }
+}
+async function getSinglePotatoById({ sender, receiver }) {
+    console.log("...(DB getSinglePoatoById) ");
+
+    const potatoButtonState = await postgresDb.query(
+        "SELECT COUNT(*) FROM potatoes WHERE sender_id = $1 AND receiver_id = $2",
+        [sender, receiver]
+    );
+    console.log("...(DB) potatoButtonState: ", potatoButtonState.rows[0].count);
+    return potatoButtonState.rows[0].count;
+}
+async function savePotatoes({ user1_id, user2_id, isAdding }) {
+    console.log(
+        "...(DB savePotatoes) user1_id, user2_id, isAdding: ",
+        user1_id,
+        user2_id,
+        isAdding
+    );
+
+    let potatoButtonState;
+
+    try {
+        potatoButtonState = await postgresDb.query(
+            "UPDATE potatoes SET potato_count = potato_count - $3 where receiver_id = $2 AND sender_id = $1",
+            [user1_id, user2_id, isAdding]
+        );
+        console.log("...(DB savePotatoes) UPDATE :", potatoButtonState);
+    } catch (error) {
+        potatoButtonState = await postgresDb.query(
+            "INSERT INTO potatoes (sender_id, receiver_id, potato_count) VALUES ($1,$2, $3)",
+            [user1_id, user2_id, isAdding]
+        );
+        console.log("...(DB savePotatoes) INSERT :", potatoButtonState);
+    }
+
+    return potatoButtonState;
 }

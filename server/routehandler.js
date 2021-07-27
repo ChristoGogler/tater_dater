@@ -5,18 +5,25 @@ const {
     getFriendsAndPending,
     getFriendsById,
     getPhotosById,
+    getUserByEmail,
     getUserById,
+    getLatestChatmessages,
     getLatestUserProfiles,
     getUserProfiles,
     saveFriendrequest,
     saveUser,
     saveNewPassword,
+    saveSecretCode,
     getCodeByEmail,
+    saveChatmessage,
     saveProfileUrl,
     saveUserBio,
     updateFriendstatus,
     updatePhotoById,
     updateUser,
+    getPotatoesById,
+    getSinglePotatoById,
+    savePotatoes,
 } = require("./database/db_queries");
 
 const {
@@ -60,7 +67,7 @@ const getFriendList = async (request, response) => {
     try {
         const list = await getFriendsAndPending({ userId });
         if (list.length == 0) {
-            console.log("...(findProfiles) No Friends Found!");
+            console.log("...(getFriendList) No Friends Found!");
             response.status(404).json({ message: "No Friends found!" });
             return;
         }
@@ -77,12 +84,12 @@ const getFriendList = async (request, response) => {
 //GET OTHER USER FRIENDS
 const getFriendListById = async (request, response) => {
     const { id } = request.params;
-    console.log("...(RH getFriendListById) id: ", id);
+    // console.log("...(RH getFriendListById) id: ", id);
 
     try {
         const list = await getFriendsById({ id });
         if (list.length == 0) {
-            console.log("...(findProfiles) No Friends Found!");
+            console.log("...(getFriendListById) No Friends Found!");
             response.status(404).json({ message: "No Friends found!" });
             return;
         }
@@ -101,7 +108,7 @@ const findLatestProfiles = async (request, response) => {
     try {
         const profiles = await getLatestUserProfiles();
         if (profiles.length == 0) {
-            console.log("...(findProfiles) No user Found!");
+            console.log("...(findLatestProfiles) No user Found!");
             response.status(404).json({ message: "No users found!" });
         }
         response.json(profiles);
@@ -121,7 +128,7 @@ const getFriendStatus = async (request, response) => {
     try {
         console.log(user1_id, user2_id);
         const result = await getFriendshipStatus({ user1_id, user2_id });
-        console.log("RH: friendship:", result);
+        // console.log("RH: friendship:", result);
         response.json({
             status: result.friend_status,
             sender: result.sender_id,
@@ -389,7 +396,7 @@ const updateProfilePic = async (request, response) => {
 
     try {
         const photo = await updatePhotoById({ userId, photo_url });
-        console.log("...(RH getAllPhotosById)", photo);
+        // console.log("...(RH getAllPhotosById)", photo);
         response.json({ photo });
     } catch (error) {
         response
@@ -399,11 +406,11 @@ const updateProfilePic = async (request, response) => {
 };
 
 const getAllPhotosById = async (request, response) => {
-    console.log("...(RH getAllPhotosById) id: ", request.params.id);
+    // console.log("...(RH getAllPhotosById) id: ", request.params.id);
     const id = request.params.id;
     try {
         const photos = await getPhotosById(id);
-        console.log("...(RH getAllPhotosById)", photos);
+        // console.log("...(RH getAllPhotosById)", photos);
         response.json({ photos });
     } catch (error) {
         response
@@ -412,16 +419,57 @@ const getAllPhotosById = async (request, response) => {
     }
 };
 
+const getAllPotatoes = async (request, response) => {
+    console.log("...(RH getAllPotatoes) id: ", request.params.id);
+    const id = request.params.id;
+    try {
+        const potatoCount = await getPotatoesById({ id });
+        console.log("...(RH getAllPotatoes) potatoCount: ", potatoCount);
+        response.json(potatoCount);
+    } catch (error) {
+        response.json({ error: "Problem fetching potatoes: " + error });
+    }
+};
+const getPotatoById = async (request, response) => {
+    console.log("...(RH getPotatoById) id: ", request.params.id);
+    const receiver = request.params.id;
+    const sender = request.session.userId;
+    try {
+        const hasGivenPotato = await getSinglePotatoById({ sender, receiver });
+        console.log("...(RH getPotatoById) hasGivenPotato: ", hasGivenPotato);
+        response.json({ hasGivenPotato });
+    } catch (error) {
+        response.json({ error: "Problem fetching potato: " + error });
+    }
+};
+const updatePotatoes = async (request, response) => {
+    const { userId: user1_id } = request.session;
+    const { action: isAdding, user2_id } = request.query;
+    try {
+        const potatoCount = await savePotatoes({
+            user1_id,
+            user2_id,
+            isAdding,
+        });
+        response.json(potatoCount);
+    } catch (error) {
+        console.log("ERROR changing potatocount: ", error);
+        response.json({ error: "Problem changing potatocount: " + error });
+    }
+};
+
 const exporting = {
     changeFriendStatus,
     checkLogin,
     csrfToken,
     editAccountDetails,
-    getFriendList,
-    getFriendListById,
     findProfiles,
     findLatestProfiles,
+    getAllPotatoes,
+    getPotatoById,
     getFriendStatus,
+    getFriendList,
+    getFriendListById,
     getMyProfile,
     getAllPhotosById,
     getUserProfile,
@@ -433,5 +481,6 @@ const exporting = {
     saveNewBio,
     saveProfilePictureUrl,
     updateProfilePic,
+    updatePotatoes,
 };
 module.exports = exporting;

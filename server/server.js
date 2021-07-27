@@ -34,6 +34,8 @@ const {
     editAccountDetails,
     findProfiles,
     findLatestProfiles,
+    getAllPotatoes,
+    getPotatoById,
     getFriendStatus,
     getFriendList,
     getFriendListById,
@@ -48,6 +50,7 @@ const {
     saveNewBio,
     saveProfilePictureUrl,
     updateProfilePic,
+    updatePotatoes,
 } = require("./routehandler");
 
 app.use(compression());
@@ -118,6 +121,11 @@ app.post("/api/friendrequest", changeFriendStatus);
 app.get("/api/friends", getFriendList);
 //GET OTHER USERS FRIENDS
 app.get("/api/friends/:id", getFriendListById);
+
+//GET POTATOES
+app.get(`/api/potatoes/:id`, getAllPotatoes);
+app.post(`/api/addpotato`, updatePotatoes);
+app.get(`/api/potato/:id`, getPotatoById);
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));

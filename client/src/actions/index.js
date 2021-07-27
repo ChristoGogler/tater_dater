@@ -19,10 +19,10 @@ export const receiveFriendsAndPending = () => {
 export const receiveOtherUserFriends = (otherUser_id) => {
     return new Promise((resolve, reject) => {
         axios.get(`/api/friends/${otherUser_id}`).then((result) => {
-            console.log(
-                "...(ACTIONS receiveOtherUserFriends) result: ",
-                result
-            );
+            // console.log(
+            //     "...(ACTIONS receiveOtherUserFriends) result: ",
+            //     result
+            // );
 
             resolve({
                 type: "RECEIVE_OTHER_USER_FRIENDS",
@@ -56,10 +56,10 @@ export const requestFriendship = (otherUser_id) => {
         axios
             .post(`/api/friendrequest?action=request&user2_id=${otherUser_id}`)
             .then((friendship) => {
-                console.log(
-                    "...(ACTIONS requestFriendship) friendship: ",
-                    friendship
-                );
+                // console.log(
+                //     "...(ACTIONS requestFriendship) friendship: ",
+                //     friendship
+                // );
                 resolve({
                     type: "REQUEST_FRIENDSHIP",
                     payload: {
@@ -128,7 +128,7 @@ export const acceptFriendship = (otherUser_id) => {
         axios
             .post(`/api/friendrequest?action=accept&user2_id=${otherUser_id}`)
             .then((data) => {
-                console.log("...(ACTION CREATOR: acceptFriendship) id: ", data);
+                // console.log("...(ACTION CREATOR: acceptFriendship) id: ", data);
                 resolve({
                     type: "ACCEPT_FRIENDSHIP",
                     payload: { otherUser_id },
@@ -160,7 +160,7 @@ export const recentMessages = (messages) => {
     };
 };
 export const newChatMessage = (message) => {
-    console.log("...(ACTION newChatMessage) message: ", message);
+    // console.log("...(ACTION newChatMessage) message: ", message);
 
     return {
         type: "NEW_CHATMESSAGE",
@@ -188,7 +188,7 @@ export const newChatMessage = (message) => {
 export const receiveOtherUser = (id) => {
     return new Promise((resolve, reject) => {
         axios.get(`/api/user/${id}`).then((otherUser) => {
-            console.log("...(ACTION receiveOtherUser) otherUser: ", otherUser);
+            // console.log("...(ACTION receiveOtherUser) otherUser: ", otherUser);
             resolve({
                 type: "RECEIVE_OTHER_USER",
                 payload: { otherUser: otherUser.data },
@@ -203,7 +203,7 @@ export const receiveOtherUser = (id) => {
 
 export const addFriendshipStatusToOtherUser = async (id) => {
     const friendship = await axios.get(`/api/friendstatus/${id}`);
-    console.log("...(ACTION) friendship:", friendship);
+    // console.log("...(ACTION) friendship:", friendship);
     return {
         type: "UPDATE_OTHER_USER",
         payload: { friendship: friendship.data },
@@ -211,7 +211,7 @@ export const addFriendshipStatusToOtherUser = async (id) => {
 };
 
 export const changeFriendshipStatus = (status) => {
-    console.log("...(ACTION changeFriendshipStatus) status: ", status);
+    // console.log("...(ACTION changeFriendshipStatus) status: ", status);
     return {
         type: "UPDATE_FRIENDSHIP_STATUS",
         payload: { status },
@@ -222,7 +222,7 @@ export const saveBio = async (bio) => {
     const user = await axios.put("/api/user/update/bio", {
         bio,
     });
-    console.log("...(ACTION saveBio) user: ", user.data);
+    // console.log("...(ACTION saveBio) user: ", user.data);
 
     return {
         type: "UPDATE_USER",
@@ -246,7 +246,7 @@ export const getUser = async () => {
 };
 
 export const onUserInputChange = (input) => {
-    console.log("...(ACTIONS onUserInputChange) input: ", input);
+    // console.log("...(ACTIONS onUserInputChange) input: ", input);
     return {
         type: "UPDATE_USERINPUT",
         payload: { input },
@@ -254,12 +254,12 @@ export const onUserInputChange = (input) => {
 };
 
 export const updateAccount = async (editAccountInput) => {
-    console.log(
-        "...(ACTIONS updateAccount) editAccountInput: ",
-        editAccountInput
-    );
+    // console.log(
+    //     "...(ACTIONS updateAccount) editAccountInput: ",
+    //     editAccountInput
+    // );
     const user = await axios.post("/api/editaccount", editAccountInput);
-    console.log("...(ACTIONS updateAccount) user: ", user.data.rows[0]);
+    // console.log("...(ACTIONS updateAccount) user: ", user.data.rows[0]);
     return {
         type: "UPDATE_USER",
         payload: user.data.rows[0],
@@ -275,9 +275,9 @@ export const updateProfilePic = async (formData) => {
 };
 
 export const setNewProfilePhoto = async (photo_url) => {
-    console.log("...(ACTIONS setNewProfilePhoto) photo_url: ", photo_url);
+    // console.log("...(ACTIONS setNewProfilePhoto) photo_url: ", photo_url);
     const photo = await axios.post("/api/setprofilepic", { photo_url });
-    console.log("...(ACTIONS setNewProfilePhoto) photo: ", photo);
+    // console.log("...(ACTIONS setNewProfilePhoto) photo: ", photo);
 
     return {
         type: "UPDATE_PROFILE_PIC",
@@ -300,7 +300,7 @@ export const setPhotoPicker = (
     length,
     picturesPerPage
 ) => {
-    console.log("...(ACTIONS setPhotoPicker) start/end: ", start, end);
+    // console.log("...(ACTIONS setPhotoPicker) start/end: ", start, end);
     // const PICTURES_PER_PAGE = 4;
     if (direction) {
         start += picturesPerPage;
@@ -371,10 +371,10 @@ export const resetPwNextStep = async (step, resetPwInput) => {
 export const getMostRecentUsers = () => {
     return new Promise((resolve, reject) => {
         axios.get("/api/users/latest").then((mostRecentUsers) => {
-            console.log(
-                "...(ACTIONS getMostRecentUsers) mostRecentUsers: ",
-                mostRecentUsers
-            );
+            // console.log(
+            //     "...(ACTIONS getMostRecentUsers) mostRecentUsers: ",
+            //     mostRecentUsers
+            // );
             resolve({
                 type: "GET_MOST_RECENT_USERS",
                 payload: { mostRecentUsers: mostRecentUsers.data },
@@ -398,10 +398,10 @@ export const getMostRecentUsers = () => {
 
 export const getUserSearchResults = async (searchquery) => {
     const userResults = await axios.get(`/api/users/find?q=${searchquery}`);
-    console.log(
-        "...(ACTIONS getUserSearchResults) recentUsers: ",
-        userResults.data
-    );
+    // console.log(
+    //     "...(ACTIONS getUserSearchResults) recentUsers: ",
+    //     userResults.data
+    // );
     return {
         type: "GET_USER_SEARCH_RESULTS",
         payload: { userResults: userResults.data },
@@ -426,5 +426,52 @@ export const stillLoading = (isLoading) => {
     return {
         type: "IS_LOADING",
         payload: { isLoading },
+    };
+};
+
+//---POTATOES---//
+
+export const receivePotatoCount = async (user_id) => {
+    const potatoCount = await axios.get(`/api/potatoes/${user_id}`);
+    console.log(
+        "...(ACTION receivePotatoCount) potatoCount:",
+        potatoCount.data
+    );
+    return {
+        type: "RECEIVE_POTATOCOUNT",
+        payload: { potatoCount: potatoCount.data },
+    };
+};
+
+export const addRemovePotato = async (addPotato, user_id) => {
+    console.log(
+        "...(ACTION addRemovePotato)addPotato, user_id: ",
+        addPotato,
+        user_id
+    );
+    await axios.post(`/api/addpotato?action=${addPotato}&user2_id=${user_id}`);
+    let number;
+    let toggleState;
+    if (addPotato) {
+        number = -1;
+        toggleState = false;
+    } else {
+        number = 1;
+        toggleState = true;
+    }
+    return {
+        type: "CHANGE_POTATOCOUNT",
+        payload: { number, toggleState },
+    };
+};
+export const receivePotatoButtonState = async (user_id) => {
+    const potatoButtonState = await axios.get(`/api/potato/${user_id}`);
+    console.log(
+        "...(ACTION receivePotatoButtonState) potatoButtonState:",
+        potatoButtonState.data.hasGivenPotato
+    );
+    return {
+        type: "RECEIVE_POTATOBUTTON",
+        payload: { potatoButtonState: potatoButtonState.data.hasGivenPotato },
     };
 };
