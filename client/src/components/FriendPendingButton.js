@@ -1,4 +1,7 @@
-export default function FindProfile({ friendpending_toggle, onButtonClick }) {
+export default function FriendPendingButton({
+    friendpending_toggle,
+    onButtonClick,
+}) {
     return (
         <div className="buttonsWrapper">
             <button
