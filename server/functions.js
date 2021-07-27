@@ -3,6 +3,7 @@ const exporting = {
     hashPassword,
     loginUser,
     verifyEmail,
+    sendEditAccountMail,
     sendRegistrationMail,
     sendVerificationMail,
     saveToDb,
@@ -74,7 +75,7 @@ function sendVerificationMail({ email, first_name }) {
     Please copy this code into the textfield on the password reset page.
     Verification code: ${secretCode}
     
-    Cheers, Christo`;
+    Cheers, Tater Dater`;
     saveSecretCode(email, secretCode)
         .then((result) => {
             sendEmail(email, body, subject);
@@ -91,9 +92,23 @@ function sendRegistrationMail({ email, first_name }) {
         first_name
     );
 
-    const subject = `Hej ${first_name}, Welcome at (...Social Network...)!`;
+    const subject = `Hej ${first_name}, Welcome at (...Tater Dater...)!`;
     const body = `Dear ${first_name},
-            Thanks for registering at (...Social Network...) :)`;
+                Thanks for registering at (...Social Network...) :)`;
+
+    sendEmail(email, body, subject);
+}
+
+function sendEditAccountMail({ email, first_name, newmail }) {
+    console.log(
+        "...(sendEditAccountMail) email, first_name: ",
+        email,
+        first_name
+    );
+
+    const subject = `Hej ${first_name}, youve changed your password!`;
+    const body = `Dear ${first_name},
+You have successfully changed your Email-Address to ${newmail} at (...Tater Dater...) :)`;
     sendEmail(email, body, subject);
 }
 
