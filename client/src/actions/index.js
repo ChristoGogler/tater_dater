@@ -475,3 +475,14 @@ export const receivePotatoButtonState = async (user_id) => {
         payload: { potatoButtonState: potatoButtonState.data.hasGivenPotato },
     };
 };
+export const receiveUserprofile = async (user_id) => {
+    const userProfile = await axios.get(`/api/userprofile/${user_id}`);
+    console.log(
+        "...(ACTION receiveUserprofile) userProfile.data:",
+        userProfile.data
+    );
+    return {
+        type: "RECEIVE_USERPROFILE",
+        payload: { userProfile: userProfile.data },
+    };
+};

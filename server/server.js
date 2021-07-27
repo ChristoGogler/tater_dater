@@ -42,6 +42,7 @@ const {
     getMyProfile,
     getAllPhotosById,
     getUserProfile,
+    getUserProfileDetails,
     login,
     logout,
     register,
@@ -104,6 +105,9 @@ app.put("/api/user/update/bio", saveNewBio);
 app.post("/api/editaccount", editAccountDetails);
 //GET USER PROFILE
 app.get("/api/user/:id", getUserProfile);
+
+//GET USER PROFILE DETAIL
+app.get("/api/userprofile/:id", getUserProfileDetails);
 
 //FIND PROFILES
 app.get("/api/users/find", findProfiles);

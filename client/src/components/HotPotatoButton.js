@@ -8,7 +8,6 @@ import {
 
 export default function HotPotatoButton(props) {
     const dispatch = useDispatch();
-    // console.log("...(HotPotatoButton) props", props);
     const potatoCount = useSelector((state) => state.potatoCount);
     const potatoButtonState = useSelector((state) => state.potatoButtonState);
     const onPotatoClick = () => {
@@ -28,13 +27,36 @@ export default function HotPotatoButton(props) {
             <button
                 onClick={onPotatoClick}
                 type="submit"
-                className="btnPadding"
+                className="button potatoButton btnPadding"
             >
                 <span className="flex">
-                    {potatoCount}
                     <i className="material-icons white">whatshot</i>
+                    <span>{potatoCount}</span>
+                    <span className="hideLabel">
+                        {potatoCount == 1 ? `Hot Potato` : `Hot Potatoes`}
+                    </span>
                 </span>
             </button>
+            {/*  */}
+            {/* <button
+                className={
+                    smallButton
+                        ? "button submitButton tooltip"
+                        : "button submitButton btnPadding tooltip"
+                }
+                onClick={onButtonClick}
+            >
+                {smallButton && (
+                    <span className="tooltiptext">{buttonState}</span>
+                )}
+
+                <span className="flex">
+                    <i className="material-icons white">{iconState}</i>
+                    {!smallButton && (
+                        <span className="hideLabel">{buttonState}</span>
+                    )}
+                </span>
+            </button> */}
         </div>
     );
 }

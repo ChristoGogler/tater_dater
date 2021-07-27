@@ -137,7 +137,7 @@ button {
     justify-content: space-around;
     align-items: center;
     background: black;
-    margin: 10px 0;
+    margin: 5px;
     border-radius: 3px;
     cursor: pointer;
 }
@@ -185,7 +185,6 @@ span span {
 
 .friendButtonsWrapper {
     display: flex;
-    width: 280px;
     justify-content: space-between;
 }
 
@@ -700,6 +699,12 @@ input[type="file"] {
         width: 30px;
         display: flex;
         justify-content: center;
+    }
+    .friendButtonsWrapper {
+        width: 400px;
+    }
+    .potatoButton {
+        width: 200px;
     }
 }
 

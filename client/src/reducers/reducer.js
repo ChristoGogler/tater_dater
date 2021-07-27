@@ -4,6 +4,7 @@
 const initialState = {
     user: {},
     otherUser: {},
+    userProfile: {},
     friendsAndPending: [],
     otherUserFriends: [],
     mutualFriends: [],
@@ -198,6 +199,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 potatoButtonState: action.payload.potatoButtonState,
+            };
+        case "RECEIVE_USERPROFILE":
+            return {
+                ...state,
+                userProfile: action.payload.userProfile,
             };
         default:
             return state;

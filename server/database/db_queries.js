@@ -9,6 +9,7 @@ const exporting = {
     getLatestChatmessages,
     getLatestUserProfiles,
     getUserProfiles,
+    getUserProfileDetailsById,
     saveFriendrequest,
     saveUser,
     saveNewPassword,
@@ -317,4 +318,16 @@ async function savePotatoes({ user1_id, user2_id, isAdding }) {
     }
 
     return potatoButtonState;
+}
+
+async function getUserProfileDetailsById(id) {
+    console.log("...(DB getUserProfileDetailsById) id: ", id);
+
+    const userProfileDetails = await postgresDb.query(
+        "SELECT * FROM profiles WHERE user_id = $1",
+        [id]
+    );
+    console.log("...(DB) userProfileDetails: ", userProfileDetails.rows[0]);
+
+    return userProfileDetails.rows[0];
 }

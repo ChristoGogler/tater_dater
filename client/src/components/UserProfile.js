@@ -82,7 +82,7 @@ export default function UserProfile(props) {
                             ></FriendButton>
                             <HotPotatoButton user_id={otherUser.id} />
                         </div>
-                        <ProfileDetails />
+                        <ProfileDetails userId={userId} />
                     </div>
                     <FriendsList
                         otherUserFriends={otherUserFriends}

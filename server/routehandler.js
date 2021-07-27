@@ -10,6 +10,7 @@ const {
     getLatestChatmessages,
     getLatestUserProfiles,
     getUserProfiles,
+    getUserProfileDetailsById,
     saveFriendrequest,
     saveUser,
     saveNewPassword,
@@ -230,6 +231,26 @@ const getUserProfile = async (request, response) => {
             console.log("ERROR fetching friendship info: ", error);
             response.json({ ...user, friendship: { status: null } });
         }
+    } catch (error) {
+        console.log("ERROR fetching user profile: ", error);
+        response.json({
+            error: "Problem fetching user profile. ",
+        });
+    }
+};
+//GET USER PROFILE DETAILS
+const getUserProfileDetails = async (request, response) => {
+    const id = request.params.id;
+
+    try {
+        const userProfileDetails = await getUserProfileDetailsById(id);
+        console.log("userProfileDetails", userProfileDetails);
+        if (!userProfileDetails) {
+            console.log("no user found!");
+            response.json(null);
+            return;
+        }
+        response.json({ ...userProfileDetails });
     } catch (error) {
         console.log("ERROR fetching user profile: ", error);
         response.json({
@@ -473,6 +494,7 @@ const exporting = {
     getMyProfile,
     getAllPhotosById,
     getUserProfile,
+    getUserProfileDetails,
     login,
     logout,
     register,
