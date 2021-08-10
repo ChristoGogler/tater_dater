@@ -380,24 +380,41 @@ export const toggleLightboxVisible = (isVisible) => {
 //---FOR RESET PASSWORD---//
 export const resetPwNextStep = async (step, resetPwInput) => {
     if (step == 1) {
-        const { message } = await axios.post(
-            "/api/password/reset/step1",
-            resetPwInput
-        );
-        return {
-            type: RESETPW_NEXTSTEP,
-            payload: { message, step: 2 },
-        };
+        try {
+            const response = await axios.post(
+                "/api/password/reset/step1",
+                resetPwInput
+            );
+            console.log(
+                "...(resetPassword) step 1, message: ",
+                response.data.message
+            );
+            return {
+                type: RESETPW_NEXTSTEP,
+                payload: { message: response.data.message, step: 2 },
+            };
+        } catch (error) {
+            console.log("...(resetPassword) step 1, error: ", error);
+        }
     }
     if (step == 2) {
-        const { message } = await axios.post(
-            "/api/password/reset/step2",
-            resetPwInput
-        );
-        return {
-            type: RESETPW_NEXTSTEP,
-            payload: { message, step: 3 },
-        };
+        try {
+            const response = await axios.post(
+                "/api/password/reset/step2",
+                resetPwInput
+            );
+            console.log(
+                "...(resetPassword) step 2, message: ",
+                response.data.message
+            );
+
+            return {
+                type: RESETPW_NEXTSTEP,
+                payload: { message: response.data.message, step: 3 },
+            };
+        } catch (error) {
+            console.log("...(resetPassword) step 2, error: ", error);
+        }
     }
 };
 

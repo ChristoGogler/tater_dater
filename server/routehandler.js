@@ -280,8 +280,9 @@ const login = async (request, response) => {
         response.json(user);
     } catch (error) {
         console.log("ERROR logging in: ", error);
-        response.statusCode = 401;
-        response.json({ error: "Login failed - wrong credentials!" });
+        response
+            .status(401)
+            .json({ error: "Login failed - wrong credentials!" });
     }
 };
 
@@ -294,16 +295,15 @@ const logout = (request, response) => {
 //REGISTER
 const register = async (request, response) => {
     try {
-        console.log("...(RH register) request.body: ", request.body);
+        // console.log("...(RH register) request.body: ", request.body);
         const user = await saveUser({ ...request.body });
         request.session.userId = user.rows[0].id;
-        response.statusCode = 200;
         sendRegistrationMail(user.rows[0]);
-        response.json(user);
+        response.status(200).json(user);
     } catch (error) {
         console.log("ERROR saving user with this email: ", error);
-        response.json({
-            error: "Problem saving user with this email.",
+        response.status(400).json({
+            error: "Account with this email already exists.",
         });
     }
 };
@@ -338,8 +338,10 @@ const resetPassword_step1 = async (request, response) => {
     try {
         const isVerified = await verifyEmail({ ...request.body });
         if (isVerified) {
-            // console.log("VERIFIED!");
-            response.json({ isVerified: true });
+            console.log("VERIFIED!");
+            response.json({
+                message: "Email with verification code was sent!",
+            });
             return;
         }
         response.statusCode = 400;

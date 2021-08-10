@@ -1,30 +1,17 @@
-import { useState } from "react";
+//components
 import SubmitButton from "./SubmitButton.js";
-import axios from "../axios";
+
+//hooks
+import { useStatefulFields, useAuthSubmit } from "../hooks/hooks.js";
 
 export default function Registration() {
-    const [registrationInput, setRegistrationInput] = useState({});
-    const [message, setMessage] = useState("");
-
-    const onRegistrationSubmit = async (event) => {
-        event.preventDefault();
-
-        try {
-            await axios.post("/api/register", registrationInput);
-            location.reload();
-        } catch (error) {
-            console.log(
-                "...(onRegistrationSubmit) Error: ",
-                error.response.data.error
-            );
-            setMessage(error.response.data.error);
-        }
-    };
+    const [inputValues, handleChange] = useStatefulFields();
+    const [submit, error] = useAuthSubmit("/api/register", inputValues);
 
     return (
         <div className="authentificationWrapper">
             <h1>Sign up and match with other hot potatoes!</h1>
-            <form onSubmit={onRegistrationSubmit}>
+            <form onSubmit={submit}>
                 <label htmlFor="first_name" value="First Name">
                     First Name
                     <input
@@ -33,12 +20,7 @@ export default function Registration() {
                         name="first_name"
                         placeholder="first name"
                         required
-                        onChange={(e) =>
-                            setRegistrationInput({
-                                ...registrationInput,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
+                        onChange={handleChange}
                     />
                 </label>
                 <label htmlFor="last_name">
@@ -49,12 +31,7 @@ export default function Registration() {
                         name="last_name"
                         placeholder="last name"
                         required
-                        onChange={(e) =>
-                            setRegistrationInput({
-                                ...registrationInput,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
+                        onChange={handleChange}
                     />
                 </label>
                 <label htmlFor="email">
@@ -65,12 +42,7 @@ export default function Registration() {
                         name="email"
                         placeholder="email"
                         required
-                        onChange={(e) =>
-                            setRegistrationInput({
-                                ...registrationInput,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
+                        onChange={handleChange}
                     />
                 </label>
                 <label htmlFor="password">
@@ -81,17 +53,12 @@ export default function Registration() {
                         name="password"
                         placeholder="******"
                         required
-                        onChange={(e) =>
-                            setRegistrationInput({
-                                ...registrationInput,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
+                        onChange={handleChange}
                     />
                 </label>
                 <SubmitButton />
             </form>
-            <p className="message">{message}</p>
+            <p className="message">{error}</p>
         </div>
     );
 }
