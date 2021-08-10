@@ -15,25 +15,25 @@ import {
     UPDATE_PHOTOPICKER_STARTEND,
     TOGGLE_ISUPLOADERVISIBLE,
     IS_LOADING,
-    RECENT_MESSAGES,
-    NEW_CHATMESSAGE,
+    RECEIVE_RECENT_MESSAGES,
+    SAVE_NEW_CHATMESSAGE,
     RECEIVE_OTHER_USER,
     UPDATE_OTHER_USER,
     RECEIVE_OTHER_USER_FRIENDS,
-    GET_MUTUAL_FRIENDS,
+    FILTER_MUTUAL_FRIENDS,
     RECEIVE_POTATOCOUNT,
     RECEIVE_POTATOBUTTON,
     CHANGE_POTATOCOUNT,
     RESETPW_NEXTSTEP,
     UPDATE_USER,
     UPDATE_PROFILE_PIC,
-    GET_USER,
+    RECEIVE_USER,
     RECEIVE_USERPROFILE,
     CHANGE_BIOEDITOR,
     UPDATE_USERINPUT,
     TOGGLE_ISSEARCHING,
-    GET_MOST_RECENT_USERS,
-    GET_USER_SEARCH_RESULTS,
+    RECEIVE_MOST_RECENT_USERS,
+    RECEIVE_USER_SEARCH_RESULTS,
 } from "./actions";
 
 const initialState = {
@@ -118,10 +118,10 @@ const reducer = (state = initialState, action) => {
                 },
             };
 
-        case RECENT_MESSAGES:
+        case RECEIVE_RECENT_MESSAGES:
             return { ...state, chatHistory: action.payload.messages };
 
-        case NEW_CHATMESSAGE:
+        case SAVE_NEW_CHATMESSAGE:
             return {
                 ...state,
                 newMessages: [...state.newMessages, action.payload],
@@ -151,7 +151,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isSearching: action.payload.isSearching,
             };
-        case GET_USER:
+        case RECEIVE_USER:
             return {
                 ...state,
                 user: action.payload.user,
@@ -164,15 +164,15 @@ const reducer = (state = initialState, action) => {
                     message: action.payload.message,
                 },
             };
-        case GET_MOST_RECENT_USERS:
+        case RECEIVE_MOST_RECENT_USERS:
             return {
                 ...state,
                 mostRecentUsers: action.payload.mostRecentUsers,
             };
-        case GET_USER_SEARCH_RESULTS:
+        case RECEIVE_USER_SEARCH_RESULTS:
             return {
                 ...state,
-                userSearchResults: action.payload.userSearchResults,
+                userSearchResults: action.payload.userResults,
             };
         case TOGGLE_ISUPLOADERVISIBLE:
             return {
@@ -204,7 +204,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 otherUserFriends: action.payload.friends,
             };
-        case GET_MUTUAL_FRIENDS:
+        case FILTER_MUTUAL_FRIENDS:
             return {
                 ...state,
                 mutualFriends: action.payload.mutualFriends,

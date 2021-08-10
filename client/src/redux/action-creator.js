@@ -1,6 +1,5 @@
 //ACTION CREATOR
 import {
-    RECEIVE_FRIEND_STATUS,
     UPDATE_FRIENDSHIP_STATUS,
     REQUEST_FRIENDSHIP,
     CANCEL_REQUEST,
@@ -13,25 +12,24 @@ import {
     UPDATE_PHOTOPICKER_STARTEND,
     TOGGLE_ISUPLOADERVISIBLE,
     IS_LOADING,
-    RECENT_MESSAGES,
-    NEW_CHATMESSAGE,
+    RECEIVE_RECENT_MESSAGES,
+    SAVE_NEW_CHATMESSAGE,
     RECEIVE_OTHER_USER,
     UPDATE_OTHER_USER,
     RECEIVE_OTHER_USER_FRIENDS,
-    GET_MUTUAL_FRIENDS,
+    FILTER_MUTUAL_FRIENDS,
     RECEIVE_POTATOCOUNT,
     RECEIVE_POTATOBUTTON,
     CHANGE_POTATOCOUNT,
     RESETPW_NEXTSTEP,
     UPDATE_USER,
     UPDATE_PROFILE_PIC,
-    GET_USER,
     RECEIVE_USERPROFILE,
     CHANGE_BIOEDITOR,
     UPDATE_USERINPUT,
     TOGGLE_ISSEARCHING,
-    GET_MOST_RECENT_USERS,
-    GET_USER_SEARCH_RESULTS,
+    RECEIVE_MOST_RECENT_USERS,
+    RECEIVE_USER_SEARCH_RESULTS,
 } from "./actions";
 import axios from "../axios";
 
@@ -70,7 +68,7 @@ export const receiveOtherUserFriends = (otherUser_id) => {
     });
 };
 
-export const getMutualfriends = (myFriends, yourFriends) => {
+export const filterMutualfriends = (myFriends, yourFriends) => {
     //Filter for mutual friends
     const mutualFriends = myFriends.filter((friendOfMe) => {
         return yourFriends.some((friendOfYou) => {
@@ -79,7 +77,7 @@ export const getMutualfriends = (myFriends, yourFriends) => {
     });
 
     return {
-        type: GET_MUTUAL_FRIENDS,
+        type: FILTER_MUTUAL_FRIENDS,
         payload: { mutualFriends },
     };
 };
@@ -189,7 +187,7 @@ export const changeFriendpendingToggle = (friendpending_toggle) => {
 export const recentMessages = (messages) => {
     // console.log("...(ACTION recentMessages) messages: ", messages);
     return {
-        type: RECENT_MESSAGES,
+        type: RECEIVE_RECENT_MESSAGES,
         payload: { messages },
     };
 };
@@ -197,7 +195,7 @@ export const newChatMessage = (message) => {
     // console.log("...(ACTION newChatMessage) message: ", message);
 
     return {
-        type: NEW_CHATMESSAGE,
+        type: SAVE_NEW_CHATMESSAGE,
         payload: message,
     };
 };
@@ -419,26 +417,26 @@ export const resetPwNextStep = async (step, resetPwInput) => {
 };
 
 //---FOR FINDPROFILE---//
-export const getMostRecentUsers = () => {
+export const receiveMostRecentUsers = () => {
     return new Promise((resolve, reject) => {
         axios.get("/api/users/latest").then((mostRecentUsers) => {
             // console.log(
-            //     "...(ACTIONS getMostRecentUsers) mostRecentUsers: ",
+            //     "...(ACTIONS receiveMostRecentUsers) mostRecentUsers: ",
             //     mostRecentUsers
             // );
             resolve({
-                type: GET_MOST_RECENT_USERS,
+                type: RECEIVE_MOST_RECENT_USERS,
                 payload: { mostRecentUsers: mostRecentUsers.data },
             });
             reject({
-                type: GET_MOST_RECENT_USERS,
+                type: RECEIVE_MOST_RECENT_USERS,
                 payload: null,
             });
         });
     });
     // const mostRecentUsers = await axios.get("/api/users/latest");
     // console.log(
-    //     "...(ACTIONS getMostRecentUsers) recentUsers: ",
+    //     "...(ACTIONS receiveMostRecentUsers) recentUsers: ",
     //     mostRecentUsers.data
     // );
     // return {
@@ -447,16 +445,23 @@ export const getMostRecentUsers = () => {
     // };
 };
 
-export const getUserSearchResults = async (searchquery) => {
-    const userResults = await axios.get(`/api/users/find?q=${searchquery}`);
-    // console.log(
-    //     "...(ACTIONS getUserSearchResults) recentUsers: ",
-    //     userResults.data
-    // );
-    return {
-        type: GET_USER_SEARCH_RESULTS,
-        payload: { userResults: userResults.data },
-    };
+export const receiveUserSearchResults = async (searchquery) => {
+    try {
+        const userResults = await axios.get(`/api/users/find?q=${searchquery}`);
+        console.log(
+            "...(ACTIONS getUserSearchResults) userResults.data: ",
+            userResults.data
+        );
+        return {
+            type: RECEIVE_USER_SEARCH_RESULTS,
+            payload: { userResults: userResults.data },
+        };
+    } catch (error) {
+        return {
+            type: RECEIVE_USER_SEARCH_RESULTS,
+            payload: { userResults: [] },
+        };
+    }
 };
 
 export const toggleIsSearching = (isSearching) => {
