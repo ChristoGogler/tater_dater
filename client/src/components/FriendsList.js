@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {
-    getMutualfriends,
+    filterMutualfriends,
     receiveOtherUser,
     receiveOtherUserFriends,
 } from "../redux/action-creator";
@@ -30,7 +30,7 @@ export default function FriendsList(props) {
 
     useEffect(() => {
         if (yourFriends.length > 0 && myFriends.length > 0) {
-            dispatch(getMutualfriends(myFriends, yourFriends));
+            dispatch(filterMutualfriends(myFriends, yourFriends));
             return;
         }
     }, [yourFriends]);
