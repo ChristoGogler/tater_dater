@@ -1,5 +1,8 @@
 import { useDispatch } from "react-redux";
-import { updateProfilePic, toggleUploaderVisible } from "../actions";
+import {
+    updateProfilePic,
+    toggleUploaderVisible,
+} from "../redux/action-creator";
 import EditAccount from "./EditAccount";
 import PhotoPicker from "./PhotoPicker";
 import UploadPictureForm from "./UploadPictureForm";

@@ -1,8 +1,6 @@
 const DEFAULT_PROFILEPIC = "../img/default_profileImg.png";
-import { useSelector, useDispatch } from "react-redux";
-import { toggleUploaderVisible } from "../actions";
+import { useSelector } from "react-redux";
 export default function ProfilePic({ profile_url, className, showUploader }) {
-    const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
     const fullName = user.first_name + " " + user.last_name;
 

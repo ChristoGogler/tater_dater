@@ -4,7 +4,7 @@ import {
     getMutualfriends,
     receiveOtherUser,
     receiveOtherUserFriends,
-} from "../actions";
+} from "../redux/action-creator";
 import ProfilePic from "./ProfilePic";
 
 import { Link } from "react-router-dom";

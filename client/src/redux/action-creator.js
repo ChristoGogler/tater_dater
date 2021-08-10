@@ -467,10 +467,10 @@ export const stillLoading = (isLoading) => {
 
 export const receivePotatoCount = async (user_id) => {
     const potatoCount = await axios.get(`/api/potatoes/${user_id}`);
-    console.log(
-        "...(ACTION receivePotatoCount) potatoCount:",
-        potatoCount.data
-    );
+    // console.log(
+    //     "...(ACTION receivePotatoCount) potatoCount:",
+    //     potatoCount.data
+    // );
     return {
         type: RECEIVE_POTATOCOUNT,
         payload: { potatoCount: potatoCount.data },
@@ -478,11 +478,11 @@ export const receivePotatoCount = async (user_id) => {
 };
 
 export const addRemovePotato = async (addPotato, user_id) => {
-    console.log(
-        "...(ACTION addRemovePotato)addPotato, user_id: ",
-        addPotato,
-        user_id
-    );
+    // console.log(
+    //     "...(ACTION addRemovePotato)addPotato, user_id: ",
+    //     addPotato,
+    //     user_id
+    // );
     await axios.post(`/api/addpotato?action=${addPotato}&user2_id=${user_id}`);
     let number;
     let toggleState;
@@ -500,10 +500,10 @@ export const addRemovePotato = async (addPotato, user_id) => {
 };
 export const receivePotatoButtonState = async (user_id) => {
     const potatoButtonState = await axios.get(`/api/potato/${user_id}`);
-    console.log(
-        "...(ACTION receivePotatoButtonState) potatoButtonState:",
-        potatoButtonState.data.hasGivenPotato
-    );
+    // console.log(
+    //     "...(ACTION receivePotatoButtonState) potatoButtonState:",
+    //     potatoButtonState.data.hasGivenPotato
+    // );
     return {
         type: RECEIVE_POTATOBUTTON,
         payload: { potatoButtonState: potatoButtonState.data.hasGivenPotato },
@@ -511,10 +511,10 @@ export const receivePotatoButtonState = async (user_id) => {
 };
 export const receiveUserprofile = async (user_id) => {
     const userProfile = await axios.get(`/api/userprofile/${user_id}`);
-    console.log(
-        "...(ACTION receiveUserprofile) userProfile.data:",
-        userProfile.data
-    );
+    // console.log(
+    //     "...(ACTION receiveUserprofile) userProfile.data:",
+    //     userProfile.data
+    // );
     return {
         type: RECEIVE_USERPROFILE,
         payload: { userProfile: userProfile.data },

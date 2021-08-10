@@ -5,7 +5,7 @@ import {
     requestFriendship,
     deleteFriendship,
     cancelRequest,
-} from "../actions";
+} from "../redux/action-creator";
 import axios from "../axios";
 import {} from "../actions";
 export default function FriendButton({

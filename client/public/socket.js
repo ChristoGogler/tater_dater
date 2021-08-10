@@ -1,7 +1,7 @@
 //CLIENT
 
 import io from "socket.io-client";
-import { recentMessages, newChatMessage } from "../src/actions/index";
+import { recentMessages, newChatMessage } from "../src/redux/action-creator";
 export let socket;
 export const initialiseSocket = (store) => {
     if (!socket) {

@@ -5,7 +5,7 @@ import {
     setNewProfilePhoto,
     toggleUploaderVisible,
     setPhotoPicker,
-} from "../actions";
+} from "../redux/action-creator";
 
 export default function PhotoPicker(props) {
     const dispatch = useDispatch();

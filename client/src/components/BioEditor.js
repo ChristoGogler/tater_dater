@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect } from "react";
-import { saveBio, toggleBioEditor, getUser } from "../actions";
+import { saveBio, toggleBioEditor, getUser } from "../redux/action-creator";
 
 export default function BioEditor() {
     const currentUser = useSelector((state) => state.user);

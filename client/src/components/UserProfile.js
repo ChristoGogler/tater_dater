@@ -7,7 +7,7 @@ import {
     receiveOtherUserFriends,
     toggleLightboxVisible,
     receivePhotoPickerGallery,
-} from "../actions";
+} from "../redux/action-creator";
 import { Redirect } from "react-router";
 import FriendsList from "./FriendsList";
 import LightBox from "./LightBox";

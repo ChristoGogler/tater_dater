@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import { resetPwNextStep } from "../actions";
+import { resetPwNextStep } from "../redux/action-creator";
 import SubmitButton from "./SubmitButton.js";
 import { Link } from "react-router-dom";
 

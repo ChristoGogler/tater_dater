@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setPhotoPicker, receivePhotoPickerGallery } from "../actions";
+import {
+    setPhotoPicker,
+    receivePhotoPickerGallery,
+} from "../redux/action-creator";
 
 export default function LightBox({ user, toggleLightbox, photos }) {
     const dispatch = useDispatch();
@@ -9,7 +12,7 @@ export default function LightBox({ user, toggleLightbox, photos }) {
     // const photos = useSelector((state) => state.photoPickerGallery);
 
     useEffect(async () => {
-        await dispatch(receivePhotoPickerGallery(user.id));
+        // await dispatch(receivePhotoPickerGallery(user.id));
         dispatch(setPhotoPicker(1, 2, false, photos.length, 1));
         console.log("LightBox: ", photos);
     }, []);

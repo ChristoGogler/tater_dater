@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import axios from "./axios";
 import Welcome from "./components/Welcome";
 import App from "./components/App";
-import reducer from "./reducers/reducer";
+import reducer from "./redux/reducer";
 
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";

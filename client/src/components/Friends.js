@@ -7,7 +7,7 @@ import {
     requestFriendship,
     deleteFriendship,
     cancelRequest,
-} from "../actions";
+} from "../redux/action-creator";
 import { Link } from "react-router-dom";
 import ProfilePic from "./ProfilePic";
 import FriendPendingButton from "./FriendPendingButton";

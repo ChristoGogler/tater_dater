@@ -6,7 +6,7 @@ import {
     getUser,
     toggleUploaderVisible,
     receiveFriendsAndPending,
-} from "../actions";
+} from "../redux/action-creator";
 
 import Chat from "./Chat";
 import FindProfile from "./FindProfile";

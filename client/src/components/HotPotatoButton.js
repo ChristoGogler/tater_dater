@@ -4,7 +4,7 @@ import {
     addRemovePotato,
     receivePotatoCount,
     receivePotatoButtonState,
-} from "../actions";
+} from "../redux/action-creator";
 
 export default function HotPotatoButton(props) {
     const dispatch = useDispatch();
@@ -37,26 +37,6 @@ export default function HotPotatoButton(props) {
                     </span>
                 </span>
             </button>
-            {/*  */}
-            {/* <button
-                className={
-                    smallButton
-                        ? "button submitButton tooltip"
-                        : "button submitButton btnPadding tooltip"
-                }
-                onClick={onButtonClick}
-            >
-                {smallButton && (
-                    <span className="tooltiptext">{buttonState}</span>
-                )}
-
-                <span className="flex">
-                    <i className="material-icons white">{iconState}</i>
-                    {!smallButton && (
-                        <span className="hideLabel">{buttonState}</span>
-                    )}
-                </span>
-            </button> */}
         </div>
     );
 }

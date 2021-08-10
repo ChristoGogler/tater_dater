@@ -6,7 +6,7 @@ import {
     onUserInputChange,
     getUser,
     toggleUploaderVisible,
-} from "../actions";
+} from "../redux/action-creator";
 
 export default function EditAccount() {
     const dispatch = useDispatch();

@@ -1,5 +1,8 @@
 import { useDispatch } from "react-redux";
-import { updateProfilePic, toggleUploaderVisible } from "../actions";
+import {
+    updateProfilePic,
+    toggleUploaderVisible,
+} from "../redux/action-creator";
 
 export default function UploadPictureForm() {
     const dispatch = useDispatch();

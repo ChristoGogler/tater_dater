@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { receiveUserprofile } from "../actions";
-import UserProfile from "./UserProfile";
+import { receiveUserprofile } from "../redux/action-creator";
 
 export default function ProfileDetails(props) {
     const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "../axios";
-import {} from "../actions";
+import {} from "../redux/action-creator";
 export default function FriendButton({
     otherUser_id,
     smallButton,
@@ -13,7 +13,7 @@ export default function FriendButton({
     const [iconState, setIconState] = useState("");
     const [rejectButtonState, setRejectButtonState] = useState(false);
     const [message, setMessage] = useState("");
-
+    console.log("SMALLBUTTON: ", smallButton);
     //when otherUser_id changes
     useEffect(async () => {
         const { data } = await axios.get(`/api/friendstatus/${otherUser_id}`);
