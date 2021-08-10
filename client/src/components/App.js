@@ -1,13 +1,7 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import axios from "../axios";
 import { BrowserRouter, Link, Redirect, Route, Switch } from "react-router-dom";
-import {
-    getUser,
-    toggleUploaderVisible,
-    receiveFriendsAndPending,
-} from "../redux/action-creator";
 
+//components
 import Chat from "./Chat";
 import FindProfile from "./FindProfile";
 import Footer from "./Footer";
@@ -19,8 +13,19 @@ import ProfilePic from "./ProfilePic";
 import Uploader from "./Uploader";
 import UserProfile from "./UserProfile";
 
+//hooks
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+//redux
+import {
+    getUser,
+    toggleUploaderVisible,
+    receiveFriendsAndPending,
+    receiveMostRecentUsers,
+} from "../redux/action-creator";
+
 export default function App() {
-    // const [loading, setLoading] = useState(true);
     const currentUser = useSelector((state) => state.user);
     const isUploaderVisible = useSelector((state) => state.isUploaderVisible);
 
@@ -34,12 +39,12 @@ export default function App() {
         await axios.post("/api/logout", currentUser);
         location.reload();
     };
+
     useEffect(async () => {
         try {
-            // dispatch(stillLoading(true));
             dispatch(getUser());
             dispatch(receiveFriendsAndPending());
-            // dispatch(stillLoading(false));
+            dispatch(receiveMostRecentUsers());
         } catch (error) {
             console.log("Error logging in: ", error);
             onLogoutClick();

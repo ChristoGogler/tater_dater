@@ -1,75 +1,67 @@
-import axios from "../axios";
-import { useState, useEffect } from "react";
+//components
 import ProfilePic from "./ProfilePic";
 import { Link } from "react-router-dom";
 import FriendButton from "./FriendButton";
 
+//hooks
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+//redux
+import {
+    receiveUserSearchResults,
+    toggleIsSearching,
+} from "../redux/action-creator";
+
 export default function FindProfile() {
-    const [isSearching, setIsSearching] = useState(false);
-    const [noResults, setNoResults] = useState(false);
-    const [results, setResults] = useState([]);
-    const [latestUsers, setLatestUsers] = useState([]);
+    const dispatch = useDispatch();
+    const mostRecentUsers = useSelector((state) => state.mostRecentUsers);
+    const userSearchResults = useSelector((state) => state.userSearchResults);
+    const isSearching = useSelector((state) => state.isSearching);
+
     const [searchquery, setSearchquery] = useState("");
 
-    //onSearchfieldInputChange
     useEffect(async () => {
-        setNoResults(false);
-
         if (searchquery.length < 3) {
-            setIsSearching(false);
+            dispatch(toggleIsSearching(false));
             return;
         }
-        setIsSearching(true);
-        try {
-            const { data } = await axios.get(
-                `/api/users/find?q=${searchquery}`
-            );
-            setResults([...data]);
-        } catch (error) {
-            console.log("FindProfiles Error: ", error);
-            setResults([]);
-            setNoResults(true);
-        }
+        await dispatch(receiveUserSearchResults(searchquery));
+        dispatch(toggleIsSearching(true));
     }, [searchquery]);
 
-    //on mount
-    useEffect(async () => {
-        try {
-            const { data } = await axios.get("/api/users/latest");
-            setLatestUsers([...data]);
-        } catch (error) {
-            console.log(error);
-        }
-    }, []);
-
     const renderLatestUsers = () => {
-        return latestUsers.map((user) => {
-            return (
-                <li key={user.id}>
-                    <Link to={"/user/" + user.id}>
-                        <ProfilePic
-                            className="avatar"
-                            profile_url={user.profile_url}
-                        />
-                    </Link>
-
-                    <div className="searchResultDetails">
+        if (mostRecentUsers) {
+            return mostRecentUsers.map((user) => {
+                return (
+                    <li key={user.id}>
                         <Link to={"/user/" + user.id}>
-                            <h1>{user.first_name + " " + user.last_name}</h1>
+                            <ProfilePic
+                                className="avatar"
+                                profile_url={user.profile_url}
+                            />
                         </Link>
-                        <p>{user.bio}</p>
-                    </div>
-                    <FriendButton
-                        smallButton="smallBtn"
-                        otherUser_id={user.id}
-                    ></FriendButton>
-                </li>
-            );
-        });
+
+                        <div className="searchResultDetails">
+                            <Link to={"/user/" + user.id}>
+                                <h1>
+                                    {user.first_name + " " + user.last_name}
+                                </h1>
+                            </Link>
+                            <p>{user.bio}</p>
+                        </div>
+                        <FriendButton
+                            smallButton="smallBtn"
+                            otherUser_id={user.id}
+                        ></FriendButton>
+                    </li>
+                );
+            });
+        }
     };
 
     const renderResults = () => {
-        return results.map((user) => {
+        return userSearchResults.map((user) => {
             return (
                 <li key={user.id}>
                     <Link to={"/user/" + user.id}>
@@ -101,7 +93,7 @@ export default function FindProfile() {
                     <input
                         name="searchuser"
                         type="text"
-                        placeholder="Find other Taters"
+                        placeholder="Find other Potatoes"
                         onChange={(event) => setSearchquery(event.target.value)}
                         defaultValue={searchquery}
                         autoFocus
@@ -111,17 +103,20 @@ export default function FindProfile() {
                     </button>
                 </label>
             </section>
+
             <section className="searchResults">
-                {isSearching && !noResults && (
+                {isSearching && userSearchResults.length > 0 && (
                     <>
                         <p>search results for {searchquery}</p>
                         <ul>{renderResults()}</ul>
                     </>
                 )}
-                {isSearching && noResults && <p>No Taters found!</p>}
+                {isSearching && userSearchResults.length === 0 && (
+                    <p>No taters found!</p>
+                )}
                 {!isSearching && (
                     <>
-                        <p>most recently joined Taters</p>
+                        <p>most recently joined taters</p>
                         <ul>{renderLatestUsers()}</ul>
                     </>
                 )}
