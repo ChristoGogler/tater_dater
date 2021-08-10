@@ -1,23 +1,24 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
-import { resetPwNextStep } from "../redux/action-creator";
+//components
 import SubmitButton from "./SubmitButton.js";
 import { Link } from "react-router-dom";
 
+//hooks
+import { useSelector, useDispatch } from "react-redux";
+import { useStatefulFields } from "../hooks/hooks.js";
+
+//redux
+import { resetPwNextStep } from "../redux/action-creator";
+
 export default function ResetPassword() {
     const currentStep = useSelector((state) => state.resetPassword.step);
-    const [resetPwInput, setResetPwInput] = useState();
+    const [inputValues, handleChange] = useStatefulFields();
     const dispatch = useDispatch();
 
-    const onCodeSubmit = async (event) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
+        dispatch(resetPwNextStep(currentStep, inputValues));
+    };
 
-        dispatch(resetPwNextStep(currentStep, resetPwInput));
-    };
-    const onEmailSubmit = async (event) => {
-        event.preventDefault();
-        dispatch(resetPwNextStep(currentStep, resetPwInput));
-    };
     const renderStep1 = () => {
         return (
             <div className="authentificationWrapper">
@@ -25,22 +26,17 @@ export default function ResetPassword() {
                     Forgot your password? No worries, we`ll send you an email to
                     reset it!
                 </h1>
-                <form>
+                <form onSubmit={onSubmit}>
                     <label htmlFor="email">
                         email
                         <input
                             id="id"
                             type="email"
                             name="email"
-                            onChange={(e) =>
-                                setResetPwInput({
-                                    ...resetPwInput,
-                                    [e.target.name]: e.target.value,
-                                })
-                            }
+                            onChange={handleChange}
                         ></input>
                     </label>
-                    <SubmitButton onClick={onEmailSubmit} />
+                    <SubmitButton />
                 </form>
                 <p>{currentStep.message}</p>
             </div>
@@ -50,19 +46,14 @@ export default function ResetPassword() {
         return (
             <div className="authentificationWrapper">
                 <h1>Please enter the Code you have received in your email!</h1>
-                <form onClick={onCodeSubmit}>
+                <form onClick={onSubmit}>
                     <label htmlFor="code">
                         code
                         <input
                             type="text"
                             id="code"
                             name="code"
-                            onChange={(e) =>
-                                setResetPwInput({
-                                    ...resetPwInput,
-                                    [e.target.name]: e.target.value,
-                                })
-                            }
+                            onChange={handleChange}
                         ></input>
                     </label>
                     <label htmlFor="password">
@@ -71,15 +62,10 @@ export default function ResetPassword() {
                             type="password"
                             id="password"
                             name="password"
-                            onChange={(e) =>
-                                setResetPwInput({
-                                    ...resetPwInput,
-                                    [e.target.name]: e.target.value,
-                                })
-                            }
+                            onChange={handleChange}
                         ></input>
                     </label>
-                    <SubmitButton onClick={onCodeSubmit} />
+                    <SubmitButton />
                 </form>
                 <p>{currentStep.message}</p>
             </div>
