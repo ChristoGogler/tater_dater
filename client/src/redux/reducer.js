@@ -37,23 +37,18 @@ import {
 } from "./actions";
 
 const initialState = {
-    user: {},
-    otherUser: {},
-    userProfile: {},
-    friendsAndPending: [],
-    otherUserFriends: [],
-    mutualFriends: [],
-    photoPickerGallery: [],
-    chatHistory: [],
-    newMessages: [],
     bioEditor: { isBeingEdited: false },
+    chatHistory: [],
+    friendsAndPending: [],
+    isLightboxVisible: false,
     isSearching: false,
-    resetPassword: { step: 1 },
-    mostRecentUsers: [],
-    userSearchResults: [],
     isUploaderVisible: false,
     loading: true,
-    isLightboxVisible: false,
+    mostRecentUsers: [],
+    mutualFriends: [],
+    newMessages: [],
+    otherUser: {},
+    otherUserFriends: [],
     photoPicker: {
         start: 0,
         end: 0,
@@ -63,9 +58,14 @@ const initialState = {
         length: 1,
         picturesPerPage: 1,
     },
-    userInput: {},
-    potatoCount: 0,
+    photoPickerGallery: [],
     potatoButtonState: true,
+    potatoCount: 0,
+    resetPassword: { step: 1 },
+    user: {},
+    userInput: {},
+    userProfile: {},
+    userSearchResults: [],
 };
 
 const reducer = (state = initialState, action) => {
