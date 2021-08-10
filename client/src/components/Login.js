@@ -1,29 +1,17 @@
-import { useState } from "react";
+//components
 import SubmitButton from "./SubmitButton.js";
-import axios from "../axios";
+
+//hooks
+import { useStatefulFields, useAuthSubmit } from "../hooks/hooks.js";
 
 export default function Login() {
-    const [loginInput, setLoginInput] = useState({});
-    const [message, setMessage] = useState("");
-
-    const onLoginSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            await axios.post("/api/login", loginInput);
-            location.reload();
-        } catch (error) {
-            console.log(
-                "...(onLoginSubmit) Error: ",
-                error.response.data.error
-            );
-            setMessage(error.response.data.error);
-        }
-    };
+    const [inputValues, handleChange] = useStatefulFields();
+    const [submit, error] = useAuthSubmit("/api/login", inputValues);
 
     return (
         <div className="authentificationWrapper">
             <h1>Login with your email!</h1>
-            <form onSubmit={onLoginSubmit}>
+            <form onSubmit={submit}>
                 <label htmlFor="email">
                     Email
                     <input
@@ -32,12 +20,7 @@ export default function Login() {
                         name="email"
                         placeholder="email"
                         required
-                        onChange={(e) =>
-                            setLoginInput({
-                                ...loginInput,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
+                        onChange={handleChange}
                     />
                 </label>
                 <label htmlFor="password">
@@ -48,18 +31,13 @@ export default function Login() {
                         name="password"
                         placeholder="******"
                         required
-                        onChange={(e) =>
-                            setLoginInput({
-                                ...loginInput,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
+                        onChange={handleChange}
                     />
                 </label>
                 <SubmitButton />
             </form>
 
-            <p className="message">{message}</p>
+            <p className="message">{error}</p>
         </div>
     );
 }
