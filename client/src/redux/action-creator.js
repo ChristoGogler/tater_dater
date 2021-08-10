@@ -1,4 +1,38 @@
 //ACTION CREATOR
+import {
+    RECEIVE_FRIEND_STATUS,
+    UPDATE_FRIENDSHIP_STATUS,
+    REQUEST_FRIENDSHIP,
+    CANCEL_REQUEST,
+    ACCEPT_FRIENDSHIP,
+    DELETE_FRIENDSHIP,
+    RECEIVE_FRIENDS_PENDING,
+    CHANGE_FRIENDPENDING_TOGGLE,
+    RECEIVE_PHOTOPICKER_GALLERY,
+    IS_LIGHTBOX_VISIBLE,
+    UPDATE_PHOTOPICKER_STARTEND,
+    TOGGLE_ISUPLOADERVISIBLE,
+    IS_LOADING,
+    RECENT_MESSAGES,
+    NEW_CHATMESSAGE,
+    RECEIVE_OTHER_USER,
+    UPDATE_OTHER_USER,
+    RECEIVE_OTHER_USER_FRIENDS,
+    GET_MUTUAL_FRIENDS,
+    RECEIVE_POTATOCOUNT,
+    RECEIVE_POTATOBUTTON,
+    CHANGE_POTATOCOUNT,
+    RESETPW_NEXTSTEP,
+    UPDATE_USER,
+    UPDATE_PROFILE_PIC,
+    GET_USER,
+    RECEIVE_USERPROFILE,
+    CHANGE_BIOEDITOR,
+    UPDATE_USERINPUT,
+    TOGGLE_ISSEARCHING,
+    GET_MOST_RECENT_USERS,
+    GET_USER_SEARCH_RESULTS,
+} from "./actions";
 import axios from "../axios";
 
 //---FOR FRIENDS AND PENDING---//
@@ -6,11 +40,11 @@ export const receiveFriendsAndPending = () => {
     return new Promise((resolve, reject) => {
         axios.get("/api/friends").then((result) => {
             resolve({
-                type: "RECEIVE_FRIENDS_PENDING",
+                type: RECEIVE_FRIENDS_PENDING,
                 payload: result.data,
             });
             reject({
-                type: "RECEIVE_FRIENDS_PENDING",
+                type: RECEIVE_FRIENDS_PENDING,
                 payload: null,
             });
         });
@@ -25,11 +59,11 @@ export const receiveOtherUserFriends = (otherUser_id) => {
             // );
 
             resolve({
-                type: "RECEIVE_OTHER_USER_FRIENDS",
+                type: RECEIVE_OTHER_USER_FRIENDS,
                 payload: { friends: result.data },
             });
             reject({
-                type: "RECEIVE_OTHER_USER_FRIENDS",
+                type: RECEIVE_OTHER_USER_FRIENDS,
                 payload: { friends: null },
             });
         });
@@ -45,7 +79,7 @@ export const getMutualfriends = (myFriends, yourFriends) => {
     });
 
     return {
-        type: "GET_MUTUAL_FRIENDS",
+        type: GET_MUTUAL_FRIENDS,
         payload: { mutualFriends },
     };
 };
@@ -61,7 +95,7 @@ export const requestFriendship = (otherUser_id) => {
                 //     friendship
                 // );
                 resolve({
-                    type: "REQUEST_FRIENDSHIP",
+                    type: REQUEST_FRIENDSHIP,
                     payload: {
                         id: friendship.id,
                         first_name: friendship.first_name,
@@ -75,7 +109,7 @@ export const requestFriendship = (otherUser_id) => {
             .catch((error) => {
                 console.log("ERROR: ", error);
                 reject({
-                    type: "REQUEST_FRIENDSHIP",
+                    type: REQUEST_FRIENDSHIP,
                     payload: { error },
                 });
             });
@@ -88,14 +122,14 @@ export const deleteFriendship = (otherUser_id) => {
             .post(`/api/friendrequest?action=unfriend&user2_id=${otherUser_id}`)
             .then(() => {
                 resolve({
-                    type: "DELETE_FRIENDSHIP",
+                    type: DELETE_FRIENDSHIP,
                     payload: { otherUser_id },
                 });
             })
             .catch((error) => {
                 console.log("ERROR: ", error);
                 reject({
-                    type: "DELETE_FRIENDSHIP",
+                    type: DELETE_FRIENDSHIP,
                     payload: { error },
                 });
             });
@@ -109,14 +143,14 @@ export const cancelRequest = (otherUser_id) => {
             .then(() => {
                 // console.log("...(ACTION CREATOR: cancelRequest) id: ", data);
                 resolve({
-                    type: "CANCEL_REQUEST",
+                    type: CANCEL_REQUEST,
                     payload: { otherUser_id },
                 });
             })
             .catch((error) => {
                 console.log("ERROR: ", error);
                 reject({
-                    type: "CANCEL_REQUEST",
+                    type: CANCEL_REQUEST,
                     payload: { error },
                 });
             });
@@ -130,14 +164,14 @@ export const acceptFriendship = (otherUser_id) => {
             .then((data) => {
                 // console.log("...(ACTION CREATOR: acceptFriendship) id: ", data);
                 resolve({
-                    type: "ACCEPT_FRIENDSHIP",
+                    type: ACCEPT_FRIENDSHIP,
                     payload: { otherUser_id },
                 });
             })
             .catch((error) => {
                 console.log("ERROR: ", error);
                 reject({
-                    type: "ACCEPT_FRIENDSHIP",
+                    type: ACCEPT_FRIENDSHIP,
                     payload: { error },
                 });
             });
@@ -146,7 +180,7 @@ export const acceptFriendship = (otherUser_id) => {
 
 export const changeFriendpendingToggle = (friendpending_toggle) => {
     return {
-        type: "CHANGE_FRIENDPENDING_TOGGLE",
+        type: CHANGE_FRIENDPENDING_TOGGLE,
         payload: !friendpending_toggle,
     };
 };
@@ -155,7 +189,7 @@ export const changeFriendpendingToggle = (friendpending_toggle) => {
 export const recentMessages = (messages) => {
     // console.log("...(ACTION recentMessages) messages: ", messages);
     return {
-        type: "RECENT_MESSAGES",
+        type: RECENT_MESSAGES,
         payload: { messages },
     };
 };
@@ -163,7 +197,7 @@ export const newChatMessage = (message) => {
     // console.log("...(ACTION newChatMessage) message: ", message);
 
     return {
-        type: "NEW_CHATMESSAGE",
+        type: NEW_CHATMESSAGE,
         payload: message,
     };
 };
@@ -190,11 +224,11 @@ export const receiveOtherUser = (id) => {
         axios.get(`/api/user/${id}`).then((otherUser) => {
             // console.log("...(ACTION receiveOtherUser) otherUser: ", otherUser);
             resolve({
-                type: "RECEIVE_OTHER_USER",
+                type: RECEIVE_OTHER_USER,
                 payload: { otherUser: otherUser.data },
             });
             reject({
-                type: "RECEIVE_OTHER_USER",
+                type: RECEIVE_OTHER_USER,
                 payload: null,
             });
         });
@@ -205,7 +239,7 @@ export const addFriendshipStatusToOtherUser = async (id) => {
     const friendship = await axios.get(`/api/friendstatus/${id}`);
     // console.log("...(ACTION) friendship:", friendship);
     return {
-        type: "UPDATE_OTHER_USER",
+        type: UPDATE_OTHER_USER,
         payload: { friendship: friendship.data },
     };
 };
@@ -213,7 +247,7 @@ export const addFriendshipStatusToOtherUser = async (id) => {
 export const changeFriendshipStatus = (status) => {
     // console.log("...(ACTION changeFriendshipStatus) status: ", status);
     return {
-        type: "UPDATE_FRIENDSHIP_STATUS",
+        type: UPDATE_FRIENDSHIP_STATUS,
         payload: { status },
     };
 };
@@ -225,14 +259,14 @@ export const saveBio = async (bio) => {
     // console.log("...(ACTION saveBio) user: ", user.data);
 
     return {
-        type: "UPDATE_USER",
+        type: UPDATE_USER,
         payload: user.data,
     };
 };
 
 export const toggleBioEditor = (isBeingEdited) => {
     return {
-        type: "CHANGE_BIOEDITOR",
+        type: CHANGE_BIOEDITOR,
         payload: isBeingEdited,
     };
 };
@@ -240,7 +274,7 @@ export const toggleBioEditor = (isBeingEdited) => {
 export const getUser = async () => {
     const user = await axios.get("/api/user", {});
     return {
-        type: "UPDATE_USER",
+        type: UPDATE_USER,
         payload: user.data,
     };
 };
@@ -248,7 +282,7 @@ export const getUser = async () => {
 export const onUserInputChange = (input) => {
     // console.log("...(ACTIONS onUserInputChange) input: ", input);
     return {
-        type: "UPDATE_USERINPUT",
+        type: UPDATE_USERINPUT,
         payload: { input },
     };
 };
@@ -261,7 +295,7 @@ export const updateAccount = async (editAccountInput) => {
     const user = await axios.post("/api/editaccount", editAccountInput);
     // console.log("...(ACTIONS updateAccount) user: ", user.data.rows[0]);
     return {
-        type: "UPDATE_USER",
+        type: UPDATE_USER,
         payload: user.data.rows[0],
     };
 };
@@ -269,7 +303,7 @@ export const updateAccount = async (editAccountInput) => {
 export const updateProfilePic = async (formData) => {
     const user = await axios.post("/api/upload", formData);
     return {
-        type: "UPDATE_USER",
+        type: UPDATE_USER,
         payload: user.data.user,
     };
 };
@@ -280,7 +314,7 @@ export const setNewProfilePhoto = async (photo_url) => {
     // console.log("...(ACTIONS setNewProfilePhoto) photo: ", photo);
 
     return {
-        type: "UPDATE_PROFILE_PIC",
+        type: UPDATE_PROFILE_PIC,
         payload: { photo: photo.data.photo.profile_url },
     };
 };
@@ -289,7 +323,7 @@ export const receivePhotoPickerGallery = async (id) => {
     const photos = await axios.get(`/api/gallery/${id}`);
 
     return {
-        type: "RECEIVE_PHOTOPICKER_GALLERY",
+        type: RECEIVE_PHOTOPICKER_GALLERY,
         payload: { photos: photos.data.photos },
     };
 };
@@ -321,7 +355,7 @@ export const setPhotoPicker = (
         hideNext = false;
     }
     return {
-        type: "UPDATE_PHOTOPICKER_STARTEND",
+        type: UPDATE_PHOTOPICKER_STARTEND,
         payload: {
             startEnd: {
                 start,
@@ -338,7 +372,7 @@ export const setPhotoPicker = (
 
 export const toggleLightboxVisible = (isVisible) => {
     return {
-        type: "IS_LIGHTBOX_VISIBLE",
+        type: IS_LIGHTBOX_VISIBLE,
         payload: { isVisible: !isVisible },
     };
 };
@@ -351,7 +385,7 @@ export const resetPwNextStep = async (step, resetPwInput) => {
             resetPwInput
         );
         return {
-            type: "RESETPW_NEXTSTEP",
+            type: RESETPW_NEXTSTEP,
             payload: { message, step: 2 },
         };
     }
@@ -361,7 +395,7 @@ export const resetPwNextStep = async (step, resetPwInput) => {
             resetPwInput
         );
         return {
-            type: "RESETPW_NEXTSTEP",
+            type: RESETPW_NEXTSTEP,
             payload: { message, step: 3 },
         };
     }
@@ -376,11 +410,11 @@ export const getMostRecentUsers = () => {
             //     mostRecentUsers
             // );
             resolve({
-                type: "GET_MOST_RECENT_USERS",
+                type: GET_MOST_RECENT_USERS,
                 payload: { mostRecentUsers: mostRecentUsers.data },
             });
             reject({
-                type: "GET_MOST_RECENT_USERS",
+                type: GET_MOST_RECENT_USERS,
                 payload: null,
             });
         });
@@ -403,28 +437,28 @@ export const getUserSearchResults = async (searchquery) => {
     //     userResults.data
     // );
     return {
-        type: "GET_USER_SEARCH_RESULTS",
+        type: GET_USER_SEARCH_RESULTS,
         payload: { userResults: userResults.data },
     };
 };
 
 export const toggleIsSearching = (isSearching) => {
     return {
-        type: "TOGGLE_ISSEARCHING",
+        type: TOGGLE_ISSEARCHING,
         payload: { isSearching },
     };
 };
 
 export const toggleUploaderVisible = (isVisible) => {
     return {
-        type: "TOGGLE_ISUPLOADERVISIBLE",
+        type: TOGGLE_ISUPLOADERVISIBLE,
         payload: { isVisible },
     };
 };
 
 export const stillLoading = (isLoading) => {
     return {
-        type: "IS_LOADING",
+        type: IS_LOADING,
         payload: { isLoading },
     };
 };
@@ -438,7 +472,7 @@ export const receivePotatoCount = async (user_id) => {
         potatoCount.data
     );
     return {
-        type: "RECEIVE_POTATOCOUNT",
+        type: RECEIVE_POTATOCOUNT,
         payload: { potatoCount: potatoCount.data },
     };
 };
@@ -460,7 +494,7 @@ export const addRemovePotato = async (addPotato, user_id) => {
         toggleState = true;
     }
     return {
-        type: "CHANGE_POTATOCOUNT",
+        type: CHANGE_POTATOCOUNT,
         payload: { number, toggleState },
     };
 };
@@ -471,7 +505,7 @@ export const receivePotatoButtonState = async (user_id) => {
         potatoButtonState.data.hasGivenPotato
     );
     return {
-        type: "RECEIVE_POTATOBUTTON",
+        type: RECEIVE_POTATOBUTTON,
         payload: { potatoButtonState: potatoButtonState.data.hasGivenPotato },
     };
 };
@@ -482,7 +516,7 @@ export const receiveUserprofile = async (user_id) => {
         userProfile.data
     );
     return {
-        type: "RECEIVE_USERPROFILE",
+        type: RECEIVE_USERPROFILE,
         payload: { userProfile: userProfile.data },
     };
 };
