@@ -3,7 +3,7 @@ import React from "react";
 
 export default function ChatInput(props) {
     let textInput = React.createRef();
-    //OnSendButtonClick: emit message, empty input field
+
     const onSendButtonClick = () => {
         const text = textInput.current.value;
         socket.emit("newChatMessageToServer", { chatmessage: text });

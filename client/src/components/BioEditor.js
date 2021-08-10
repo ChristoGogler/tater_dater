@@ -1,13 +1,16 @@
+//hooks
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect } from "react";
+
+//redux
 import { saveBio, toggleBioEditor, getUser } from "../redux/action-creator";
 
 export default function BioEditor() {
+    const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user);
     const bioEditor = useSelector((state) => state.bioEditor);
 
     let bioText = React.createRef();
-    const dispatch = useDispatch();
 
     const onEditClick = () => {
         dispatch(toggleBioEditor({ isBeingEdited: true }));

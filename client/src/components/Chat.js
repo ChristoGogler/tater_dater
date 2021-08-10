@@ -1,7 +1,10 @@
-import { useSelector } from "react-redux";
-import { useEffect, useRef } from "react";
+//components
 import ChatInput from "./ChatInput.js";
 import { Link } from "react-router-dom";
+
+//hooks
+import { useSelector } from "react-redux";
+import { useEffect, useRef } from "react";
 
 export default function Chat() {
     //pull chatHistory from redux store

@@ -1,11 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import SubmitButton from "./SubmitButton";
 import {
     updateAccount,
     onUserInputChange,
     getUser,
-    toggleUploaderVisible,
 } from "../redux/action-creator";
 
 export default function EditAccount() {
