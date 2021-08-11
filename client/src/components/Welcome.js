@@ -1,10 +1,12 @@
-import { HashRouter, Route } from "react-router-dom";
+//components
 import { Link } from "react-router-dom";
 import Registration from "./Registration";
 import Login from "./Login";
 import ResetPassword from "./ResetPassword";
 import Logo from "./Logo";
 import Footer from "./Footer";
+import { HashRouter, Route } from "react-router-dom";
+
 export default function Welcome() {
     return (
         <HashRouter>
