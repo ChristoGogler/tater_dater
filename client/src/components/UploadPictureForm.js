@@ -1,4 +1,7 @@
+//hooks
 import { useDispatch } from "react-redux";
+
+//redux
 import {
     updateProfilePic,
     toggleUploaderVisible,

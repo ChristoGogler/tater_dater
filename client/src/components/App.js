@@ -10,7 +10,7 @@ import Logo from "./Logo";
 import Logout from "./Logout";
 import MyProfile from "./MyProfile";
 import ProfilePic from "./ProfilePic";
-import Uploader from "./Uploader";
+import EditProfile from "./EditProfile";
 import UserProfile from "./UserProfile";
 
 //hooks
@@ -107,7 +107,9 @@ export default function App() {
                         </Route>
                     </Switch>
                     <section className="modal">
-                        {isUploaderVisible && <Uploader id={currentUser.id} />}
+                        {isUploaderVisible && (
+                            <EditProfile id={currentUser.id} />
+                        )}
                     </section>
                 </section>
                 <Footer />

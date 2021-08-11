@@ -1,12 +1,15 @@
-import { useDispatch } from "react-redux";
-import {
-    updateProfilePic,
-    toggleUploaderVisible,
-} from "../redux/action-creator";
+//components
 import EditAccount from "./EditAccount";
 import PhotoPicker from "./PhotoPicker";
 import UploadPictureForm from "./UploadPictureForm";
-export default function Uploader(props) {
+
+//hooks
+import { useDispatch } from "react-redux";
+
+//redux
+import { toggleUploaderVisible } from "../redux/action-creator";
+
+export default function EditProfile(props) {
     const dispatch = useDispatch();
 
     return (
@@ -27,7 +30,6 @@ export default function Uploader(props) {
                 <h1>Edit your Account</h1>
 
                 <EditAccount />
-                {/* {message && <p>{message}</p>} */}
             </section>
         </section>
     );
