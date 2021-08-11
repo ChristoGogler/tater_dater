@@ -1,31 +1,22 @@
+//components
+import BioEditorForm from "./forms/BioEditorForm";
+
 //hooks
 import { useSelector, useDispatch } from "react-redux";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 //redux
-import { saveBio, toggleBioEditor, getUser } from "../redux/action-creator";
+import { toggleBioEditor, getUser } from "../redux/action-creator";
 
 export default function BioEditor() {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user);
     const bioEditor = useSelector((state) => state.bioEditor);
 
-    let bioText = React.createRef();
-
     const onEditClick = () => {
         dispatch(toggleBioEditor({ isBeingEdited: true }));
     };
 
-    const onCancelClick = () => {
-        event.preventDefault();
-        dispatch(toggleBioEditor({ isBeingEdited: false }));
-    };
-
-    const onSaveClick = async () => {
-        event.preventDefault();
-        dispatch(saveBio(bioText.current.value));
-        dispatch(toggleBioEditor({ isBeingEdited: false }));
-    };
     useEffect(() => {
         dispatch(getUser(currentUser));
     }, [dispatch]);
@@ -61,37 +52,7 @@ export default function BioEditor() {
         );
     };
     const renderEditingMode = () => {
-        return (
-            <>
-                <form>
-                    <textarea
-                        ref={bioText}
-                        className="bioTextarea"
-                        name="bioTextarea"
-                        id="bioTextarea"
-                        cols="30"
-                        rows="10"
-                        defaultValue={currentUser.bio}
-                    ></textarea>
-                    <div className="bioeditorButtons">
-                        <button
-                            id="saveButton"
-                            type="submit"
-                            onClick={onSaveClick}
-                        >
-                            <i className="material-icons">task_alt</i>
-                        </button>
-                        <button
-                            id="cancelButton"
-                            type="button"
-                            onClick={onCancelClick}
-                        >
-                            <i className="material-icons">highlight_off</i>
-                        </button>
-                    </div>
-                </form>
-            </>
-        );
+        return <BioEditorForm />;
     };
     return (
         <>{bioEditor.isBeingEdited ? renderEditingMode() : renderShowMode()}</>
