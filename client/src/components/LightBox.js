@@ -1,18 +1,17 @@
+//hooks
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-    setPhotoPicker,
-    receivePhotoPickerGallery,
-} from "../redux/action-creator";
 
-export default function LightBox({ user, toggleLightbox, photos }) {
+//redux
+import { setPhotoPicker } from "../redux/action-creator";
+
+export default function LightBox({ toggleLightbox, photos }) {
     const dispatch = useDispatch();
-    const { start, end, hidePrev, hideNext, length, picturesPerPage } =
-        useSelector((state) => state.photoPicker);
-    // const photos = useSelector((state) => state.photoPickerGallery);
+    const { start, end, hidePrev, hideNext, picturesPerPage } = useSelector(
+        (state) => state.photoPicker
+    );
 
     useEffect(async () => {
-        // await dispatch(receivePhotoPickerGallery(user.id));
         dispatch(setPhotoPicker(1, 2, false, photos.length, 1));
         console.log("LightBox: ", photos);
     }, []);
@@ -44,7 +43,6 @@ export default function LightBox({ user, toggleLightbox, photos }) {
                     }
                     onClick={(event) => {
                         event.stopPropagation();
-
                         dispatch(
                             setPhotoPicker(
                                 start,
@@ -59,14 +57,8 @@ export default function LightBox({ user, toggleLightbox, photos }) {
                     <i className="material-icons">arrow_left</i>
                 </button>
             </div>
-
             <div className="lightbox">
                 {photos.length > 0 && renderPhotos(photos)}
-                {/* <img
-                    src={user.profile_url}
-                    alt={user.first_name + " " + user.last_name}
-                    onClick={(event) => event.stopPropagation()}
-                ></img> */}
             </div>
             <div>
                 <button
