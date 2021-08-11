@@ -1,6 +1,11 @@
+//components
+import SubmitButton from "./SubmitButton";
+
+//hooks
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import SubmitButton from "./SubmitButton";
+
+//redux
 import {
     updateAccount,
     onUserInputChange,
@@ -11,11 +16,6 @@ export default function EditAccount() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
     const userInput = useSelector((state) => state.userInput);
-
-    // const onEditAccountSubmit = async (event) => {
-    //     event.preventDefault();
-    //     await dispatchUserInput(event, dispatch);
-    // };
 
     useEffect(() => {
         if (userInput.first_name) {
