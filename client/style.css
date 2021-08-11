@@ -704,7 +704,10 @@ input[type="file"] {
         width: 400px;
     }
     .potatoButton {
-        width: 200px;
+        width: 210px;
+    }
+    .potatoCountMargin {
+        padding-inline-end: 5px;
     }
 }
 
