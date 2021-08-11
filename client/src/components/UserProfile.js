@@ -1,18 +1,23 @@
+//components
 import ProfileBanner from "./ProfileBanner";
 import FriendButton from "./FriendButton";
+import { Redirect } from "react-router";
+import MutualFriends from "./MutualFriends";
+import LightBox from "./LightBox";
+import ProfileDetails from "./ProfileDetails";
+import HotPotatoButton from "./HotPotatoButton";
+
+//hooks
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
+//redux
 import {
     receiveOtherUser,
     receiveOtherUserFriends,
     toggleLightboxVisible,
     receivePhotoPickerGallery,
 } from "../redux/action-creator";
-import { Redirect } from "react-router";
-import MutualFriends from "./MutualFriends";
-import LightBox from "./LightBox";
-import ProfileDetails from "./ProfileDetails";
-import HotPotatoButton from "./HotPotatoButton";
 
 export default function UserProfile(props) {
     const dispatch = useDispatch();
