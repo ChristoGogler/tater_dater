@@ -1,5 +1,8 @@
+//hooks
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+
+//redux
 import {
     receivePhotoPickerGallery,
     setNewProfilePhoto,
@@ -10,31 +13,19 @@ import {
 export default function PhotoPicker(props) {
     const dispatch = useDispatch();
     const photos = useSelector((state) => state.photoPickerGallery);
-    const {
-        start,
-        end,
-        hidePrev,
-        hideNext,
-        direction,
-        length,
-        picturesPerPage,
-    } = useSelector((state) => state.photoPicker);
+    const { start, end, hidePrev, hideNext, picturesPerPage } = useSelector(
+        (state) => state.photoPicker
+    );
 
     const setProfilePhoto = (photo_url) => {
         dispatch(setNewProfilePhoto(photo_url));
         dispatch(toggleUploaderVisible(false));
     };
 
-    useEffect(() => {
-        // console.log("...(PhotoGallery EFFECT [photos]) photos: ", photos);
-    }, [photos]);
-
     useEffect(async () => {
         await dispatch(receivePhotoPickerGallery(props.id));
         dispatch(setPhotoPicker(4, 8, null, photos.length, 4));
     }, []);
-
-    // start, end, direction, length, picturesPerPage;
 
     const renderPhotos = (photos) => {
         return photos.slice(start, end).map((photo) => {
