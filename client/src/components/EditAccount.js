@@ -10,14 +10,12 @@ import {
 export default function EditAccount() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
-    const isUploaderVisible = useSelector((state) => state.isUploaderVisible);
-
     const userInput = useSelector((state) => state.userInput);
 
-    const onEditAccountSubmit = async (event) => {
-        event.preventDefault();
-        await dispatchUserInput(event, dispatch);
-    };
+    // const onEditAccountSubmit = async (event) => {
+    //     event.preventDefault();
+    //     await dispatchUserInput(event, dispatch);
+    // };
 
     useEffect(() => {
         if (userInput.first_name) {
@@ -26,14 +24,15 @@ export default function EditAccount() {
         }
     }, [userInput]);
 
-    // useEffect(() => {
-    //     dispatch(toggleUploaderVisible(false));
-    // }, [user]);
-
     return (
         <div className="authentificationWrapper">
             {user && (
-                <form onSubmit={(event) => onEditAccountSubmit(event)}>
+                <form
+                    onSubmit={async (event) => {
+                        event.preventDefault();
+                        await dispatchUserInput(event, dispatch);
+                    }}
+                >
                     <label htmlFor="first_name" value="First Name">
                         First Name
                         <input
