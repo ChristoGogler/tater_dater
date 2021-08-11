@@ -1,29 +1,34 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import {
-    receiveFriendsAndPending,
-    changeFriendpendingToggle,
-    acceptFriendship,
-    requestFriendship,
-    deleteFriendship,
-    cancelRequest,
-} from "../redux/action-creator";
+//components
 import { Link } from "react-router-dom";
 import ProfilePic from "./ProfilePic";
 import FriendPendingButton from "./FriendPendingButton";
 
+//hoooks
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+
+//redux
+import {
+    receiveFriendsAndPending,
+    changeFriendpendingToggle,
+    acceptFriendship,
+    deleteFriendship,
+    cancelRequest,
+} from "../redux/action-creator";
+
 export default function Friends() {
+    const dispatch = useDispatch();
     //pull toggle from store state
     const friendpending_toggle = useSelector((state) => {
         return state.friendpending_toggle;
     });
 
     //Filter for friends & pending
-    const isFriend = (value) => {
-        return value.friend_status == "friends";
+    const isFriend = (friendOrPending) => {
+        return friendOrPending.friend_status == "friends";
     };
-    const isPending = (value) => {
-        return value.friend_status == "pending";
+    const isPending = (friendOrPending) => {
+        return friendOrPending.friend_status == "pending";
     };
 
     //separate friends from pending requests
@@ -37,7 +42,7 @@ export default function Friends() {
             state.friendsAndPending && state.friendsAndPending.filter(isPending)
         );
     });
-    const dispatch = useDispatch();
+
     const onButtonClick = () => {
         dispatch(changeFriendpendingToggle(friendpending_toggle));
         dispatch(receiveFriendsAndPending());
