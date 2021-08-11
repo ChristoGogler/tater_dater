@@ -9,7 +9,7 @@ import {
     receivePhotoPickerGallery,
 } from "../redux/action-creator";
 import { Redirect } from "react-router";
-import FriendsList from "./FriendsList";
+import MutualFriends from "./MutualFriends";
 import LightBox from "./LightBox";
 import ProfileDetails from "./ProfileDetails";
 import HotPotatoButton from "./HotPotatoButton";
@@ -84,7 +84,7 @@ export default function UserProfile(props) {
                         </div>
                         <ProfileDetails userId={userId} />
                     </div>
-                    <FriendsList
+                    <MutualFriends
                         otherUserFriends={otherUserFriends}
                         userId={userId}
                     />

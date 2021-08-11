@@ -1,23 +1,24 @@
+//components
+import ProfilePic from "./ProfilePic";
+import { Link } from "react-router-dom";
+
+//hooks
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+
+//redux
 import {
     filterMutualfriends,
     receiveOtherUser,
     receiveOtherUserFriends,
 } from "../redux/action-creator";
-import ProfilePic from "./ProfilePic";
 
-import { Link } from "react-router-dom";
-
-export default function FriendsList(props) {
-    // console.log("props: ", props);
+export default function MutualFriends(props) {
     const dispatch = useDispatch();
-
     //Filter for friends
     const isFriend = (value) => {
         return value.friend_status == "friends";
     };
-
     const mutualFriends = useSelector((state) => {
         return state.mutualFriends;
     });
@@ -31,12 +32,10 @@ export default function FriendsList(props) {
     useEffect(() => {
         if (yourFriends.length > 0 && myFriends.length > 0) {
             dispatch(filterMutualfriends(myFriends, yourFriends));
-            return;
         }
     }, [yourFriends]);
 
     useEffect(async () => {
-        // console.log(props);
         await dispatch(receiveOtherUser(props.userId));
         await dispatch(receiveOtherUserFriends(props.userId));
     }, [props.userId]);
