@@ -30,6 +30,8 @@ import {
     TOGGLE_ISSEARCHING,
     RECEIVE_MOST_RECENT_USERS,
     RECEIVE_USER_SEARCH_RESULTS,
+    TOGGLE_USER_PROFILE,
+    UPDATE_USER_PROFILE,
 } from "./actions";
 import axios from "../axios";
 
@@ -540,5 +542,23 @@ export const receiveUserprofile = async (user_id) => {
     return {
         type: RECEIVE_USERPROFILE,
         payload: { userProfile: userProfile.data },
+    };
+};
+
+export const toggleUserProfile = (isBeingEdited) => {
+    return {
+        type: TOGGLE_USER_PROFILE,
+        payload: isBeingEdited,
+    };
+};
+
+export const updateProfileDetails = async (inputValues) => {
+    console.log("...(updateProfileDetails) inputValues: ", inputValues);
+    const userProfile = await axios.put("/api/userprofile/update", {
+        inputValues,
+    });
+    return {
+        type: UPDATE_USER_PROFILE,
+        payload: { userProfile: userProfile.data.userProfile },
     };
 };

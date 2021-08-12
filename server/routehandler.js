@@ -22,6 +22,7 @@ const {
     updateFriendstatus,
     updatePhotoById,
     updateUser,
+    updateUserProfile,
     getPotatoesById,
     getSinglePotatoById,
     savePotatoes,
@@ -255,6 +256,28 @@ const getUserProfileDetails = async (request, response) => {
         console.log("ERROR fetching user profile: ", error);
         response.json({
             error: "Problem fetching user profile. ",
+        });
+    }
+};
+
+//UPDATE USER PROFILE DETAILS
+const updateUserProfileDetails = async (request, response) => {
+    const { userId } = request.session;
+    const { inputValues } = request.body;
+    console.log("...(RH updateUserProfileDetails) inputValues:", inputValues);
+    try {
+        const userProfile = await updateUserProfile({ userId, ...inputValues });
+        console.log(
+            "...(updateUserProfileDetails) userProfile: ",
+            userProfile.rows[0]
+        );
+        response.json({
+            userProfile: userProfile.rows[0],
+        });
+    } catch (error) {
+        console.log("Problem updating userProfile: ", error);
+        response.status(500).json({
+            error,
         });
     }
 };
@@ -506,5 +529,6 @@ const exporting = {
     saveProfilePictureUrl,
     updateProfilePic,
     updatePotatoes,
+    updateUserProfileDetails,
 };
 module.exports = exporting;

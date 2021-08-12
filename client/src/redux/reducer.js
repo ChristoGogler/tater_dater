@@ -34,6 +34,8 @@ import {
     TOGGLE_ISSEARCHING,
     RECEIVE_MOST_RECENT_USERS,
     RECEIVE_USER_SEARCH_RESULTS,
+    TOGGLE_USER_PROFILE,
+    UPDATE_USER_PROFILE,
 } from "./actions";
 
 const initialState = {
@@ -64,7 +66,7 @@ const initialState = {
     resetPassword: { step: 1 },
     user: {},
     userInput: {},
-    userProfile: {},
+    userProfile: { isBeingEdited: false },
     userSearchResults: [],
 };
 
@@ -238,7 +240,26 @@ const reducer = (state = initialState, action) => {
         case RECEIVE_USERPROFILE:
             return {
                 ...state,
-                userProfile: action.payload.userProfile,
+                userProfile: {
+                    ...state.userProfile,
+                    ...action.payload.userProfile,
+                },
+            };
+        case TOGGLE_USER_PROFILE:
+            return {
+                ...state,
+                userProfile: {
+                    ...state.userProfile,
+                    isBeingEdited: action.payload.isBeingEdited,
+                },
+            };
+        case UPDATE_USER_PROFILE:
+            return {
+                ...state,
+                userProfile: {
+                    ...state.userProfile,
+                    ...action.payload.userProfile,
+                },
             };
         default:
             return state;

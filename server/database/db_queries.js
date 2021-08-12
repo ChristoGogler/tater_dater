@@ -21,6 +21,7 @@ const exporting = {
     updateFriendstatus,
     updatePhotoById,
     updateUser,
+    updateUserProfile,
     getPotatoesById,
     getSinglePotatoById,
     savePotatoes,
@@ -330,4 +331,41 @@ async function getUserProfileDetailsById(id) {
     console.log("...(DB) userProfileDetails: ", userProfileDetails.rows[0]);
 
     return userProfileDetails.rows[0];
+}
+
+async function updateUserProfile({
+    userId,
+    about_me,
+    city,
+    likes,
+    dislikes,
+    interested_in,
+    gender,
+    orientation,
+}) {
+    console.log(
+        "...(DB updateUserProfile)",
+        userId,
+        about_me,
+        city,
+        likes,
+        dislikes,
+        interested_in,
+        gender,
+        orientation
+    );
+
+    return postgresDb.query(
+        "UPDATE profiles SET about_me = $2, city = $3, likes = $4, dislikes = $5, interested_in = $6, gender = $7, orientation = $8 WHERE user_id = $1 RETURNING *",
+        [
+            userId,
+            about_me,
+            city,
+            likes,
+            dislikes,
+            interested_in,
+            gender,
+            orientation,
+        ]
+    );
 }

@@ -52,6 +52,7 @@ const {
     saveProfilePictureUrl,
     updateProfilePic,
     updatePotatoes,
+    updateUserProfileDetails,
 } = require("./routehandler");
 
 app.use(compression());
@@ -108,6 +109,7 @@ app.get("/api/user/:id", getUserProfile);
 
 //GET USER PROFILE DETAIL
 app.get("/api/userprofile/:id", getUserProfileDetails);
+app.put("/api/userprofile/update", updateUserProfileDetails);
 
 //FIND PROFILES
 app.get("/api/users/find", findProfiles);

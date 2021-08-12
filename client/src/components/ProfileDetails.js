@@ -1,21 +1,31 @@
+//components
+import ProfileDetailsForm from "../components/forms/ProfileDetailsForm";
+
 //hooks
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 //redux
-import { receiveUserprofile } from "../redux/action-creator";
+import { receiveUserprofile, toggleUserProfile } from "../redux/action-creator";
 
 export default function ProfileDetails(props) {
     const dispatch = useDispatch();
     const userProfile = useSelector((state) => state.userProfile);
 
+    const onEditClick = () => {
+        dispatch(toggleUserProfile({ isBeingEdited: true }));
+    };
+
     useEffect(() => {
         dispatch(receiveUserprofile(props.userId));
     }, [props.userId]);
 
-    return (
-        <div>
-            {userProfile && (
+    const renderEditingMode = () => {
+        return <ProfileDetailsForm />;
+    };
+    const renderShowMode = () => {
+        return (
+            <div>
                 <>
                     <h1>Profile Details</h1>
                     <p>
@@ -49,7 +59,16 @@ export default function ProfileDetails(props) {
                         {userProfile.orientation}
                     </p>
                 </>
-            )}
-        </div>
+                <button type="button" onClick={onEditClick}>
+                    <i className="material-icons editButton">edit</i>
+                </button>
+            </div>
+        );
+    };
+
+    return (
+        <>
+            {userProfile.isBeingEdited ? renderEditingMode() : renderShowMode()}
+        </>
     );
 }
