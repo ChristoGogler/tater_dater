@@ -15,9 +15,6 @@ const cookieSessionMW = cookieSession({
 });
 const app = express();
 
-const { uploader } = require("./file_upload");
-const { uploadFiles3 } = require("./s3");
-
 //setup: socket.io
 const server = require("http").Server(app);
 const io = require("socket.io")(server, {
@@ -69,18 +66,6 @@ app.use("/api/user", userRouter);
 app.use("/api/friendship", friendshipRouter);
 //POTATO ROUTES
 app.use("/api/potato", potatoRouter);
-
-//UPLOAD PROFILE PICTURE
-app.post(
-    "/api/upload",
-    uploader.single("file"),
-    uploadFiles3,
-    saveProfilePictureUrl
-);
-app.post("/api/setprofilepic", updateProfilePic);
-
-// GET PHOTOS/GALLERY BY ID
-app.get("/api/gallery/:id", getAllPhotosById);
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));

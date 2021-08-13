@@ -305,7 +305,7 @@ export const updateAccount = async (editAccountInput) => {
 };
 
 export const updateProfilePic = async (formData) => {
-    const user = await axios.post("/api/upload", formData);
+    const user = await axios.post("/api/user/uploadphoto", formData);
     return {
         type: UPDATE_USER,
         payload: user.data.user,
@@ -314,7 +314,7 @@ export const updateProfilePic = async (formData) => {
 
 export const setNewProfilePhoto = async (photo_url) => {
     // console.log("...(ACTIONS setNewProfilePhoto) photo_url: ", photo_url);
-    const photo = await axios.post("/api/setprofilepic", { photo_url });
+    const photo = await axios.post("/api/user/setprofilepic", { photo_url });
     // console.log("...(ACTIONS setNewProfilePhoto) photo: ", photo);
 
     return {
@@ -324,7 +324,7 @@ export const setNewProfilePhoto = async (photo_url) => {
 };
 
 export const receivePhotoPickerGallery = async (id) => {
-    const photos = await axios.get(`/api/gallery/${id}`);
+    const photos = await axios.get(`/api/user/gallery/${id}`);
 
     return {
         type: RECEIVE_PHOTOPICKER_GALLERY,

@@ -1,12 +1,16 @@
 const express = require("express");
 const userRouter = express.Router();
 
+const { uploader } = require("./file_upload");
+const { uploadFiles3 } = require("./s3");
+
 const {
     checkLogin,
     editAccountDetails,
     findLatestProfiles,
     findProfiles,
     getMyProfile,
+    getAllPhotosById,
     getUserProfile,
     getUserProfileDetails,
     login,
@@ -15,6 +19,8 @@ const {
     resetPassword_step1,
     resetPassword_step2,
     saveNewBio,
+    saveProfilePictureUrl,
+    updateProfilePic,
     updateUserProfileDetails,
 } = require("../routehandler.js");
 
@@ -45,5 +51,17 @@ userRouter.post("/password/reset/step2", resetPassword_step2);
 //SEARCH & LATEST USERS
 userRouter.get("/find", findProfiles);
 userRouter.get("/latest", findLatestProfiles);
+
+//UPLOAD PROFILE PICTURE
+userRouter.post(
+    "/uploadphoto",
+    uploader.single("file"),
+    uploadFiles3,
+    saveProfilePictureUrl
+);
+userRouter.post("/setprofilepic", updateProfilePic);
+
+// GET PHOTOS/GALLERY BY ID
+userRouter.get("/gallery/:id", getAllPhotosById);
 
 module.exports = userRouter;
