@@ -38,7 +38,7 @@ import axios from "../axios";
 //---FOR FRIENDS AND PENDING---//
 export const receiveFriendsAndPending = () => {
     return new Promise((resolve, reject) => {
-        axios.get("/api/friends").then((result) => {
+        axios.get("/api/friendship/friends").then((result) => {
             resolve({
                 type: RECEIVE_FRIENDS_PENDING,
                 payload: result.data,
@@ -52,21 +52,23 @@ export const receiveFriendsAndPending = () => {
 };
 export const receiveOtherUserFriends = (otherUser_id) => {
     return new Promise((resolve, reject) => {
-        axios.get(`/api/friends/${otherUser_id}`).then((result) => {
-            // console.log(
-            //     "...(ACTIONS receiveOtherUserFriends) result: ",
-            //     result
-            // );
+        axios
+            .get(`/api/friendship/friends_by_id/${otherUser_id}`)
+            .then((result) => {
+                // console.log(
+                //     "...(ACTIONS receiveOtherUserFriends) result: ",
+                //     result
+                // );
 
-            resolve({
-                type: RECEIVE_OTHER_USER_FRIENDS,
-                payload: { friends: result.data },
+                resolve({
+                    type: RECEIVE_OTHER_USER_FRIENDS,
+                    payload: { friends: result.data },
+                });
+                reject({
+                    type: RECEIVE_OTHER_USER_FRIENDS,
+                    payload: { friends: null },
+                });
             });
-            reject({
-                type: RECEIVE_OTHER_USER_FRIENDS,
-                payload: { friends: null },
-            });
-        });
     });
 };
 
@@ -88,7 +90,9 @@ export const filterMutualfriends = (myFriends, yourFriends) => {
 export const requestFriendship = (otherUser_id) => {
     return new Promise((resolve, reject) => {
         axios
-            .post(`/api/friendrequest?action=request&user2_id=${otherUser_id}`)
+            .post(
+                `/api/friendship/request?action=request&user2_id=${otherUser_id}`
+            )
             .then((friendship) => {
                 // console.log(
                 //     "...(ACTIONS requestFriendship) friendship: ",
@@ -236,7 +240,7 @@ export const receiveOtherUser = (id) => {
 };
 
 export const addFriendshipStatusToOtherUser = async (id) => {
-    const friendship = await axios.get(`/api/friendstatus/${id}`);
+    const friendship = await axios.get(`/api/friendship/status/${id}`);
     // console.log("...(ACTION) friendship:", friendship);
     return {
         type: UPDATE_OTHER_USER,
@@ -481,7 +485,9 @@ export const stillLoading = (isLoading) => {
 //---POTATOES---//
 
 export const receivePotatoCount = async (user_id) => {
-    const potatoCount = await axios.get(`/api/potatoes/${user_id}`);
+    const potatoCount = await axios.get(
+        `/api/potato/allpotatoes_by_id/${user_id}`
+    );
     // console.log(
     //     "...(ACTION receivePotatoCount) potatoCount:",
     //     potatoCount.data
@@ -498,7 +504,9 @@ export const addRemovePotato = async (addPotato, user_id) => {
     //     addPotato,
     //     user_id
     // );
-    await axios.post(`/api/addpotato?action=${addPotato}&user2_id=${user_id}`);
+    await axios.post(
+        `/api/potato/addpotato?action=${addPotato}&user2_id=${user_id}`
+    );
     let number;
     let toggleState;
     if (addPotato) {
@@ -514,7 +522,9 @@ export const addRemovePotato = async (addPotato, user_id) => {
     };
 };
 export const receivePotatoButtonState = async (user_id) => {
-    const potatoButtonState = await axios.get(`/api/potato/${user_id}`);
+    const potatoButtonState = await axios.get(
+        `/api/potato/potato_by_id/${user_id}`
+    );
     // console.log(
     //     "...(ACTION receivePotatoButtonState) potatoButtonState:",
     //     potatoButtonState.data.hasGivenPotato
