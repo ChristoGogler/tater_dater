@@ -1,8 +1,8 @@
 const express = require("express");
 const userRouter = express.Router();
 
-const { uploader } = require("./file_upload");
-const { uploadFiles3 } = require("./s3");
+const { uploader } = require("../file_upload");
+const { uploadFiles3 } = require("../s3");
 
 const {
     checkLogin,
