@@ -272,7 +272,7 @@ export const toggleBioEditor = (isBeingEdited) => {
 };
 
 export const getUser = async () => {
-    const user = await axios.get("/api/user", {});
+    const user = await axios.get("/api/user/info", {});
     return {
         type: UPDATE_USER,
         payload: user.data,

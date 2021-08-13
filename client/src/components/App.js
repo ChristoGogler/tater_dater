@@ -36,7 +36,7 @@ export default function App() {
     };
 
     const onLogoutClick = async () => {
-        await axios.post("/api/logout", currentUser);
+        await axios.post("/api/user/logout", currentUser);
         location.reload();
     };
 

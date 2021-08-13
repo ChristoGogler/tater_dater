@@ -6,7 +6,7 @@ import { useStatefulFields, useAuthSubmit } from "../hooks/hooks.js";
 
 export default function Login() {
     const [inputValues, handleChange] = useStatefulFields();
-    const [submit, error] = useAuthSubmit("/api/login", inputValues);
+    const [submit, error] = useAuthSubmit("/api/user/login", inputValues);
 
     return (
         <div className="authentificationWrapper">

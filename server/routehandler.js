@@ -284,6 +284,7 @@ const updateUserProfileDetails = async (request, response) => {
 
 //CHECK IF LOGGED IN
 const checkLogin = (request, response) => {
+    console.log("RH checklogin");
     if (request.session.userId) {
         response.json({
             userId: request.session.userId,
@@ -373,7 +374,7 @@ const resetPassword_step1 = async (request, response) => {
         });
     } catch (error) {
         console.log("ERROR verifying email: ", error);
-        response.statusCode(500).json({
+        response.status(500).json({
             error: "Problem verifying email: " + error,
         });
     }

@@ -1,4 +1,10 @@
 const express = require("express");
+const compression = require("compression");
+const csurf = require("csurf");
+const path = require("path");
+
+const userRouter = require("./routes/userRoutes.js");
+
 const { sessionSecret } = require("./secrets.json");
 const cookieSession = require("cookie-Session");
 const cookieSessionMW = cookieSession({
@@ -6,12 +12,10 @@ const cookieSessionMW = cookieSession({
     maxAge: 1000 * 60 * 60 * 24 * 14,
 });
 const app = express();
-const csurf = require("csurf");
-const compression = require("compression");
 
-const path = require("path");
 const { uploader } = require("./file_upload");
 const { uploadFiles3 } = require("./s3");
+
 //setup: socket.io
 const server = require("http").Server(app);
 const io = require("socket.io")(server, {
@@ -56,7 +60,6 @@ const {
 } = require("./routehandler");
 
 app.use(compression());
-
 //express public folder
 app.use(express.static(path.join(__dirname, "..", "client", "public")))
     .use(express.json())
@@ -72,18 +75,22 @@ io.on("connection", handleChatMessages);
 app.use(csurf());
 app.use(csrfToken);
 
+//User Routes
+// console.log("userRouter (server)", userRouter);
+app.use("/api/user", userRouter);
+
 //GET MY PROFILE
-app.get("/api/user", getMyProfile);
+// app.get("/api/user/info", getMyProfile);
 
 //CHECK IF LOGGED IN
-app.get("/api/user/id", checkLogin);
+// app.get("/api/user/verifylogin", checkLogin);
 
 //REGISTER
-app.post("/api/register", register);
+// app.post("/api/user/register", register);
 
 //LOGIN & LOGOUT
-app.post("/api/login", login);
-app.post("/api/logout", logout);
+// app.post("/api/user/login", login);
+// app.post("/api/user/logout", logout);
 
 //PASSWORD  RESET
 app.post("/api/password/reset/step1", resetPassword_step1);

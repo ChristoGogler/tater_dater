@@ -15,7 +15,8 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(reduxPromise))
 );
 
-axios.get("/api/user/id").then(({ data }) => {
+axios.get("/api/user/verifylogin").then(({ data }) => {
+    console.log("start: ", data);
     if (!data.userId) {
         ReactDOM.render(
             <Provider store={store}>
