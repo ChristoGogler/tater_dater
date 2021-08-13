@@ -4,6 +4,8 @@ const csurf = require("csurf");
 const path = require("path");
 
 const userRouter = require("./routes/userRoutes.js");
+const friendshipRouter = require("./routes/friendshipRoutes.js");
+const potatoRouter = require("./routes/potatoRoutes.js");
 
 const { sessionSecret } = require("./secrets.json");
 const cookieSession = require("cookie-Session");
@@ -34,19 +36,15 @@ const { handleChatMessages } = require("./socketsHandler");
 const {
     changeFriendStatus,
     csrfToken,
-    editAccountDetails,
     getAllPotatoes,
     getPotatoById,
     getFriendStatus,
     getFriendList,
     getFriendListById,
     getAllPhotosById,
-    getUserProfileDetails,
-    saveNewBio,
     saveProfilePictureUrl,
     updateProfilePic,
     updatePotatoes,
-    updateUserProfileDetails,
 } = require("./routehandler");
 
 app.use(compression());
@@ -67,6 +65,10 @@ app.use(csrfToken);
 
 //USER ROUTES
 app.use("/api/user", userRouter);
+//FRIENDSHIP ROUTES
+app.use("/api/friendship", friendshipRouter);
+//POTATO ROUTES
+app.use("/api/potato", potatoRouter);
 
 //UPLOAD PROFILE PICTURE
 app.post(
@@ -79,23 +81,6 @@ app.post("/api/setprofilepic", updateProfilePic);
 
 // GET PHOTOS/GALLERY BY ID
 app.get("/api/gallery/:id", getAllPhotosById);
-
-//GET FRIENDSHIP STATUS
-app.get("/api/friendstatus/:user_id", getFriendStatus);
-
-//CHANGE FRIEND STATUS
-app.post("/api/friendrequest", changeFriendStatus);
-
-//GET FRIENDS AND PENDING
-app.get("/api/friends", getFriendList);
-
-//GET OTHER USERS FRIENDS
-app.get("/api/friends/:id", getFriendListById);
-
-//GET POTATOES
-app.get(`/api/potatoes/:id`, getAllPotatoes);
-app.post(`/api/addpotato`, updatePotatoes);
-app.get(`/api/potato/:id`, getPotatoById);
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
