@@ -33,25 +33,15 @@ const { handleChatMessages } = require("./socketsHandler");
 
 const {
     changeFriendStatus,
-    checkLogin,
     csrfToken,
     editAccountDetails,
-    findProfiles,
-    findLatestProfiles,
     getAllPotatoes,
     getPotatoById,
     getFriendStatus,
     getFriendList,
     getFriendListById,
-    getMyProfile,
     getAllPhotosById,
-    getUserProfile,
     getUserProfileDetails,
-    login,
-    logout,
-    register,
-    resetPassword_step1,
-    resetPassword_step2,
     saveNewBio,
     saveProfilePictureUrl,
     updateProfilePic,
@@ -75,26 +65,8 @@ io.on("connection", handleChatMessages);
 app.use(csurf());
 app.use(csrfToken);
 
-//User Routes
-// console.log("userRouter (server)", userRouter);
+//USER ROUTES
 app.use("/api/user", userRouter);
-
-//GET MY PROFILE
-// app.get("/api/user/info", getMyProfile);
-
-//CHECK IF LOGGED IN
-// app.get("/api/user/verifylogin", checkLogin);
-
-//REGISTER
-// app.post("/api/user/register", register);
-
-//LOGIN & LOGOUT
-// app.post("/api/user/login", login);
-// app.post("/api/user/logout", logout);
-
-//PASSWORD  RESET
-app.post("/api/password/reset/step1", resetPassword_step1);
-app.post("/api/password/reset/step2", resetPassword_step2);
 
 //UPLOAD PROFILE PICTURE
 app.post(
@@ -107,22 +79,6 @@ app.post("/api/setprofilepic", updateProfilePic);
 
 // GET PHOTOS/GALLERY BY ID
 app.get("/api/gallery/:id", getAllPhotosById);
-// SAVE NEW BIO
-app.put("/api/user/update/bio", saveNewBio);
-// EDIT ACCOUNT
-app.post("/api/editaccount", editAccountDetails);
-//GET USER PROFILE
-app.get("/api/user/:id", getUserProfile);
-
-//GET USER PROFILE DETAIL
-app.get("/api/userprofile/:id", getUserProfileDetails);
-app.put("/api/userprofile/update", updateUserProfileDetails);
-
-//FIND PROFILES
-app.get("/api/users/find", findProfiles);
-
-//FIND LATEST PROFILES
-app.get("/api/users/latest", findLatestProfiles);
 
 //GET FRIENDSHIP STATUS
 app.get("/api/friendstatus/:user_id", getFriendStatus);
@@ -132,6 +88,7 @@ app.post("/api/friendrequest", changeFriendStatus);
 
 //GET FRIENDS AND PENDING
 app.get("/api/friends", getFriendList);
+
 //GET OTHER USERS FRIENDS
 app.get("/api/friends/:id", getFriendListById);
 

@@ -190,6 +190,7 @@ const changeFriendStatus = async (request, response) => {
 //GET MY PROFILE
 const getMyProfile = async (request, response) => {
     const { userId } = request.session;
+    console.log("getMyProfile userId: ", userId);
     try {
         const user = await getUserById(userId);
         response.json({
@@ -233,7 +234,7 @@ const getUserProfile = async (request, response) => {
             response.json({ ...user, friendship: { status: null } });
         }
     } catch (error) {
-        console.log("ERROR fetching user profile: ", error);
+        console.log("getUserProfile: ERROR fetching user profile: ", error);
         response.json({
             error: "Problem fetching user profile. ",
         });

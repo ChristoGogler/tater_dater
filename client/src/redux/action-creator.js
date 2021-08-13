@@ -221,7 +221,7 @@ export const newChatMessage = (message) => {
 //---FOR USER / BIOEDITOR / UserProfile---//
 export const receiveOtherUser = (id) => {
     return new Promise((resolve, reject) => {
-        axios.get(`/api/user/${id}`).then((otherUser) => {
+        axios.get(`/api/user/info_by_id/${id}`).then((otherUser) => {
             // console.log("...(ACTION receiveOtherUser) otherUser: ", otherUser);
             resolve({
                 type: RECEIVE_OTHER_USER,
@@ -253,7 +253,7 @@ export const changeFriendshipStatus = (status) => {
 };
 
 export const saveBio = async (bio) => {
-    const user = await axios.put("/api/user/update/bio", {
+    const user = await axios.put("/api/user/update/info", {
         bio,
     });
     // console.log("...(ACTION saveBio) user: ", user.data);
@@ -292,7 +292,7 @@ export const updateAccount = async (editAccountInput) => {
     //     "...(ACTIONS updateAccount) editAccountInput: ",
     //     editAccountInput
     // );
-    const user = await axios.post("/api/editaccount", editAccountInput);
+    const user = await axios.put("/api/user/update/account", editAccountInput);
     // console.log("...(ACTIONS updateAccount) user: ", user.data.rows[0]);
     return {
         type: UPDATE_USER,
@@ -382,7 +382,7 @@ export const resetPwNextStep = async (step, resetPwInput) => {
     if (step == 1) {
         try {
             const response = await axios.post(
-                "/api/password/reset/step1",
+                "/api/user/password/reset/step1",
                 resetPwInput
             );
             console.log(
@@ -400,7 +400,7 @@ export const resetPwNextStep = async (step, resetPwInput) => {
     if (step == 2) {
         try {
             const response = await axios.post(
-                "/api/password/reset/step2",
+                "/api/user/password/reset/step2",
                 resetPwInput
             );
             console.log(
@@ -421,7 +421,7 @@ export const resetPwNextStep = async (step, resetPwInput) => {
 //---FOR FINDPROFILE---//
 export const receiveMostRecentUsers = () => {
     return new Promise((resolve, reject) => {
-        axios.get("/api/users/latest").then((mostRecentUsers) => {
+        axios.get("/api/user/latest").then((mostRecentUsers) => {
             // console.log(
             //     "...(ACTIONS receiveMostRecentUsers) mostRecentUsers: ",
             //     mostRecentUsers
@@ -436,20 +436,11 @@ export const receiveMostRecentUsers = () => {
             });
         });
     });
-    // const mostRecentUsers = await axios.get("/api/users/latest");
-    // console.log(
-    //     "...(ACTIONS receiveMostRecentUsers) recentUsers: ",
-    //     mostRecentUsers.data
-    // );
-    // return {
-    //     type: "GET_MOST_RECENT_USERS",
-    //     payload: { mostRecentUsers: mostRecentUsers.data },
-    // };
 };
 
 export const receiveUserSearchResults = async (searchquery) => {
     try {
-        const userResults = await axios.get(`/api/users/find?q=${searchquery}`);
+        const userResults = await axios.get(`/api/user/find?q=${searchquery}`);
         console.log(
             "...(ACTIONS getUserSearchResults) userResults.data: ",
             userResults.data
@@ -554,7 +545,7 @@ export const toggleUserProfile = (isBeingEdited) => {
 
 export const updateProfileDetails = async (inputValues) => {
     console.log("...(updateProfileDetails) inputValues: ", inputValues);
-    const userProfile = await axios.put("/api/userprofile/update", {
+    const userProfile = await axios.put("/api/user/update/profile", {
         inputValues,
     });
     return {

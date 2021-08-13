@@ -10,6 +10,7 @@ import {
     updateAccount,
     onUserInputChange,
     getUser,
+    toggleUploaderVisible,
 } from "../redux/action-creator";
 
 export default function EditAccount() {
@@ -31,6 +32,7 @@ export default function EditAccount() {
                     onSubmit={async (event) => {
                         event.preventDefault();
                         await dispatchUserInput(event, dispatch);
+                        dispatch(toggleUploaderVisible(false));
                     }}
                 >
                     <label htmlFor="first_name" value="First Name">
