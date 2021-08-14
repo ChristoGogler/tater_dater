@@ -22,7 +22,7 @@ const {
     saveProfilePictureUrl,
     updateProfilePic,
     updateUserProfileDetails,
-} = require("../middlewares/routehandler");
+} = require("../middlewares/userRoutesHandler");
 
 //GET USER INFO & PROFILE
 userRouter.get("/info", getMyProfile);
