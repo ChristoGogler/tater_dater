@@ -2,17 +2,12 @@ const express = require("express");
 const compression = require("compression");
 const csurf = require("csurf");
 const path = require("path");
+const cookieSessionMW = require("./middlewares/cookiesession");
 
 const userRouter = require("./routes/userRoutes.js");
 const friendshipRouter = require("./routes/friendshipRoutes.js");
 const potatoRouter = require("./routes/potatoRoutes.js");
 
-const { sessionSecret } = require("./secrets.json");
-const cookieSession = require("cookie-Session");
-const cookieSessionMW = cookieSession({
-    secret: `${sessionSecret}`,
-    maxAge: 1000 * 60 * 60 * 24 * 14,
-});
 const app = express();
 
 //setup: socket.io
@@ -28,21 +23,9 @@ const exporting = {
     io,
 };
 module.exports = exporting;
-const { handleChatMessages } = require("./socketsHandler");
+const { handleChatMessages } = require("./middlewares/sockets");
 
-const {
-    changeFriendStatus,
-    csrfToken,
-    getAllPotatoes,
-    getPotatoById,
-    getFriendStatus,
-    getFriendList,
-    getFriendListById,
-    getAllPhotosById,
-    saveProfilePictureUrl,
-    updateProfilePic,
-    updatePotatoes,
-} = require("./routehandler");
+const csrfToken = require("./middlewares/csrf");
 
 app.use(compression());
 //express public folder
