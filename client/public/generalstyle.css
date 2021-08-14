@@ -1,0 +1,36 @@
+/* GENERAL SETUP */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+    font-size: 12pt;
+    color: black;
+}
+
+main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+p {
+    font-size: 0.9rem;
+}
+h1 {
+    font-family: "Exo", sans-serif;
+    font-size: 1.2rem;
+}
+q {
+    quotes: "«" "»" "‹" "›";
+}
+::selection {
+    background-color: #c4e7ea;
+    color: #3592c5;
+    text-shadow: 1px 1px white;
+}
+
+ul {
+    list-style: none;
+}

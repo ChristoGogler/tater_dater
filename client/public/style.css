@@ -1,42 +1,10 @@
-/* GENERAL SETUP */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Open Sans", sans-serif;
-    font-size: 12pt;
-    color: black;
-}
-body {
-    background-color: white;
-}
-main {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-a:hover {
-    color: #3592c5;
-}
-p {
-    font-size: 0.9rem;
-}
-h1 {
-    font-family: "Exo", sans-serif;
-    font-size: 1.2rem;
-}
-q {
-    quotes: "«" "»" "‹" "›";
-}
-::selection {
-    background-color: #c4e7ea;
-    color: #3592c5;
-    text-shadow: 1px 1px white;
-}
+/* FLEX */
+
 .flex {
     display: flex;
 }
+
+/* INPUT & LABEL */
 textarea {
     border: 1px solid black;
     border-radius: 3px;
@@ -50,8 +18,8 @@ input[type="email"],
 textarea {
     padding: 10px;
 }
-.bolder {
-    font-weight: bolder;
+input[type="file"] {
+    display: none;
 }
 
 .friendStatusLabel {
@@ -83,14 +51,8 @@ textarea {
 .tooltip:hover .tooltiptext {
     display: block;
 }
-/* COLORS */
-.white {
-    color: white;
-}
-.black {
-    color: black;
-}
-/* WELCOME // AUTHENTIFICATION */
+
+/* WELCOME & AUTHENTIFICATION */
 .welcome {
     height: 100vh;
     display: flex;
@@ -113,81 +75,6 @@ a:visited {
     width: 50px;
 }
 
-/* BUTTONS */
-
-button {
-    color: #3592c5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: none;
-    background: none;
-    cursor: pointer;
-    /* width: 150px;
-    height: 50px; */
-}
-.hideLabel {
-    display: none;
-}
-.hideButton {
-    visibility: hidden;
-}
-.buttonsWrapper {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background: black;
-    margin: 5px;
-    border-radius: 3px;
-    cursor: pointer;
-}
-.buttonsWrapper span {
-    margin: auto;
-    color: white;
-}
-
-.btnPadding {
-    padding: 10px 30px;
-}
-.editButton {
-    padding: 10px;
-}
-.smallBtn {
-    background-color: white;
-    margin: 10px;
-    display: flex;
-}
-.smallBtn span {
-    text-align: right;
-}
-.smallBtn span i,
-span span {
-    margin: auto;
-    color: black;
-}
-.bioeditorButtons {
-    display: flex;
-    justify-content: space-around;
-}
-.selectedBtn {
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 3px;
-}
-.selectedBtn span {
-    color: #3592c5;
-    font-weight: 800;
-}
-.selectedBtn span i {
-    color: #3592c5;
-    /* font-weight: 800; */
-}
-
-.friendButtonsWrapper {
-    display: flex;
-    justify-content: space-between;
-}
-
 /* HEADER LOGO */
 header {
     width: 100vw;
@@ -207,6 +94,7 @@ header {
 .mainContent {
     flex: 1;
 }
+
 /* FOOTER */
 footer {
     height: 100px;
@@ -215,8 +103,8 @@ footer {
     padding-block-start: 5px;
     background-color: #c4e7ea;
 }
-/* AVATAR & PROFILE */
 
+/* AVATAR & PROFILE */
 .avatar {
     width: 70px;
     height: 70px;
@@ -238,8 +126,7 @@ footer {
     width: 30px;
     height: 30px;
 }
-.profilePicWrapper {
-}
+
 .profileWrapper {
     width: 100vw;
     display: flex;
@@ -261,9 +148,7 @@ footer {
     margin: 10px;
     max-width: 500px;
 }
-.mutualFriendsList ul {
-    list-style: none;
-}
+
 .mutualFriendsList ul li {
     display: flex;
     align-items: center;
@@ -291,13 +176,6 @@ footer {
 }
 .photoPickerControls {
     width: 30px;
-    display: flex;
-    justify-content: center;
-}
-
-/* RADIO BUTTON */
-
-.customRadioBtn {
     display: flex;
     justify-content: center;
 }
@@ -371,9 +249,7 @@ nav button span {
     background-color: white;
     padding: 30px 0;
 }
-input[type="file"] {
-    display: none;
-}
+
 .file-upload {
     border: 1px solid black;
     background: black;
@@ -388,9 +264,6 @@ input[type="file"] {
 .file-upload span {
     margin: auto;
     color: white;
-}
-
-.picUploadIcon {
 }
 
 /* LIGHTBOX */
@@ -457,13 +330,10 @@ input[type="file"] {
 }
 .chatWrapper ul {
     width: 90%;
-    list-style: none;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     flex-direction: column;
-}
-.singleMessage {
 }
 .messageWrapper {
     display: flex;
@@ -551,168 +421,4 @@ input[type="file"] {
 .timestamp {
     font-size: 0.7rem;
     text-align: end;
-}
-
-@media only screen and (min-width: 480px) {
-    body {
-        /* background-color: cadetblue; */
-    }
-    header {
-        background-color: #c4e7ea;
-    }
-    .searchResults {
-        width: 80vw;
-        max-width: 720px;
-    }
-    .searchResults ul li {
-        width: 100%;
-    }
-    .chatWrapper {
-    }
-}
-
-@media only screen and (min-width: 768px) {
-    body {
-        /* background-color: pink; */
-    }
-
-    header {
-        width: 100vw;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        top: 0;
-        z-index: 20;
-        position: relative;
-    }
-    .logo {
-        max-height: 20vh;
-        margin: 0;
-    }
-    .smallProfilePic {
-        position: absolute;
-        top: 5px;
-        right: 60px;
-        width: 120px !important;
-        height: 120px !important;
-        border: 5px solid white;
-        background-color: white;
-    }
-    .avatar {
-        width: 100px;
-        height: 100px;
-    }
-    .miniAvatar {
-        width: 50px;
-        height: 50px;
-    }
-    nav {
-        position: sticky;
-        top: 0;
-        justify-content: flex-start;
-    }
-    .hideLabel {
-        margin: 0 20px;
-        display: block;
-        font-size: 0.8rem;
-    }
-    .searchResults {
-        width: 60vw;
-        max-width: 720px;
-    }
-    .searchResults ul li {
-        width: 100%;
-    }
-    .profileWrapper {
-        flex-direction: row;
-        padding: 20px;
-        justify-content: flex-start;
-        align-items: flex-start;
-    }
-    .profileBannerWrapper {
-        width: 200px;
-        height: 200px;
-        border-radius: 3px;
-        overflow: hidden;
-        flex-shrink: 0;
-    }
-    .profileBannerWrapper img {
-        width: 100%;
-        height: 100%;
-        object-position: 50%;
-    }
-    .profileBannerWrapper img:hover {
-        cursor: zoom-in;
-    }
-    .bioContent {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 20px;
-    }
-    .vcenter {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-    }
-
-    .friendsAndPendingList {
-        width: 90vw;
-        max-width: 100%;
-    }
-
-    .friendsAndPendingList ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
-
-    .friendsAndPendingList ul li {
-        width: 45%;
-    }
-    .chatWrapper {
-    }
-    .chatWrapper ul {
-        max-width: 700px;
-    }
-    .mutualFriendsList {
-        flex-shrink: 0;
-        margin-top: 40px;
-    }
-
-    /* PhotoPicker */
-
-    .photoPickerWrapper {
-        max-width: 600px;
-        justify-content: center;
-    }
-    .photoPickerFrame {
-        width: 120px;
-        height: 120px;
-        margin-inline: 5px;
-    }
-    .photoPickerFrame img {
-        width: 120px;
-        height: 120px;
-        object-fit: cover;
-    }
-    .photoPickerControls {
-        width: 30px;
-        display: flex;
-        justify-content: center;
-    }
-    .friendButtonsWrapper {
-        width: 400px;
-    }
-    .potatoButton {
-        width: 210px;
-    }
-    .potatoCountMargin {
-        padding-inline-end: 5px;
-    }
-}
-
-@media only screen and (min-width: 1200px) {
-    body {
-        /* background-color: wheat; */
-    }
 }
