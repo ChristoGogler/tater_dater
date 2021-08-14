@@ -22,14 +22,15 @@ const {
     getPotatoesById,
     getSinglePotatoById,
     savePotatoes,
-} = require("./database/db_queries");
+} = require("../database/db_queries");
+
+const { loginUser } = require("../additional/hashpassword");
 
 const {
-    loginUser,
     verifyEmail,
     sendRegistrationMail,
     sendEditAccountMail,
-} = require("./functions");
+} = require("../additional/mail");
 
 //FIND PROFILES
 const findProfiles = async (request, response) => {
