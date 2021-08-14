@@ -29,7 +29,7 @@ const exporting = {
 module.exports = exporting;
 
 const spicedpg = require("spiced-pg");
-const { hashPassword, changeDateToTimepast } = require("../functions");
+const { hashPassword, changeDateToTimepast } = require("../additional/moments");
 
 const user = process.env.user || require("../secrets.json").user;
 const pwd = process.env.pwd || require("../secrets.json").pwd;
