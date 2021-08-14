@@ -6,7 +6,7 @@ const {
     getFriendStatus,
     getFriendList,
     getFriendListById,
-} = require("../middlewares/routehandler");
+} = require("../middlewares/friendshipRoutesHandler");
 
 //GET FRIENDSHIP STATUS
 friendshipRouter.get("/status/:user_id", getFriendStatus);
