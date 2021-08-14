@@ -1,8 +1,8 @@
 const express = require("express");
 const userRouter = express.Router();
 
-const { uploader } = require("../file_upload");
-const { uploadFiles3 } = require("../s3");
+const { uploader } = require("../additional/file_upload");
+const { uploadFiles3 } = require("../additional/s3");
 
 const {
     checkLogin,
@@ -22,7 +22,7 @@ const {
     saveProfilePictureUrl,
     updateProfilePic,
     updateUserProfileDetails,
-} = require("../routehandler.js");
+} = require("../middlewares/routehandler");
 
 //GET USER INFO & PROFILE
 userRouter.get("/info", getMyProfile);

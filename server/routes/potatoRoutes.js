@@ -5,7 +5,7 @@ const {
     getAllPotatoes,
     getPotatoById,
     updatePotatoes,
-} = require("../routehandler");
+} = require("../middlewares/routehandler");
 
 //GET POTATOES
 potatoRouter.get(`/allpotatoes_by_id/:id`, getAllPotatoes);
