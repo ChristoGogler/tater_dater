@@ -29,7 +29,9 @@ export default function MyProfile() {
         dispatch(receiveFriendsAndPending());
     }, []);
     useEffect(() => {
-        dispatch(receivePhotoPickerGallery(user.id));
+        if (user.id) {
+            dispatch(receivePhotoPickerGallery(user.id));
+        }
     }, [user]);
 
     const toggleLightbox = () => {

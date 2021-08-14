@@ -16,7 +16,7 @@ const store = createStore(
 );
 
 axios.get("/api/user/verifylogin").then(({ data }) => {
-    console.log("start: ", data);
+    // console.log("start: ", data);
     if (!data.userId) {
         ReactDOM.render(
             <Provider store={store}>

@@ -79,7 +79,7 @@ export default function ProfileDetailsForm() {
                     />
                 </label>
                 <label htmlFor="gender" value="Gender">
-                    gender
+                    pronouns
                     <input
                         id="gender"
                         type="text"
