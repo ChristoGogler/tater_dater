@@ -2,16 +2,8 @@ const express = require("express");
 const potatoRouter = express.Router();
 
 const {
-    changeFriendStatus,
-    csrfToken,
     getAllPotatoes,
     getPotatoById,
-    getFriendStatus,
-    getFriendList,
-    getFriendListById,
-    getAllPhotosById,
-    saveProfilePictureUrl,
-    updateProfilePic,
     updatePotatoes,
 } = require("../routehandler");
 
