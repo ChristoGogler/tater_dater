@@ -5,18 +5,14 @@ const {
     getFriendsAndPending,
     getFriendsById,
     getPhotosById,
-    getUserByEmail,
     getUserById,
-    getLatestChatmessages,
     getLatestUserProfiles,
     getUserProfiles,
     getUserProfileDetailsById,
     saveFriendrequest,
     saveUser,
     saveNewPassword,
-    saveSecretCode,
     getCodeByEmail,
-    saveChatmessage,
     saveProfileUrl,
     saveUserBio,
     updateFriendstatus,
@@ -34,11 +30,6 @@ const {
     sendRegistrationMail,
     sendEditAccountMail,
 } = require("./functions");
-
-const csrfToken = (request, response, next) => {
-    response.cookie("myCsrfToken", request.csrfToken());
-    next();
-};
 
 //FIND PROFILES
 const findProfiles = async (request, response) => {
@@ -509,7 +500,6 @@ const updatePotatoes = async (request, response) => {
 const exporting = {
     changeFriendStatus,
     checkLogin,
-    csrfToken,
     editAccountDetails,
     findProfiles,
     findLatestProfiles,
