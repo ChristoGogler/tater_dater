@@ -8,7 +8,7 @@ if (process.env.accessKeyID) {
         secretAccessKey: process.env.secretAccessKey,
     });
 } else {
-    const secrets = require("./secrets.json");
+    const secrets = require("../secrets.json");
     s3 = new aws.S3({
         accessKeyId: secrets.accessKeyID,
         secretAccessKey: secrets.secretAccessKey,
