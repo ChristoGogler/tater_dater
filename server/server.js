@@ -3,35 +3,18 @@ const compression = require("compression");
 const csurf = require("csurf");
 const path = require("path");
 const cookieSessionMW = require("./middlewares/cookiesession");
+const { app, io, server, handleChatMessages } = require("./additional/sockets");
+const csrfToken = require("./middlewares/csrf");
 
 const userRouter = require("./routes/userRoutes.js");
 const friendshipRouter = require("./routes/friendshipRoutes.js");
 const potatoRouter = require("./routes/potatoRoutes.js");
 
-const app = express();
-
-//setup: socket.io
-const server = require("http").Server(app);
-const io = require("socket.io")(server, {
-    allowRequest: (request, callback) =>
-        callback(
-            null,
-            request.headers.referer.startsWith("http://localhost:3000")
-        ),
-});
-const exporting = {
-    io,
-};
-module.exports = exporting;
-const { handleChatMessages } = require("./middlewares/sockets");
-
-const csrfToken = require("./middlewares/csrf");
-
 app.use(compression());
 //express public folder
-app.use(express.static(path.join(__dirname, "..", "client", "public")))
-    .use(express.json())
-    .use(cookieSessionMW);
+app.use(express.static(path.join(__dirname, "..", "client", "public")));
+app.use(express.json());
+app.use(cookieSessionMW);
 io.use(function (socket, next) {
     cookieSessionMW(socket.request, socket.request.res, next);
 });

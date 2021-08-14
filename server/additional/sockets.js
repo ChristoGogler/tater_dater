@@ -1,4 +1,16 @@
-const { io } = require("../server");
+const express = require("express");
+const app = express();
+
+//setup: socket.io
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (request, callback) =>
+        callback(
+            null,
+            request.headers.referer.startsWith("http://localhost:3000")
+        ),
+});
+
 const {
     getLatestChatmessages,
     saveChatmessage,
@@ -55,11 +67,6 @@ const handleChatMessages = async (socket) => {
     });
 };
 
-const exporting = {
-    handleChatMessages,
-};
-module.exports = exporting;
-
 function isSenderAlsoUser(messages, userId) {
     // console.log("messages: ", messages);
     messages = messages.map((msg) => {
@@ -71,3 +78,5 @@ function isSenderAlsoUser(messages, userId) {
     });
     return messages;
 }
+
+module.exports = { app, io, server, handleChatMessages };
