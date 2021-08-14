@@ -535,7 +535,7 @@ export const receivePotatoButtonState = async (user_id) => {
     };
 };
 export const receiveUserprofile = async (user_id) => {
-    const userProfile = await axios.get(`/api/userprofile/${user_id}`);
+    const userProfile = await axios.get(`/api/user/profile/${user_id}`);
     // console.log(
     //     "...(ACTION receiveUserprofile) userProfile.data:",
     //     userProfile.data

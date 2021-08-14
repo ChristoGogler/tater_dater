@@ -17,7 +17,9 @@ export default function ProfileDetails(props) {
     };
 
     useEffect(() => {
-        dispatch(receiveUserprofile(props.userId));
+        if (props.userId) {
+            dispatch(receiveUserprofile(props.userId));
+        }
     }, [props.userId]);
 
     const renderEditingMode = () => {

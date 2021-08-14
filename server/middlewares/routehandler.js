@@ -238,7 +238,7 @@ const getUserProfileDetails = async (request, response) => {
 
     try {
         const userProfileDetails = await getUserProfileDetailsById(id);
-        console.log("userProfileDetails", userProfileDetails);
+        // console.log("userProfileDetails", userProfileDetails);
         if (!userProfileDetails) {
             console.log("no user found!");
             response.json(null);
@@ -436,7 +436,7 @@ const updateProfilePic = async (request, response) => {
 
     try {
         const photo = await updatePhotoById({ userId, photo_url });
-        // console.log("...(RH getAllPhotosById)", photo);
+        // console.log("...(RH updateProfilePic)", photo);
         response.json({ photo });
     } catch (error) {
         response
@@ -454,7 +454,7 @@ const getAllPhotosById = async (request, response) => {
         response.json({ photos });
     } catch (error) {
         response
-            .statusCode(500)
+            .status(500)
             .json({ error: "Problem fetching photos: " + error });
     }
 };
