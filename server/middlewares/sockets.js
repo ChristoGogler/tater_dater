@@ -1,9 +1,9 @@
-const { io } = require("./server");
+const { io } = require("../server");
 const {
     getLatestChatmessages,
     saveChatmessage,
     getUserById,
-} = require("./database/db_queries");
+} = require("../database/db_queries");
 const limit = 10;
 
 const handleChatMessages = async (socket) => {
